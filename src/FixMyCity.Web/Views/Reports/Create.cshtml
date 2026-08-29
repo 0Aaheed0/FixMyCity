@@ -1,0 +1,27 @@
+@model FixMyCity.Data.Models.Report
+
+<h2>Report an Issue</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Category</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control"></select>
+    </div>
+    <div class="mb-3">
+        <label>Reported By</label>
+        <select asp-for="UserId" asp-items="ViewBag.UserId" class="form-control"></select>
+    </div>
+    <div class="mb-3">
+        <label>Latitude</label>
+        <input asp-for="Latitude" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Longitude</label>
+        <input asp-for="Longitude" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+</form>

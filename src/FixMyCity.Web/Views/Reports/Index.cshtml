@@ -1,0 +1,26 @@
+@model IEnumerable<FixMyCity.Data.Models.Report>
+
+<h2>Reports</h2>
+<p><a asp-action="Create">Create New</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Reported By</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Description</td>
+                <td>@item.Category?.Name</td>
+                <td>@item.User?.FullName</td>
+                <td>@item.CreatedAt</td>
+            </tr>
+        }
+    </tbody>
+</table>

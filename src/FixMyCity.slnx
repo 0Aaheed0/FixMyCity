@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FixMyCity.Data/FixMyCity.Data.csproj" />
+  <Project Path="FixMyCity.Services/FixMyCity.Services.csproj" />
+  <Project Path="FixMyCity.Web/FixMyCity.Web.csproj" />
+</Solution>
