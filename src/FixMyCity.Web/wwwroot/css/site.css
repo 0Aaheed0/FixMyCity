@@ -1,31 +1,403 @@
-html {
-  font-size: 14px;
+:root {
+    --color-bg: #10151b;
+    --color-bg-alt: #1a222b;
+    --color-card: #1e2731;
+    --color-text: #f2efe9;
+    --color-text-muted: #93a1ae;
+    --color-accent: #ff7a1a;
+    --color-accent-dark: #d9600a;
+    --color-signal: #3ecf8e;
+    --color-border: #2a3540;
+    --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+html, body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.fmc-hazard-stripe {
+    height: 10px;
+    width: 100%;
+    background: repeating-linear-gradient( 135deg, var(--color-accent), var(--color-accent) 14px, #0c0f13 14px, #0c0f13 28px );
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* Navbar (used on standard content pages) */
+.fmc-navbar {
+    background: rgba(16, 21, 27, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--color-border);
+    padding-top: .75rem;
+    padding-bottom: .75rem;
 }
 
-body {
-  margin-bottom: 60px;
+.fmc-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 1.25rem;
+    color: var(--color-text) !important;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.fmc-navbar .nav-link {
+    color: var(--color-text-muted) !important;
+    font-weight: 500;
+    margin: 0 .5rem;
+    transition: color .15s ease;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    .fmc-navbar .nav-link:hover {
+        color: var(--color-text) !important;
+    }
+
+.fmc-nav-cta {
+    color: var(--color-accent) !important;
+    font-weight: 600;
+}
+
+.fmc-page {
+    padding-top: 1.5rem;
+}
+
+/* ---------------- Hero (welcome page) ---------------- */
+.fmc-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 700px 500px at center, rgba(255, 122, 26, 0.14) 0%, rgba(16, 21, 27, 0) 65%), repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 48px), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 48px);
+}
+
+.fmc-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 1.25rem;
+}
+
+.fmc-headline {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    line-height: 0.98;
+    margin: 0;
+    color: var(--color-text);
+}
+
+    .fmc-headline span {
+        color: var(--color-accent);
+    }
+
+.fmc-subtext {
+    max-width: 560px;
+    margin: 1.75rem auto 0;
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.fmc-cta {
+    margin-top: 2.5rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    padding: 0.9rem 2.5rem;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 3px;
+    color: #10151b;
+    text-transform: uppercase;
+    transition: background .15s ease, transform .15s ease;
+}
+
+    .fmc-cta:hover {
+        background: var(--color-accent-dark);
+        transform: translateY(-1px);
+        color: #10151b;
+    }
+
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes fmcFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fmc-eyebrow {
+        animation: fmcFadeUp .6s ease both;
+    }
+
+    .fmc-headline {
+        animation: fmcFadeUp .7s .1s ease both;
+    }
+
+    .fmc-cta {
+        animation: fmcFadeUp .7s .25s ease both;
+    }
+}
+
+/* ---------------- Modal ---------------- */
+.fmc-modal .modal-content {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+}
+
+.fmc-modal .modal-header {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.fmc-modal .modal-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.fmc-modal .btn-close {
+    filter: invert(1);
+}
+
+.fmc-choice {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    color: var(--color-text);
+    text-align: left;
+    font-weight: 600;
+    transition: border-color .15s ease, background .15s ease;
+}
+
+    .fmc-choice:hover {
+        border-color: var(--color-accent);
+        background: var(--color-card);
+        color: var(--color-text);
+    }
+
+    .fmc-choice small {
+        display: block;
+        font-weight: 400;
+        color: var(--color-text-muted);
+        margin-top: 0.2rem;
+    }
+
+/* ---------------- Auth pages (Login / Register split panel) ---------------- */
+.fmc-auth-grid {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.fmc-auth-brand {
+    background: radial-gradient(ellipse 500px 400px at 30% 30%, rgba(255, 122, 26, 0.16) 0%, rgba(16, 21, 27, 0) 70%), var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3.5rem;
+}
+
+.fmc-auth-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    color: var(--color-text);
+    margin: 0.5rem 0;
+}
+
+    .fmc-auth-logo span {
+        color: var(--color-accent);
+    }
+
+.fmc-auth-tagline {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 340px;
+    line-height: 1.6;
+}
+
+.fmc-auth-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--color-bg-alt);
+}
+
+.fmc-auth-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+    .fmc-auth-card h2 {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        color: var(--color-text);
+    }
+
+@media (max-width: 860px) {
+    .fmc-auth-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fmc-auth-brand {
+        display: none;
+    }
+}
+
+/* ---------------- Dashboard shell (post-login) ---------------- */
+.fmc-topbar {
+    background: rgba(16, 21, 27, 0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.9rem 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+    .fmc-topbar .container-fluid {
+        position: relative;
+        justify-content: center;
+    }
+
+.fmc-brand-center {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-size: 1.15rem;
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.fmc-menu-btn {
+    position: absolute;
+    left: 0.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+}
+
+    .fmc-menu-btn span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--color-text);
+    }
+
+.fmc-sidebar {
+    background: var(--color-card);
+    color: var(--color-text);
+    border-right: 1px solid var(--color-border);
+    width: 280px;
+}
+
+    .fmc-sidebar .offcanvas-header {
+        border-bottom: 1px solid var(--color-border);
+    }
+
+.fmc-sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .fmc-sidebar-nav li {
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .fmc-sidebar-nav a, .fmc-sidebar-logout {
+        display: block;
+        padding: 0.9rem 0.25rem;
+        color: var(--color-text-muted);
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+    }
+
+        .fmc-sidebar-nav a:hover, .fmc-sidebar-logout:hover {
+            color: var(--color-accent);
+        }
+
+.fmc-app-content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.fmc-dashboard-hero h2 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.fmc-dashboard-hero p {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+}
+
+/* ---------------- Generic form/table styling on dark bg ---------------- */
+.table {
+    color: var(--color-text);
+}
+
+.form-control, .form-select {
+    background: var(--color-bg-alt);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+    .form-control:focus, .form-select:focus {
+        background: var(--color-bg-alt);
+        color: var(--color-text);
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 0.2rem rgba(255, 122, 26, 0.25);
+    }
+
+a {
+    color: var(--color-accent);
+}
+
+.footer {
+    background: var(--color-bg);
+    color: var(--color-text-muted) !important;
+    border-top: 1px solid var(--color-border) !important;
 }

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FixMyCity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="fmc-topbar">
+        <div class="container-fluid d-flex align-items-center">
+            <button class="fmc-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#fmcSidebar" aria-controls="fmcSidebar">
+                <span></span><span></span><span></span>
+            </button>
+            <a class="fmc-brand-center" asp-controller="Home" asp-action="Dashboard">FIXMYCITY</a>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-start fmc-sidebar" tabindex="-1" id="fmcSidebar">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fmc-brand">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="filter: invert(1);"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="fmc-sidebar-nav">
+                <li><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
+                <li><a asp-controller="Reports" asp-action="Index">Report an Issue</a></li>
+                <li>
+                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
+                        <button type="submit" class="fmc-sidebar-logout">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="fmc-app-content">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

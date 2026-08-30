@@ -1,8 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
+    Layout = "_LayoutHero";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="fmc-hero">
+    <div class="fmc-eyebrow">Civic Reporting, Fixed</div>
+    <h1 class="fmc-headline">Welcome to <span>FixMyCity</span></h1>
+    <button type="button" class="btn fmc-cta" data-bs-toggle="modal" data-bs-target="#getStartedModal">
+        Get Started
+    </button>
+</section>
+
+<div class="fmc-hazard-stripe"></div>
+
+<!-- Get Started modal -->
+<div class="modal fade fmc-modal" id="getStartedModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Get Started</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a class="fmc-choice" asp-area="Identity" asp-page="/Account/Login">
+                    Log In
+                    <small>Already have an account</small>
+                </a>
+                <a class="fmc-choice" asp-area="Identity" asp-page="/Account/Register">
+                    Sign Up
+                    <small>New here — create an account</small>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
