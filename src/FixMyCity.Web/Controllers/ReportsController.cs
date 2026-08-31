@@ -48,5 +48,18 @@ namespace FixMyCity.Web.Controllers
             ViewBag.UserId = new SelectList(_context.Users, "Id", "FullName", report.UserId);
             return View(report);
         }
+
+        // GET: Reports/MyReports
+        public IActionResult MyReports()
+        {
+            return View();
+        }
+
+        // GET: Reports/Verify/5
+        public IActionResult Verify(int id)
+        {
+            ViewBag.ReportId = id;
+            return View();
+        }
     }
 }

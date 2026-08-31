@@ -1,7 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <Content Remove="Views\Admin\Analytics.cshtml" />
+    <Content Remove="Views\Admin\Categories.cshtml" />
+    <Content Remove="Views\Admin\Departments.cshtml" />
+    <Content Remove="Views\Admin\Index.cshtml" />
+    <Content Remove="Views\Admin\Users.cshtml" />
+    <Content Remove="Views\Home\About.cshtml" />
+    <Content Remove="Views\Manager\Index.cshtml" />
+    <Content Remove="Views\Map\Index.cshtml" />
+    <Content Remove="Views\Profile\Index.cshtml" />
     <Content Remove="Views\Reports\Create.cshtml" />
+    <Content Remove="Views\Reports\MyReports.cshtml" />
+    <Content Remove="Views\Reports\Verify.cshtml" />
+    <Content Remove="Views\Staff\Evidence.cshtml" />
+    <Content Remove="Views\Staff\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +36,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Admin\Analytics.cshtml" />
+    <None Include="Views\Admin\Categories.cshtml" />
+    <None Include="Views\Admin\Departments.cshtml" />
+    <None Include="Views\Admin\Index.cshtml" />
+    <None Include="Views\Admin\Users.cshtml" />
+    <None Include="Views\Home\About.cshtml" />
+    <None Include="Views\Manager\Index.cshtml" />
+    <None Include="Views\Map\Index.cshtml" />
+    <None Include="Views\Profile\Index.cshtml" />
     <None Include="Views\Reports\Create.cshtml" />
+    <None Include="Views\Reports\MyReports.cshtml" />
+    <None Include="Views\Reports\Verify.cshtml" />
+    <None Include="Views\Staff\Evidence.cshtml" />
+    <None Include="Views\Staff\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
   </ItemGroup>
 
   <PropertyGroup>
