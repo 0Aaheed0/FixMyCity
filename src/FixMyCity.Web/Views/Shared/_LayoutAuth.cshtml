@@ -3,33 +3,86 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - FixMyCity</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+          rel="stylesheet" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- Main Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 </head>
-<body>
-    <div class="fmc-auth-grid">
+
+<body class="fmc-auth-page">
+
+    <div class="fmc-auth-screen">
+
+        <!-- =========================================
+             LEFT BRAND SECTION
+             ========================================= -->
+
         <div class="fmc-auth-brand">
-            <div>
-                <div class="fmc-eyebrow">Civic Reporting, Fixed</div>
-                <h1 class="fmc-auth-logo">Fix<span>My</span>City</h1>
-                <p class="fmc-auth-tagline">Report it. Track it. Watch your city get fixed.</p>
+
+            <div class="fmc-auth-brand-content">
+
+                <div class="fmc-auth-eyebrow">
+                    <span></span>
+                    CIVIC REPORTING, FIXED
+                </div>
+
+                <h1 class="fmc-auth-logo">
+                    FIX<span>MY</span>CITY
+                </h1>
+
+                <p class="fmc-auth-tagline">
+                    Report it. Track it. Watch your city get fixed.
+                </p>
+
             </div>
-            <div class="fmc-hazard-stripe"></div>
+
+            <div class="fmc-auth-stripe"></div>
+
         </div>
+
+
+        <!-- =========================================
+             RIGHT LOGIN / REGISTER SECTION
+             ========================================= -->
+
         <div class="fmc-auth-panel">
+
             <div class="fmc-auth-card">
+
                 @RenderBody()
+
             </div>
+
         </div>
+
     </div>
 
+
+    <!-- Scripts -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

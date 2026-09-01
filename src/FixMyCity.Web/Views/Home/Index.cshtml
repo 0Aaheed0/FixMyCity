@@ -3,34 +3,178 @@
     Layout = "_LayoutHero";
 }
 
-<section class="fmc-hero">
-    <div class="fmc-eyebrow">Civic Reporting, Fixed</div>
-    <h1 class="fmc-headline">Welcome to <span>FixMyCity</span></h1>
-    <button type="button" class="btn fmc-cta" data-bs-toggle="modal" data-bs-target="#getStartedModal">
-        Get Started
-    </button>
-</section>
+<div class="fmc-landing">
 
-<div class="fmc-hazard-stripe"></div>
-
-<!-- Get Started modal -->
-<div class="modal fade fmc-modal" id="getStartedModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Get Started</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <a class="fmc-choice" asp-area="Identity" asp-page="/Account/Login">
-                    Log In
-                    <small>Already have an account</small>
-                </a>
-                <a class="fmc-choice" asp-area="Identity" asp-page="/Account/Register">
-                    Sign Up
-                    <small>New here — create an account</small>
-                </a>
-            </div>
+    <!-- Navigation -->
+    <nav class="fmc-navbar">
+        <div class="fmc-logo">
+            <span class="fmc-logo-mark">+</span>
+            FIX<span>MY</span>CITY
         </div>
+
+        <button type="button"
+                class="fmc-nav-button"
+                data-bs-toggle="modal"
+                data-bs-target="#getStartedModal">
+            Get Started
+        </button>
+    </nav>
+
+
+    <!-- Main Hero -->
+    <main class="fmc-main">
+
+        <div class="fmc-hero-content">
+
+            <div class="fmc-eyebrow">
+                <span class="fmc-status-dot"></span>
+                CIVIC REPORTING, FIXED
+            </div>
+
+            <h1 class="fmc-headline">
+                MAKE YOUR CITY
+                <br />
+                <span>BETTER.</span>
+            </h1>
+
+            <p class="fmc-subtext">
+                Report problems in your community, track their progress,
+                and help make your city cleaner, safer, and better.
+            </p>
+
+            <div class="fmc-actions">
+                <button type="button"
+                        class="fmc-cta"
+                        data-bs-toggle="modal"
+                        data-bs-target="#getStartedModal">
+                    GET STARTED
+                    <span>→</span>
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- Feature Cards -->
+        <section class="fmc-features">
+
+            <div class="fmc-feature-card">
+                <div class="fmc-feature-number">01</div>
+
+                <div>
+                    <h3>REPORT</h3>
+                    <p>
+                        Spot a problem? Submit a report and let the right
+                        department know.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="fmc-feature-card">
+                <div class="fmc-feature-number">02</div>
+
+                <div>
+                    <h3>TRACK</h3>
+                    <p>
+                        Follow your report and stay informed about its
+                        progress.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="fmc-feature-card">
+                <div class="fmc-feature-number">03</div>
+
+                <div>
+                    <h3>FIX</h3>
+                    <p>
+                        Help turn reported problems into real improvements
+                        for your community.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Bottom Stripe -->
+    <div class="fmc-hazard-stripe"></div>
+
+
+    <!-- Get Started Modal -->
+    <div class="modal fade fmc-modal"
+         id="getStartedModal"
+         tabindex="-1"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <div>
+                        <div class="fmc-modal-label">
+                            FIXMYCITY
+                        </div>
+
+                        <h5 class="modal-title">
+                            Get Started
+                        </h5>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <a class="fmc-choice"
+                       asp-area="Identity"
+                       asp-page="/Account/Login">
+
+                        <span>
+                            LOG IN
+                            <small>
+                                Already have an account
+                            </small>
+                        </span>
+
+                        <strong>→</strong>
+
+                    </a>
+
+
+                    <a class="fmc-choice"
+                       asp-area="Identity"
+                       asp-page="/Account/Register">
+
+                        <span>
+                            SIGN UP
+                            <small>
+                                New here — create an account
+                            </small>
+                        </span>
+
+                        <strong>→</strong>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
