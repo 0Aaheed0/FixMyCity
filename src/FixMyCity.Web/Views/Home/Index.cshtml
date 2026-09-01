@@ -1,6 +1,7 @@
-﻿@{
+@{
     ViewData["Title"] = "Welcome";
     Layout = "_LayoutHero";
+    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
 }
 
 <div class="fmc-landing">
@@ -12,12 +13,23 @@
             FIX<span>MY</span>CITY
         </div>
 
-        <button type="button"
-                class="fmc-nav-button"
-                data-bs-toggle="modal"
-                data-bs-target="#getStartedModal">
-            Get Started
-        </button>
+        <div>
+            @if (isAuthenticated)
+            {
+                <a class="fmc-nav-button text-decoration-none" asp-controller="Home" asp-action="Dashboard">
+                    Dashboard
+                </a>
+            }
+            else
+            {
+                <button type="button"
+                        class="fmc-nav-button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#getStartedModal">
+                    Get Started
+                </button>
+            }
+        </div>
     </nav>
 
 
@@ -43,13 +55,23 @@
             </p>
 
             <div class="fmc-actions">
-                <button type="button"
-                        class="fmc-cta"
-                        data-bs-toggle="modal"
-                        data-bs-target="#getStartedModal">
-                    GET STARTED
-                    <span>→</span>
-                </button>
+                @if (isAuthenticated)
+                {
+                    <a class="fmc-cta text-decoration-none d-inline-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Dashboard">
+                        GET STARTED
+                        <span>→</span>
+                    </a>
+                }
+                else
+                {
+                    <button type="button"
+                            class="fmc-cta"
+                            data-bs-toggle="modal"
+                            data-bs-target="#getStartedModal">
+                        GET STARTED
+                        <span>→</span>
+                    </button>
+                }
             </div>
 
         </div>
@@ -64,8 +86,7 @@
                 <div>
                     <h3>REPORT</h3>
                     <p>
-                        Spot a problem? Submit a report and let the right
-                        department know.
+                        Spot a problem? Submit a report with location and category to notify the responsible department.
                     </p>
                 </div>
             </div>
@@ -77,8 +98,7 @@
                 <div>
                     <h3>TRACK</h3>
                     <p>
-                        Follow your report and stay informed about its
-                        progress.
+                        Follow your report status in real time as staff investigate and take action.
                     </p>
                 </div>
             </div>
@@ -90,8 +110,7 @@
                 <div>
                     <h3>FIX</h3>
                     <p>
-                        Help turn reported problems into real improvements
-                        for your community.
+                        Review completion evidence and watch reported issues turn into real community improvements.
                     </p>
                 </div>
             </div>
@@ -104,72 +123,72 @@
     <!-- Bottom Stripe -->
     <div class="fmc-hazard-stripe"></div>
 
+</div>
 
-    <!-- Get Started Modal -->
-    <div class="modal fade fmc-modal"
-         id="getStartedModal"
-         tabindex="-1"
-         aria-hidden="true">
+<!-- Get Started Modal (placed outside .fmc-landing to prevent overflow/backdrop clipping) -->
+<div class="modal fade fmc-modal"
+     id="getStartedModal"
+     tabindex="-1"
+     aria-labelledby="getStartedModalLabel"
+     aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
 
-            <div class="modal-content">
+        <div class="modal-content">
 
-                <div class="modal-header">
+            <div class="modal-header">
 
-                    <div>
-                        <div class="fmc-modal-label">
-                            FIXMYCITY
-                        </div>
-
-                        <h5 class="modal-title">
-                            Get Started
-                        </h5>
+                <div>
+                    <div class="fmc-modal-label">
+                        FIXMYCITY
                     </div>
 
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close">
-                    </button>
-
+                    <h5 class="modal-title" id="getStartedModalLabel">
+                        Get Started
+                    </h5>
                 </div>
 
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
 
-                <div class="modal-body">
-
-                    <a class="fmc-choice"
-                       asp-area="Identity"
-                       asp-page="/Account/Login">
-
-                        <span>
-                            LOG IN
-                            <small>
-                                Already have an account
-                            </small>
-                        </span>
-
-                        <strong>→</strong>
-
-                    </a>
+            </div>
 
 
-                    <a class="fmc-choice"
-                       asp-area="Identity"
-                       asp-page="/Account/Register">
+            <div class="modal-body">
 
-                        <span>
-                            SIGN UP
-                            <small>
-                                New here — create an account
-                            </small>
-                        </span>
+                <a class="fmc-choice"
+                   asp-area="Identity"
+                   asp-page="/Account/Login">
 
-                        <strong>→</strong>
+                    <span>
+                        <i class="bi bi-box-arrow-in-right me-2 text-warning"></i> LOG IN
+                        <small>
+                            Already have an account — access your dashboard
+                        </small>
+                    </span>
 
-                    </a>
+                    <strong>→</strong>
 
-                </div>
+                </a>
+
+
+                <a class="fmc-choice"
+                   asp-area="Identity"
+                   asp-page="/Account/Register">
+
+                    <span>
+                        <i class="bi bi-person-plus me-2 text-warning"></i> SIGN UP
+                        <small>
+                            New here — create an account to start reporting
+                        </small>
+                    </span>
+
+                    <strong>→</strong>
+
+                </a>
 
             </div>
 

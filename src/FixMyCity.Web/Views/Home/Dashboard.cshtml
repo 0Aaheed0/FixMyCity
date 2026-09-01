@@ -1,9 +1,426 @@
-﻿@{
+@model FixMyCity.Web.Models.DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "_LayoutApp";
+    var resolutionRate = Model.TotalIssues > 0 ? (int)((double)Model.ResolvedIssues / Model.TotalIssues * 100) : (Model.TotalReports > 0 ? 100 : 0);
 }
 
-<div class="fmc-dashboard-hero">
-    <h2>Welcome back</h2>
-    <p>This is your FixMyCity dashboard. Use the menu in the top-left to navigate — add more sections here as you build out the rest of the app.</p>
+<div class="container-fluid" style="max-width: 1280px; padding: 0 10px;">
+
+    <!-- 1. Hero Header Banner -->
+    <div class="fmc-dashboard-hero">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fmc-live-dot"></span>
+                    <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">
+                        LIVE CIVIC COMMAND HUB
+                    </span>
+                    <span class="badge" style="background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; color: #75e092; font-family: 'JetBrains Mono', monospace; font-size: 10px;">
+                        SYSTEM ACTIVE
+                    </span>
+                </div>
+                <h2>WELCOME BACK, <span>@Model.UserFullName</span></h2>
+                <p>Live civic monitoring, active incident reports, and community resolution status.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. High-Impact Metric Stat Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-sm-6">
+            <div class="fmc-stat-card" style="border-left: 3px solid #ff7518;">
+                <div>
+                    <div class="fmc-stat-label">Total Reports Logged</div>
+                    <div class="fmc-stat-value">@Model.TotalReports</div>
+                    <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                        <i class="bi bi-shield-check text-warning me-1"></i> Community-wide
+                    </small>
+                </div>
+                <div class="fmc-stat-icon">
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="fmc-stat-card" style="border-left: 3px solid #ffc107;">
+                <div>
+                    <div class="fmc-stat-label">Pending Action</div>
+                    <div class="fmc-stat-value" style="color: #ffc107;">@Model.PendingReports</div>
+                    <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                        <i class="bi bi-hourglass-split text-warning me-1"></i> Under review / triage
+                    </small>
+                </div>
+                <div class="fmc-stat-icon" style="background: rgba(255, 193, 7, 0.12); color: #ffc107;">
+                    <i class="bi bi-activity"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="fmc-stat-card" style="border-left: 3px solid #28a745;">
+                <div>
+                    <div class="fmc-stat-label">Resolved & Fixed</div>
+                    <div class="fmc-stat-value" style="color: #75e092;">@Model.ResolvedIssues</div>
+                    <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                        <i class="bi bi-check-circle-fill text-success me-1"></i> Verified improvements
+                    </small>
+                </div>
+                <div class="fmc-stat-icon" style="background: rgba(40, 167, 69, 0.12); color: #28a745;">
+                    <i class="bi bi-check2-all"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="fmc-stat-card" style="border-left: 3px solid #0dcaf0;">
+                <div>
+                    <div class="fmc-stat-label">My Submissions</div>
+                    <div class="fmc-stat-value" style="color: #0dcaf0;">@Model.MyReportsCount</div>
+                    <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                        <i class="bi bi-person-fill text-info me-1"></i> Your personal contribution
+                    </small>
+                </div>
+                <div class="fmc-stat-icon" style="background: rgba(13, 202, 240, 0.12); color: #0dcaf0;">
+                    <i class="bi bi-person-check-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Main Dashboard Grid (2-Column Organized Layout) -->
+    <div class="row g-4">
+
+        <!-- LEFT COLUMN: Live Community Reports Stream (8 Cols) -->
+        <div class="col-lg-8">
+            <div class="fmc-app-card">
+
+                <!-- Header with Live Pulse and View All -->
+                <div class="fmc-card-header-styled d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="fmc-live-dot"></span>
+                            <h3 class="fmc-card-title mb-0" style="font-size: 20px;">
+                                LIVE COMMUNITY <span>INCIDENT STREAM</span>
+                            </h3>
+                        </div>
+                        <p class="fmc-card-subtitle">Real-time reports submitted by active residents</p>
+                    </div>
+
+                    <div>
+                        <a asp-controller="Reports" asp-action="Index" class="btn btn-sm btn-outline-warning" style="font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1px;">
+                            ALL REPORTS (@Model.TotalReports) <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="px-4 pt-3 pb-2 d-flex flex-wrap gap-2 border-bottom" style="border-color: rgba(255, 255, 255, 0.05) !important;">
+                    <button type="button" class="fmc-filter-btn active" onclick="filterCategory('all', this)">
+                        <i class="bi bi-grid-fill me-1"></i> ALL CATEGORIES
+                    </button>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <button type="button" class="fmc-filter-btn" onclick="filterCategory('@cat.Name.ToLower()', this)">
+                            @cat.Name
+                        </button>
+                    }
+                </div>
+
+                <!-- Reports Feed Body -->
+                <div class="fmc-card-body-styled">
+                    @if (!Model.RecentReports.Any())
+                    {
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <span class="d-inline-flex p-3 rounded-circle" style="background: rgba(255, 117, 24, 0.1); border: 1px solid rgba(255, 117, 24, 0.3);">
+                                    <i class="bi bi-shield-check text-warning" style="font-size: 40px;"></i>
+                                </span>
+                            </div>
+                            <h4 class="text-white" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">NO COMMUNITY INCIDENTS LOGGED YET</h4>
+                            <p class="text-muted mx-auto" style="max-width: 460px; font-size: 13px;">
+                                Your neighborhood currently has a clean log. Reports submitted through the Report page will automatically appear here in real time.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column gap-3" id="reportsFeedContainer">
+                            @foreach (var report in Model.RecentReports)
+                            {
+                                var catName = report.Category?.Name ?? "General";
+                                var status = report.Issue?.Status ?? "Reported";
+                                var statusClass = status.ToLower() == "resolved" || status.ToLower() == "verified" ? "resolved" :
+                                                  status.ToLower() == "inprogress" ? "inprogress" : "reported";
+
+                                <div class="fmc-feed-item report-feed-card" data-category="@catName.ToLower()">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+                                        <div class="d-flex align-items-start gap-3 flex-grow-1" style="min-width: 260px;">
+                                            @if (!string.IsNullOrEmpty(report.PhotoPath))
+                                            {
+                                                <div class="position-relative flex-shrink-0">
+                                                    <img src="@report.PhotoPath" alt="Evidence" class="rounded border" style="width: 64px; height: 64px; object-fit: cover; border-color: rgba(255,117,24,0.35) !important;" />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded d-flex align-items-center justify-content-center flex-shrink-0" style="width: 64px; height: 64px; background: rgba(255, 117, 24, 0.08); border: 1px solid rgba(255, 117, 24, 0.2); color: #ff7518; font-size: 24px;">
+                                                    @if (catName.Contains("Pothole")) { <i class="bi bi-cone-striped"></i> }
+                                                    else if (catName.Contains("Garbage") || catName.Contains("Waste")) { <i class="bi bi-trash3-fill"></i> }
+                                                    else if (catName.Contains("Streetlight") || catName.Contains("Electric")) { <i class="bi bi-lightbulb-fill"></i> }
+                                                    else if (catName.Contains("Water")) { <i class="bi bi-droplet-fill"></i> }
+                                                    else if (catName.Contains("Traffic")) { <i class="bi bi-sign-stop-fill"></i> }
+                                                    else { <i class="bi bi-exclamation-triangle-fill"></i> }
+                                                </div>
+                                            }
+
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                                    <span class="fmc-category-badge">
+                                                        @catName
+                                                    </span>
+                                                    <span class="fmc-status-pill @statusClass">
+                                                        @status
+                                                    </span>
+                                                    <span class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                                                        <i class="bi bi-clock me-1"></i> @report.CreatedAt.ToLocalTime().ToString("MMM dd, HH:mm")
+                                                    </span>
+                                                </div>
+
+                                                <h5 class="text-white mb-1" style="font-size: 15px; font-weight: 600; line-height: 1.4;">
+                                                    @report.Description
+                                                </h5>
+
+                                                <div class="d-flex flex-wrap align-items-center gap-3 text-muted" style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">
+                                                    <span>
+                                                        <i class="bi bi-person-circle text-warning me-1"></i> @(report.User?.FullName ?? "Citizen Reporter")
+                                                    </span>
+                                                    @if (report.Latitude != 0 || report.Longitude != 0)
+                                                    {
+                                                        <span>
+                                                            <i class="bi bi-geo-alt-fill text-warning me-1"></i> @report.Latitude.ToString("F4"), @report.Longitude.ToString("F4")
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-shrink-0">
+                                            <a asp-controller="Reports" asp-action="Verify" asp-route-id="@report.Id" class="btn btn-sm btn-outline-warning" style="font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 0.5px;">
+                                                DETAILS <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Quick Actions, Health Meter & Department Status (4 Cols) -->
+        <div class="col-lg-4 d-flex flex-column gap-4">
+
+            <!-- 1. Quick Navigation Tile Hub -->
+            <div class="fmc-app-card">
+                <div class="fmc-card-header-styled py-3 px-4">
+                    <h4 class="fmc-card-title mb-0" style="font-size: 16px;">
+                        <i class="bi bi-compass text-warning me-2"></i> EXPLORE & TRACK
+                    </h4>
+                </div>
+                <div class="p-3 d-flex flex-column gap-2">
+                    <a asp-controller="Map" asp-action="Index" class="fmc-action-tile py-3 px-3 d-flex flex-row align-items-center text-start gap-3">
+                        <div class="fmc-stat-icon mb-0 flex-shrink-0" style="background: rgba(13, 202, 240, 0.1); color: #0dcaf0;">
+                            <i class="bi bi-map-fill"></i>
+                        </div>
+                        <div>
+                            <span class="d-block text-white" style="font-size: 15px;">Incident Problem Map</span>
+                            <small class="text-muted d-block">Geographic density & pinpoints</small>
+                        </div>
+                    </a>
+
+                    <a asp-controller="Reports" asp-action="MyReports" class="fmc-action-tile py-3 px-3 d-flex flex-row align-items-center text-start gap-3">
+                        <div class="fmc-stat-icon mb-0 flex-shrink-0" style="background: rgba(40, 167, 69, 0.1); color: #75e092;">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+                        <div>
+                            <span class="d-block text-white" style="font-size: 15px;">My Submission Log</span>
+                            <small class="text-muted d-block">Review status of your reports</small>
+                        </div>
+                    </a>
+
+                    <a asp-controller="Reports" asp-action="Index" class="fmc-action-tile py-3 px-3 d-flex flex-row align-items-center text-start gap-3">
+                        <div class="fmc-stat-icon mb-0 flex-shrink-0" style="background: rgba(255, 117, 24, 0.1); color: #ff7518;">
+                            <i class="bi bi-archive-fill"></i>
+                        </div>
+                        <div>
+                            <span class="d-block text-white" style="font-size: 15px;">All Community Archive</span>
+                            <small class="text-muted d-block">Full historical report directory</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. City Infrastructure Resolution Progress -->
+            <div class="fmc-app-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff7518; letter-spacing: 1.5px; text-transform: uppercase;">
+                        MUNICIPAL RESOLUTION RATE
+                    </span>
+                    <span class="text-white fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+                        @resolutionRate%
+                    </span>
+                </div>
+                <div class="fmc-progress-track">
+                    <div class="fmc-progress-fill" style="width: @(resolutionRate)%;"></div>
+                </div>
+                <small class="text-muted d-block mt-2" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
+                    @Model.ResolvedIssues of @(Model.TotalReports > 0 ? Model.TotalReports : Model.TotalIssues) problems resolved and closed.
+                </small>
+            </div>
+
+            <!-- 3. Municipal Response Departments -->
+            <div class="fmc-app-card">
+                <div class="fmc-card-header-styled py-3 px-4 d-flex justify-content-between align-items-center">
+                    <h4 class="fmc-card-title mb-0" style="font-size: 16px;">
+                        <i class="bi bi-building-fill text-warning me-2"></i> ACTIVE DEPARTMENTS
+                    </h4>
+                    <span class="badge bg-success" style="font-size: 9px; font-family: 'JetBrains Mono', monospace;">ALL ONLINE</span>
+                </div>
+                <div class="p-3">
+                    @if (!Model.Departments.Any())
+                    {
+                        <p class="text-muted mb-0" style="font-size: 12px;">Departments configured via administration.</p>
+                    }
+                    else
+                    {
+                        @foreach (var dept in Model.Departments)
+                        {
+                            <div class="fmc-dept-item">
+                                <div>
+                                    <div class="fmc-dept-name">@dept.Name</div>
+                                    <small class="text-muted" style="font-size: 11px;">@(dept.Description ?? "Municipal unit")</small>
+                                </div>
+                                <span class="fmc-dept-status">OPERATIONAL</span>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 4. Community Resolution Pipeline / How Civic Reporting Works -->
+    <div class="fmc-app-card mt-4 mb-4">
+        <div class="fmc-card-header-styled d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="fmc-status-dot"></span>
+                    <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
+                        MUNICIPAL PROTOCOL
+                    </span>
+                </div>
+                <h3 class="fmc-card-title mb-0" style="font-size: 18px;">
+                    HOW COMMUNITY REPORTS <span>GET RESOLVED</span>
+                </h3>
+            </div>
+            <span class="badge" style="background: rgba(255, 117, 24, 0.15); border: 1px solid #ff7518; color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 12px;">
+                4-STAGE RESOLUTION PIPELINE
+            </span>
+        </div>
+
+        <div class="p-4">
+            <div class="row g-3">
+                <div class="col-md-3 col-sm-6">
+                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #ff7518;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff7518; font-weight: 700;">STAGE 01</span>
+                            <i class="bi bi-geo-alt-fill text-warning"></i>
+                        </div>
+                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">INCIDENT CAPTURE</h5>
+                        <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Resident logs coordinates, photo evidence, and hazard category.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #ffc107;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ffc107; font-weight: 700;">STAGE 02</span>
+                            <i class="bi bi-diagram-3-fill text-warning"></i>
+                        </div>
+                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">DEPARTMENT TRIAGE</h5>
+                        <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Automated routing and priority scoring to the responsible municipal team.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #0dcaf0;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0dcaf0; font-weight: 700;">STAGE 03</span>
+                            <i class="bi bi-tools text-info"></i>
+                        </div>
+                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">FIELD DISPATCH</h5>
+                        <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Work crews assigned for physical repair and on-site maintenance.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #28a745;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #75e092; font-weight: 700;">STAGE 04</span>
+                            <i class="bi bi-patch-check-fill text-success"></i>
+                        </div>
+                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">EVIDENCE & CLOSURE</h5>
+                        <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Before/after photo uploaded, verified, and transparently closed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Signature Bottom Hazard Finishing & Civic Audit Bar -->
+    <div class="mt-4 pt-2">
+        <div style="height: 6px; width: 100%; border-radius: 3px; background: repeating-linear-gradient(135deg, #ff7518 0px, #ff7518 16px, #111820 16px, #111820 32px); margin-bottom: 20px;"></div>
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center text-muted gap-3 pb-3" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+            <div class="d-flex align-items-center gap-2">
+                <span style="color: #ff7518; font-weight: bold;">+ FIXMYCITY</span>
+                <span>&bull; MUNICIPAL CIVIC MONITORING</span>
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-4">
+                <span><i class="bi bi-shield-lock-fill text-warning me-1"></i> END-TO-END AUDITABLE</span>
+                <span><i class="bi bi-circle-fill text-success me-1" style="font-size: 8px;"></i> DB ACTIVE</span>
+                <span><i class="bi bi-clock-history me-1"></i> REAL-TIME SYNC</span>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    <script>
+        function filterCategory(categoryName, btn) {
+            // Update active pill
+            document.querySelectorAll('.fmc-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter feed items
+            const items = document.querySelectorAll('.report-feed-card');
+            items.forEach(item => {
+                const itemCat = item.getAttribute('data-category') || '';
+                if (categoryName === 'all' || itemCat.includes(categoryName)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+}

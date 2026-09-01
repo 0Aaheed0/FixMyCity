@@ -1,26 +1,98 @@
 @model IEnumerable<FixMyCity.Data.Models.Report>
+@{
+    ViewData["Title"] = "All Reports";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
 
-<h2>Reports</h2>
-<p><a asp-action="Create">Create New</a></p>
+<div class="container py-4" style="max-width: 1100px;">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Reported By</th>
-            <th>Created</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    <!-- Top Action Bar -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="fmc-status-dot"></span>
+                <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
+                    PUBLIC INCIDENT LOG
+                </span>
+            </div>
+            <h1 class="fmc-card-title mb-0">COMMUNITY <span>REPORTS</span></h1>
+        </div>
+
+        <a asp-action="Create" class="fmc-btn-submit text-decoration-none">
+            <i class="bi bi-plus-lg"></i> REPORT NEW ISSUE
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success d-flex align-items-center gap-2 mb-4" style="background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; color: #75e092;">
+            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Reports Table Card -->
+    <div class="fmc-app-card">
+        @if (!Model.Any())
         {
-            <tr>
-                <td>@item.Description</td>
-                <td>@item.Category?.Name</td>
-                <td>@item.User?.FullName</td>
-                <td>@item.CreatedAt</td>
-            </tr>
+            <div class="text-center py-5 px-3">
+                <i class="bi bi-clipboard-check text-muted" style="font-size: 48px;"></i>
+                <h4 class="mt-3 text-white" style="font-family: 'Oswald', sans-serif;">NO REPORTS SUBMITTED YET</h4>
+                <p class="text-muted" style="font-size: 14px;">Be the first to report a problem in your city.</p>
+                <a asp-action="Create" class="fmc-btn-submit text-decoration-none mt-2">
+                    <i class="bi bi-plus-lg"></i> Submit First Report
+                </a>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                    <thead style="border-bottom: 1px solid rgba(255, 117, 24, 0.3);">
+                        <tr style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ff7518; text-transform: uppercase;">
+                            <th class="py-3 px-4">#</th>
+                            <th class="py-3 px-3">Category</th>
+                            <th class="py-3 px-3">Description</th>
+                            <th class="py-3 px-3">Reported By</th>
+                            <th class="py-3 px-3">Date</th>
+                            <th class="py-3 px-4 text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-top: none; font-size: 14px;">
+                        @{ int idx = 1; }
+                        @foreach (var item in Model)
+                        {
+                            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle;">
+                                <td class="py-3 px-4 text-muted" style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">@idx</td>
+                                <td class="py-3 px-3">
+                                    <span class="badge" style="background: rgba(255, 117, 24, 0.15); border: 1px solid #ff7518; color: #ff7518; font-weight: 500; font-size: 12px; padding: 5px 10px;">
+                                        @(item.Category?.Name ?? "General")
+                                    </span>
+                                </td>
+                                <td class="py-3 px-3 text-white">
+                                    @if (!string.IsNullOrEmpty(item.PhotoPath))
+                                    {
+                                        <i class="bi bi-image text-warning me-1" title="Photo attached"></i>
+                                    }
+                                    @item.Description
+                                </td>
+                                <td class="py-3 px-3 text-muted">
+                                    @(item.User?.FullName ?? "Community Member")
+                                </td>
+                                <td class="py-3 px-3 text-muted" style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">
+                                    @item.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy HH:mm")
+                                </td>
+                                <td class="py-3 px-4 text-end">
+                                    <a asp-action="Verify" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" style="font-size: 12px; font-family: 'Oswald', sans-serif; letter-spacing: 0.5px;">
+                                        DETAILS <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            idx++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>

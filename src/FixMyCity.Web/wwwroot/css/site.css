@@ -847,3 +847,656 @@ body.fmc-auth-page {
             font-size: 28px;
         }
 }
+
+/* =========================================================
+   =========================================================
+   FIXMYCITY APPLICATION SHELL & DASHBOARD STYLING
+   =========================================================
+   ========================================================= */
+
+body {
+    background: #0d1218;
+    color: #f5f2ed;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+/* Top Navigation Bar */
+.fmc-topbar {
+    background: #111820;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.fmc-menu-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fmc-menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #ff7518;
+    border-radius: 2px;
+}
+
+.fmc-menu-btn:hover {
+    border-color: #ff7518;
+    background: rgba(255, 117, 24, 0.1);
+}
+
+.fmc-brand-center {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #f5f2ed;
+    text-decoration: none;
+    margin-left: 16px;
+}
+
+.fmc-brand-center span {
+    color: #ff7518;
+}
+
+/* Offcanvas Sidebar */
+.fmc-sidebar {
+    background: #0f151c !important;
+    border-right: 1px solid rgba(255, 117, 24, 0.3) !important;
+    color: #f5f2ed !important;
+    width: 290px !important;
+}
+
+.fmc-sidebar .offcanvas-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 24px;
+}
+
+.fmc-sidebar-nav {
+    list-style: none;
+    padding: 15px 0;
+    margin: 0;
+}
+
+.fmc-sidebar-nav li {
+    margin-bottom: 4px;
+}
+
+.fmc-sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 11px 24px;
+    color: #a7adb3;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.fmc-sidebar-nav li a i {
+    font-size: 17px;
+    color: #ff7518;
+    width: 24px;
+}
+
+.fmc-sidebar-nav li a:hover,
+.fmc-sidebar-nav li a.active {
+    color: #f5f2ed;
+    background: rgba(255, 117, 24, 0.08);
+    border-left-color: #ff7518;
+}
+
+.fmc-sidebar-logout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 11px 24px;
+    background: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    color: #ff6b5f;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fmc-sidebar-logout i {
+    font-size: 17px;
+    width: 24px;
+}
+
+.fmc-sidebar-logout:hover {
+    background: rgba(255, 107, 95, 0.1);
+    border-left-color: #ff6b5f;
+    color: #ff857a;
+}
+
+/* App Main Container */
+.fmc-app-content {
+    min-height: calc(100vh - 65px);
+    padding: 35px 20px 60px;
+    background: linear-gradient( rgba(255, 255, 255, 0.018) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px ), #0d1218;
+    background-size: 40px 40px;
+}
+
+/* =========================================================
+   UNIVERSAL FMC CARDS & FORM ELEMENTS
+   ========================================================= */
+
+.fmc-app-card {
+    background: rgba(18, 24, 31, 0.95);
+    border: 1px solid rgba(255, 117, 24, 0.25);
+    border-radius: 4px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+    position: relative;
+    overflow: hidden;
+}
+
+.fmc-app-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 12px, #111820 12px, #111820 24px );
+}
+
+.fmc-card-header-styled {
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fmc-card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #f5f2ed;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+}
+
+.fmc-card-title span {
+    color: #ff7518;
+}
+
+.fmc-card-subtitle {
+    color: #858d95;
+    font-size: 13px;
+    margin: 0;
+}
+
+.fmc-card-body-styled {
+    padding: 28px;
+}
+
+/* Styled Form Controls */
+.fmc-form-group {
+    margin-bottom: 22px;
+}
+
+.fmc-form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #c7cdd3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.fmc-form-label span.req {
+    color: #ff7518;
+    margin-left: 2px;
+}
+
+.fmc-input,
+.fmc-select,
+.fmc-textarea {
+    width: 100%;
+    background: #0a0e14;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    color: #f5f2ed;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    transition: all 0.2s ease;
+}
+
+.fmc-input:focus,
+.fmc-select:focus,
+.fmc-textarea:focus {
+    outline: none;
+    border-color: #ff7518;
+    background: #0e141c;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 117, 24, 0.15);
+}
+
+.fmc-input::placeholder,
+.fmc-textarea::placeholder {
+    color: #555d66;
+}
+
+.fmc-select option {
+    background: #12181f;
+    color: #f5f2ed;
+}
+
+/* Location Helper Box */
+.fmc-location-box {
+    background: #0a0e14;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    padding: 16px;
+    margin-top: 6px;
+}
+
+.fmc-location-btn {
+    background: rgba(255, 117, 24, 0.12);
+    border: 1px solid #ff7518;
+    color: #ff7518;
+    border-radius: 3px;
+    padding: 8px 16px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fmc-location-btn:hover {
+    background: #ff7518;
+    color: #111820;
+}
+
+/* Submit & Action Buttons */
+.fmc-btn-submit {
+    background: #ff7518;
+    border: 2px solid #ff7518;
+    border-radius: 3px;
+    color: #111820;
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.fmc-btn-submit:hover {
+    background: transparent;
+    color: #ff7518;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 117, 24, 0.2);
+}
+
+.fmc-btn-outline-cancel {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    color: #858d95;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fmc-btn-outline-cancel:hover {
+    border-color: #ff6b5f;
+    color: #ff6b5f;
+}
+
+/* Photo Upload Box */
+.fmc-upload-box {
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    background: #0a0e14;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fmc-upload-box:hover {
+    border-color: #ff7518;
+    background: rgba(255, 117, 24, 0.03);
+}
+
+.fmc-upload-box i {
+    font-size: 32px;
+    color: #ff7518;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.fmc-upload-text {
+    font-size: 13px;
+    color: #858d95;
+    margin: 0;
+}
+
+.fmc-upload-text span {
+    color: #ff7518;
+    font-weight: 500;
+}
+
+/* Dashboard Hero */
+.fmc-dashboard-hero {
+    background: rgba(18, 24, 31, 0.95);
+    border: 1px solid rgba(255, 117, 24, 0.25);
+    border-radius: 4px;
+    padding: 30px 35px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fmc-dashboard-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 12px, #111820 12px, #111820 24px );
+}
+
+.fmc-dashboard-hero h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(28px, 4vw, 38px);
+    text-transform: uppercase;
+    color: #f5f2ed;
+    margin: 0 0 6px;
+    letter-spacing: 1px;
+}
+
+.fmc-dashboard-hero h2 span {
+    color: #ff7518;
+}
+
+.fmc-dashboard-hero p {
+    color: #858d95;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Stat Metric Cards */
+.fmc-stat-card {
+    background: rgba(18, 24, 31, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    height: 100%;
+}
+
+.fmc-stat-card:hover {
+    border-color: rgba(255, 117, 24, 0.4);
+    transform: translateY(-2px);
+}
+
+.fmc-stat-label {
+    color: #858d95;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.fmc-stat-value {
+    color: #f5f2ed;
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.fmc-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    background: rgba(255, 117, 24, 0.1);
+    color: #ff7518;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+/* Live Feed Items */
+.fmc-feed-item {
+    background: #0a0e14;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    transition: all 0.2s ease;
+}
+
+.fmc-feed-item:hover {
+    border-color: rgba(255, 117, 24, 0.3);
+    background: #0e141c;
+}
+
+.fmc-category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: rgba(255, 117, 24, 0.15);
+    border: 1px solid #ff7518;
+    color: #ff7518;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.fmc-status-pill {
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.fmc-status-pill.reported {
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.fmc-status-pill.inprogress {
+    background: rgba(13, 202, 240, 0.15);
+    border: 1px solid #0dcaf0;
+    color: #0dcaf0;
+}
+
+.fmc-status-pill.resolved {
+    background: rgba(40, 167, 69, 0.15);
+    border: 1px solid #28a745;
+    color: #75e092;
+}
+
+/* Quick Action Tiles */
+.fmc-action-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 18px;
+    background: rgba(18, 24, 31, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    color: #f5f2ed;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    height: 100%;
+}
+
+.fmc-action-tile i {
+    font-size: 32px;
+    color: #ff7518;
+    margin-bottom: 12px;
+}
+
+.fmc-action-tile span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.fmc-action-tile small {
+    color: #858d95;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.fmc-action-tile:hover {
+    border-color: #ff7518;
+    color: #ff7518;
+    transform: translateY(-3px);
+}
+
+/* Dynamic Pulse Animation for Live Status */
+@keyframes fmc-pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 24, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 117, 24, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 24, 0); }
+}
+
+.fmc-live-dot {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #ff7518;
+    animation: fmc-pulse 2s infinite ease-in-out;
+}
+
+/* Category Filter Tabs */
+.fmc-filter-btn {
+    background: #0a0e14;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a7adb3;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fmc-filter-btn:hover,
+.fmc-filter-btn.active {
+    background: rgba(255, 117, 24, 0.15);
+    border-color: #ff7518;
+    color: #ff7518;
+}
+
+/* Department Mini Status Items */
+.fmc-dept-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #0a0e14;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    margin-bottom: 8px;
+    transition: border-color 0.2s ease;
+}
+
+.fmc-dept-item:hover {
+    border-color: rgba(255, 117, 24, 0.3);
+}
+
+.fmc-dept-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #f5f2ed;
+}
+
+.fmc-dept-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #75e092;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.fmc-dept-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #28a745;
+}
+
+/* Civic Health Progress Bar */
+.fmc-progress-track {
+    width: 100%;
+    height: 8px;
+    background: #0a0e14;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fmc-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff7518, #28a745);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+
+

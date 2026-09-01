@@ -36,13 +36,50 @@ namespace FixMyCity.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Latitude,Longitude,CategoryId,UserId")] Report report)
+        public async Task<IActionResult> Create([Bind("Description,Latitude,Longitude,CategoryId,UserId")] Report report, IFormFile? photo)
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var currentUserId = _userManager.GetUserId(User);
+                if (!string.IsNullOrEmpty(currentUserId))
+                {
+                    report.UserId = currentUserId;
+                    ModelState.Remove(nameof(report.UserId));
+                }
+            }
+            else if (string.IsNullOrEmpty(report.UserId))
+            {
+                var firstUser = await _context.Users.FirstOrDefaultAsync();
+                if (firstUser != null)
+                {
+                    report.UserId = firstUser.Id;
+                    ModelState.Remove(nameof(report.UserId));
+                }
+            }
+
+            if (photo != null && photo.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "reports");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(fileStream);
+                }
+                report.PhotoPath = "/uploads/reports/" + uniqueFileName;
+            }
+
             if (ModelState.IsValid)
             {
                 report.CreatedAt = DateTime.UtcNow;
                 _context.Add(report);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Issue report submitted successfully! Thank you for helping fix your city.";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", report.CategoryId);
