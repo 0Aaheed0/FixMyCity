@@ -1,8 +1,16 @@
+@model IEnumerable<FixMyCity.Data.Models.ApplicationUser>
 @{
     ViewData["Title"] = "Manage Users";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Manage Users</h2>
-    <p>User list and role management go here.</p>
+    <table class="table mt-3">
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr><td>@u.FullName</td><td>@u.Email</td><td>@u.Role</td></tr>
+            }
+        </tbody>
+    </table>
 </div>

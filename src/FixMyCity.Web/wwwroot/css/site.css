@@ -244,12 +244,13 @@ html, body {
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: var(--color-bg-alt);
+    background: radial-gradient(ellipse 400px 300px at 70% 20%, rgba(255, 122, 26, 0.06) 0%, rgba(16, 21, 27, 0) 70%), var(--color-bg-alt);
 }
 
 .fmc-auth-card {
     width: 100%;
     max-width: 420px;
+    animation: fmcFadeUp .5s ease both;
 }
 
     .fmc-auth-card h2 {
@@ -259,7 +260,23 @@ html, body {
         font-size: 1.75rem;
         margin-bottom: 1.5rem;
         color: var(--color-text);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
     }
+
+    .fmc-auth-card .form-floating {
+        transition: transform .15s ease;
+    }
+
+    .fmc-auth-card .form-control:focus {
+        transform: translateY(-1px);
+    }
+
+.fmc-auth-brand .fmc-hazard-stripe {
+    border-radius: 3px;
+    margin-top: 1rem;
+}
 
 @media (max-width: 860px) {
     .fmc-auth-grid {

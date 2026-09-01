@@ -1,8 +1,17 @@
+@model IEnumerable<FixMyCity.Data.Models.Report>
 @{
     ViewData["Title"] = "Problem Map";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Problem Map</h2>
-    <p>City-wide map of reported issues goes here.</p>
+    <p>@Model.Count() reports on record — actual Leaflet map goes here next.</p>
+    <table class="table mt-3">
+        <thead><tr><th>Category</th><th>Lat</th><th>Lng</th></tr></thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr><td>@r.Category?.Name</td><td>@r.Latitude</td><td>@r.Longitude</td></tr>
+            }
+        </tbody>
+    </table>
 </div>

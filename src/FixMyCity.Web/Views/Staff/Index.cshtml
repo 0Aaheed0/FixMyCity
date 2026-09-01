@@ -1,8 +1,22 @@
+@model IEnumerable<FixMyCity.Data.Models.Issue>
 @{
     ViewData["Title"] = "Staff Dashboard";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Staff Dashboard</h2>
-    <p>Assigned issues, accept/update work, evidence upload go here.</p>
+    <table class="table mt-3">
+        <thead><tr><th>Category</th><th>Priority</th><th>Status</th><th>Reports</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.Category?.Name</td>
+                    <td>@i.PriorityScore</td>
+                    <td>@i.Status</td>
+                    <td>@i.Reports.Count</td>
+                    <td><a asp-controller="Staff" asp-action="Evidence" asp-route-id="@i.Id">Upload Evidence</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

@@ -1,8 +1,28 @@
+@model IEnumerable<FixMyCity.Data.Models.Assignment>
 @{
     ViewData["Title"] = "Manager Dashboard";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Manager Dashboard</h2>
-    <p>Team workload and assignment tools go here.</p>
+    @if (!Model.Any())
+    {
+        <p>No assignments yet.</p>
+    }
+    else
+    {
+        <table class="table mt-3">
+            <thead><tr><th>Department</th><th>Staff</th><th>Status</th><th>Assigned</th></tr></thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.Department?.Name</td>
+                        <td>@a.AssignedStaff?.FullName</td>
+                        <td>@a.Status</td>
+                        <td>@a.AssignedAt.ToString("MMM d, yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>

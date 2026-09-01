@@ -2,16 +2,15 @@
 
 namespace FixMyCity.Data.Models
 {
-    public class Category
+    public class Department
     {
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; } = string.Empty;
 
-        public string? ResponsibleDepartment { get; set; }
+        public string? Description { get; set; }
 
-        public int? DepartmentId { get; set; }
-        public Department? Department { get; set; }
+        public List<Category> Categories { get; set; } = new();
     }
 }

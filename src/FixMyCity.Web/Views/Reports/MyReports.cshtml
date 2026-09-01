@@ -1,8 +1,30 @@
+@model IEnumerable<FixMyCity.Data.Models.Report>
 @{
     ViewData["Title"] = "My Reports";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>My Reports</h2>
-    <p>Your submitted reports and their status go here.</p>
+    @if (!Model.Any())
+    {
+        <p>You haven't reported anything yet — <a asp-controller="Reports" asp-action="Create">get started</a>.</p>
+    }
+    else
+    {
+        <table class="table mt-3">
+            <thead>
+                <tr><th>Description</th><th>Category</th><th>Status</th><th>Reported</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.Description</td>
+                        <td>@r.Category?.Name</td>
+                        <td>@(r.Issue?.Status ?? "Pending Review")</td>
+                        <td>@r.CreatedAt.ToString("MMM d, yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>

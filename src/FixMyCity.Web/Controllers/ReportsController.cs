@@ -1,5 +1,7 @@
 using FixMyCity.Data;
 using FixMyCity.Data.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +11,14 @@ namespace FixMyCity.Web.Controllers
     public class ReportsController : Controller
     {
         private readonly FixMyCityDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReportsController(FixMyCityDbContext context)
+        public ReportsController(FixMyCityDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Reports
         public async Task<IActionResult> Index()
         {
             var reports = _context.Reports
@@ -24,7 +27,6 @@ namespace FixMyCity.Web.Controllers
             return View(await reports.ToListAsync());
         }
 
-        // GET: Reports/Create
         public IActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name");
@@ -32,7 +34,6 @@ namespace FixMyCity.Web.Controllers
             return View();
         }
 
-        // POST: Reports/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Description,Latitude,Longitude,CategoryId,UserId")] Report report)
@@ -49,17 +50,27 @@ namespace FixMyCity.Web.Controllers
             return View(report);
         }
 
-        // GET: Reports/MyReports
-        public IActionResult MyReports()
+        [Authorize]
+        public async Task<IActionResult> MyReports()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var myReports = await _context.Reports
+                .Include(r => r.Category)
+                .Include(r => r.Issue)
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+            return View(myReports);
         }
 
-        // GET: Reports/Verify/5
-        public IActionResult Verify(int id)
+        public async Task<IActionResult> Verify(int id)
         {
-            ViewBag.ReportId = id;
-            return View();
+            var report = await _context.Reports
+                .Include(r => r.Category)
+                .Include(r => r.Issue)
+                .FirstOrDefaultAsync(r => r.Id == id);
+            if (report == null) return NotFound();
+            return View(report);
         }
     }
 }

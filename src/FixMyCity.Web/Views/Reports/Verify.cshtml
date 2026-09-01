@@ -1,8 +1,11 @@
+@model FixMyCity.Data.Models.Report
 @{
     ViewData["Title"] = "Verify Resolution";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Verify Resolution</h2>
-    <p>Report #@ViewBag.ReportId — before/after photos and Accept/Reject buttons go here.</p>
+    <p><strong>@Model.Description</strong></p>
+    <p>Category: @Model.Category?.Name</p>
+    <p>Status: @(Model.Issue?.Status ?? "Not yet grouped into an issue")</p>
+    <p>Accept/Reject buttons and before/after photo comparison go here.</p>
 </div>

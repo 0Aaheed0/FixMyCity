@@ -1,12 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using FixMyCity.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixMyCity.Web.Controllers
 {
     public class MapController : Controller
     {
-        public IActionResult Index()
+        private readonly FixMyCityDbContext _context;
+
+        public MapController(FixMyCityDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var reports = await _context.Reports
+                .Include(r => r.Category)
+                .ToListAsync();
+            return View(reports);
         }
     }
 }

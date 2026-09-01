@@ -1,8 +1,21 @@
+@model IEnumerable<FixMyCity.Data.Models.Department>
 @{
     ViewData["Title"] = "Manage Departments";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Manage Departments</h2>
-    <p>Department list and settings go here.</p>
+    <form asp-action="Departments" method="post" class="mb-4">
+        <input type="text" name="Name" class="form-control mb-2" placeholder="Department name" required />
+        <input type="text" name="Description" class="form-control mb-2" placeholder="Description" />
+        <button type="submit" class="btn fmc-cta">Add Department</button>
+    </form>
+    <table class="table">
+        <thead><tr><th>Name</th><th>Description</th></tr></thead>
+        <tbody>
+            @foreach (var d in Model)
+            {
+                <tr><td>@d.Name</td><td>@d.Description</td></tr>
+            }
+        </tbody>
+    </table>
 </div>

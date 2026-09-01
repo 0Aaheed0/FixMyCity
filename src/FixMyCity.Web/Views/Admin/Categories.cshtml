@@ -1,8 +1,26 @@
+@model IEnumerable<FixMyCity.Data.Models.Category>
 @{
     ViewData["Title"] = "Manage Categories";
-    Layout = "_LayoutApp";
 }
 <div class="fmc-dashboard-hero">
     <h2>Manage Categories</h2>
-    <p>Issue categories and department routing rules go here.</p>
+    <form asp-action="Categories" method="post" class="mb-4">
+        <input type="text" name="Name" class="form-control mb-2" placeholder="Category name" required />
+        <select name="DepartmentId" class="form-select mb-2">
+            @foreach (var dep in (List<FixMyCity.Data.Models.Department>)ViewBag.Departments)
+            {
+                <option value="@dep.Id">@dep.Name</option>
+            }
+        </select>
+        <button type="submit" class="btn fmc-cta">Add Category</button>
+    </form>
+    <table class="table">
+        <thead><tr><th>Name</th><th>Department</th></tr></thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr><td>@c.Name</td><td>@c.Department?.Name</td></tr>
+            }
+        </tbody>
+    </table>
 </div>

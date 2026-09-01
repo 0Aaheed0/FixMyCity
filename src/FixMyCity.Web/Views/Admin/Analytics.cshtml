@@ -1,8 +1,16 @@
 @{
     ViewData["Title"] = "Hotspot Analytics";
-    Layout = "_LayoutApp";
+    var byCategory = ViewBag.ByCategory as IEnumerable<dynamic>;
 }
 <div class="fmc-dashboard-hero">
     <h2>Hotspot Analytics</h2>
-    <p>Recurring category and area trend charts go here.</p>
+    <table class="table mt-3">
+        <thead><tr><th>Category</th><th>Report Count</th></tr></thead>
+        <tbody>
+            @foreach (var row in byCategory!)
+            {
+                <tr><td>@row.Category</td><td>@row.Count</td></tr>
+            }
+        </tbody>
+    </table>
 </div>
