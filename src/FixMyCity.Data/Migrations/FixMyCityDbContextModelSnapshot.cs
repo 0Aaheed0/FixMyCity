@@ -30,6 +30,9 @@ namespace FixMyCity.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
@@ -67,6 +70,9 @@ namespace FixMyCity.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfileImageFileName")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Role")
                         .IsRequired()

@@ -1,10 +1,422 @@
-@model FixMyCity.Data.Models.ApplicationUser
+@model FixMyCity.Web.Models.ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
+    Layout = "_LayoutApp";
 }
-<div class="fmc-dashboard-hero">
-    <h2>Your Profile</h2>
-    <p><strong>Name:</strong> @Model?.FullName</p>
-    <p><strong>Email:</strong> @Model?.Email</p>
-    <p><strong>Role:</strong> @Model?.Role</p>
+
+<style>
+    body {
+        background: #0d1218;
+        color: #f5f2ed;
+    }
+
+    .fmc-profile-page {
+        min-height: 100vh;
+        padding: 40px 0;
+        background: #0d1218;
+    }
+
+    .fmc-profile-card {
+        background: rgba(20, 25, 32, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 35px;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .fmc-profile-card:hover {
+        border-color: rgba(255, 117, 24, 0.2);
+        background: rgba(20, 25, 32, 0.8);
+    }
+
+    .fmc-profile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .fmc-profile-header h2 {
+        color: #f5f2ed;
+        font-family: 'Oswald', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin: 0;
+    }
+
+    .fmc-profile-header h2 i {
+        color: #ff7518;
+        margin-right: 12px;
+    }
+
+    .fmc-alert-success {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #86efac;
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .fmc-alert-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .fmc-profile-section-title {
+        color: #f5f2ed;
+        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .fmc-profile-section-title i {
+        color: #ff7518;
+        font-size: 20px;
+    }
+
+    .fmc-profile-pic-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .fmc-profile-pic {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ff7518;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    .fmc-profile-info {
+        text-align: center;
+    }
+
+    .fmc-profile-name {
+        color: #f5f2ed;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .fmc-profile-email {
+        color: #a7adb3;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .fmc-profile-role {
+        display: inline-block;
+        background: #ff7518;
+        color: #111820;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .fmc-upload-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 18px;
+        border: 1px solid rgba(255, 117, 24, 0.5);
+        background: transparent;
+        color: #ff7518;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .fmc-upload-button:hover {
+        background: rgba(255, 117, 24, 0.1);
+        border-color: #ff7518;
+    }
+
+    .fmc-form-group {
+        margin-bottom: 20px;
+    }
+
+    .fmc-form-label {
+        color: #f5f2ed;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .fmc-form-control {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        color: #f5f2ed;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        font-family: 'Inter', sans-serif;
+        width: 100%;
+    }
+
+    .fmc-form-control:focus {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: #ff7518;
+        color: #f5f2ed;
+        box-shadow: 0 0 0 3px rgba(255, 117, 24, 0.1);
+        outline: none;
+    }
+
+    .fmc-form-control::placeholder {
+        color: #7a8088;
+    }
+
+    .fmc-form-control:read-only {
+        background: rgba(0, 0, 0, 0.2);
+        color: #a7adb3;
+        cursor: not-allowed;
+    }
+
+    textarea.fmc-form-control {
+        resize: vertical;
+        min-height: 80px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .fmc-validation-error {
+        color: #fca5a5;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .fmc-button-group {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .fmc-cta, 
+    .fmc-btn-cancel {
+        padding: 12px 28px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+        font-family: 'Oswald', sans-serif;
+        display: inline-block;
+    }
+
+    .fmc-cta {
+        background: #ff7518;
+        color: #111820;
+        border: 2px solid #ff7518;
+    }
+
+    .fmc-cta:hover {
+        background: transparent;
+        color: #ff7518;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 117, 24, 0.15);
+    }
+
+    .fmc-btn-cancel {
+        background: transparent;
+        color: #a7adb3;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fmc-btn-cancel:hover {
+        color: #f5f2ed;
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .fmc-profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+    }
+</style>
+
+<style>
+    @@media (max-width: 768px) {
+        .fmc-profile-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .fmc-profile-card {
+            padding: 25px;
+        }
+
+        .fmc-profile-header h2 {
+            font-size: 22px;
+        }
+
+        .fmc-button-group {
+            flex-direction: column;
+        }
+
+        .fmc-cta, .fmc-btn-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="fmc-profile-page">
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="fmc-profile-card">
+            <div class="fmc-profile-header">
+                <h2><i class="bi bi-person-circle"></i> Your Profile</h2>
+            </div>
+
+            @if (TempData["ProfileSuccess"] != null)
+            {
+                <div class="fmc-alert-success">
+                    <i class="bi bi-check-circle"></i> @TempData["ProfileSuccess"]
+                </div>
+            }
+            @if (TempData["ChangePasswordSuccess"] != null)
+            {
+                <div class="fmc-alert-success">
+                    <i class="bi bi-check-circle"></i> @TempData["ChangePasswordSuccess"]
+                </div>
+            }
+            @if (TempData["ChangePasswordErrors"] != null)
+            {
+                <div class="fmc-alert-error">
+                    <i class="bi bi-exclamation-circle"></i> @TempData["ChangePasswordErrors"]
+                </div>
+            }
+
+            <form asp-action="Index" method="post" enctype="multipart/form-data">
+                <div class="fmc-profile-grid">
+                    <!-- Profile Picture Section -->
+                    <div class="fmc-profile-card" style="border: 1px solid rgba(255, 117, 24, 0.2); text-align: center;">
+                        <div class="fmc-profile-section-title" style="margin-bottom: 20px; justify-content: center;">
+                            <i class="bi bi-image"></i> Profile Picture
+                        </div>
+                        <div class="fmc-profile-pic-container">
+                            @{ var imgUrl = Model.CurrentProfileImageFileName != null ? Url.Content($"~/uploads/profile-pictures/{Model.CurrentProfileImageFileName}") : Url.Content("~/images/default-profile.svg"); }
+                            <img src="@imgUrl" alt="Profile" class="fmc-profile-pic" />
+                        </div>
+                        <label class="fmc-upload-button">
+                            <i class="bi bi-cloud-upload"></i> Change Picture
+                            <input type="file" name="ProfileImage" accept="image/*" hidden />
+                        </label>
+                        <div style="margin-top: 15px;">
+                            <small style="color: #7a8088;">JPG, PNG, GIF (Max 2 MB)</small>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Section -->
+                    <div>
+                        <div class="fmc-profile-section-title">
+                            <i class="bi bi-person-fill"></i> Personal Information
+                        </div>
+
+                        <div class="fmc-form-group">
+                            <label asp-for="FullName" class="fmc-form-label">Full Name</label>
+                            <input asp-for="FullName" class="fmc-form-control" />
+                            <span asp-validation-for="FullName" class="fmc-validation-error"></span>
+                        </div>
+
+                        <div class="fmc-form-group">
+                            <label asp-for="Email" class="fmc-form-label">Email Address</label>
+                            <input asp-for="Email" class="fmc-form-control" readonly />
+                            <small style="color: #7a8088; display: block; margin-top: 5px;">Email is managed by your account settings</small>
+                        </div>
+
+                        <div class="fmc-form-group">
+                            <label asp-for="PhoneNumber" class="fmc-form-label">Phone Number</label>
+                            <input asp-for="PhoneNumber" class="fmc-form-control" placeholder="+1 (555) 000-0000" />
+                            <span asp-validation-for="PhoneNumber" class="fmc-validation-error"></span>
+                        </div>
+
+                        <div class="fmc-form-group">
+                            <label asp-for="Address" class="fmc-form-label">Address</label>
+                            <textarea asp-for="Address" class="fmc-form-control" placeholder="Enter your address..."></textarea>
+                            <span asp-validation-for="Address" class="fmc-validation-error"></span>
+                        </div>
+
+                        <div class="fmc-form-group" style="margin-bottom: 0;">
+                            <label class="fmc-form-label">Account Role</label>
+                            <div class="fmc-form-control" style="background: rgba(255, 117, 24, 0.1); border-color: #ff7518; display: flex; align-items: center;">
+                                <span class="fmc-profile-role" style="margin: 0;">@Model.Role</span>
+                            </div>
+                            <small style="color: #7a8088; display: block; margin-top: 5px;">Your role is managed by administrators</small>
+                        </div>
+
+                        <div class="fmc-button-group">
+                            <a asp-action="Index" class="fmc-btn-cancel">Cancel</a>
+                            <button type="submit" class="fmc-cta">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+
+        <!-- Account Security Section -->
+        <div class="fmc-profile-card">
+            <div class="fmc-profile-section-title">
+                <i class="bi bi-shield-lock"></i> Account Security
+            </div>
+
+            <form asp-action="ChangePassword" method="post">
+                <div style="max-width: 500px;">
+                    <div class="fmc-form-group">
+                        <label class="fmc-form-label">Current Password</label>
+                        <input name="CurrentPassword" type="password" class="fmc-form-control" placeholder="Enter your current password" required />
+                    </div>
+
+                    <div class="fmc-form-group">
+                        <label class="fmc-form-label">New Password</label>
+                        <input name="NewPassword" type="password" class="fmc-form-control" placeholder="Enter your new password" required />
+                        <small style="color: #7a8088; display: block; margin-top: 5px;">Must be at least 6 characters</small>
+                    </div>
+
+                    <div class="fmc-form-group">
+                        <label class="fmc-form-label">Confirm New Password</label>
+                        <input name="ConfirmPassword" type="password" class="fmc-form-control" placeholder="Confirm your new password" required />
+                    </div>
+
+                    <div class="fmc-button-group" style="justify-content: flex-start;">
+                        <button type="submit" class="fmc-cta">
+                            <i class="bi bi-check-lg"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
