@@ -3,7 +3,8 @@
     ViewData["Title"] = "Manager Dashboard";
 }
 <div class="fmc-dashboard-hero">
-    <h2>Manager Dashboard</h2>
+    <span class="fmc-dashboard-kicker"><i class="bi bi-diagram-3-fill"></i> DEPARTMENT CONTROL ROOM</span><h2>Manager workspace</h2><p>Balance teams, route urgent work, and track civic response from assignment to closure.</p>
+    @if (ViewBag.PriorityRadar != null) { var radar = (FixMyCity.Data.Models.Issue)ViewBag.PriorityRadar; <div class="fmc-priority-radar"><i class="bi bi-broadcast-pin"></i><div><strong>Civic Priority Radar</strong><span>Recommended next assignment: @radar.Category?.Name · priority @radar.PriorityScore · @radar.Reports.Count supporting reports</span></div></div> }
     @if (!Model.Any())
     {
         <p>No assignments yet.</p>

@@ -30,6 +30,7 @@ namespace FixMyCity.Web.Controllers
             ViewBag.Issues = await _context.Issues.Include(i => i.Category).Where(i => i.Status != "Verified").ToListAsync();
             ViewBag.Departments = await _context.Departments.ToListAsync();
             ViewBag.Staff = await _context.Users.Where(u => u.Role == "DepartmentStaff").OrderBy(u => u.FullName).ToListAsync();
+            ViewBag.PriorityRadar = await _context.Issues.Include(i => i.Category).Include(i => i.Reports).OrderByDescending(i => i.PriorityScore + i.Reports.Count).FirstOrDefaultAsync();
             return View(assignments);
         }
 

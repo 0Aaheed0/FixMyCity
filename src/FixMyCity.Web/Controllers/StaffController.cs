@@ -26,6 +26,7 @@ namespace FixMyCity.Web.Controllers
                 .Include(i => i.Category)
                 .Include(i => i.Reports)
                 .ToListAsync();
+            ViewBag.PriorityRadar = issues.OrderByDescending(i => i.PriorityScore + i.Reports.Count).FirstOrDefault();
             return View(issues);
         }
 
@@ -36,7 +37,9 @@ namespace FixMyCity.Web.Controllers
             if (!await IsStaff()) return Forbid();
             var issue = await _context.Issues.FindAsync(id);
             if (issue == null) return NotFound();
+            var previousStatus = issue.Status;
             issue.Status = status;
+            _context.StatusHistories.Add(new FixMyCity.Data.Models.StatusHistory { IssueId = issue.Id, PreviousStatus = previousStatus, NewStatus = status, Note = "Updated by field staff" });
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

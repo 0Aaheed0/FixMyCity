@@ -30,6 +30,8 @@ public class HomeController : Controller
     {
         var currentUserId = _userManager.GetUserId(User);
         var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser?.Role == "DepartmentManager") return RedirectToAction("Index", "Manager");
+        if (currentUser?.Role == "DepartmentStaff") return RedirectToAction("Index", "Staff");
 
         var totalReports = await _context.Reports.CountAsync();
         var totalIssues = await _context.Issues.CountAsync();

@@ -7,5 +7,9 @@
     <p><strong>@Model.Description</strong></p>
     <p>Category: @Model.Category?.Name</p>
     <p>Status: @(Model.Issue?.Status ?? "Not yet grouped into an issue")</p>
-    <p>Accept/Reject buttons and before/after photo comparison go here.</p>
+    <h4 class="mt-4">Resolution timeline</h4>
+    <div class="fmc-status-timeline"><div><strong>Reported</strong><small>Issue submitted by the community</small></div>@foreach (var item in (IEnumerable<FixMyCity.Data.Models.StatusHistory>)ViewBag.StatusHistory) { <div><strong>@item.NewStatus</strong><small>@item.ChangedAt.ToLocalTime().ToString("MMM d, yyyy HH:mm") · @item.Note</small></div> }</div>
+    @if (Model.Issue?.Reports?.Count > 1) { <div class="alert alert-info mt-3">This issue has @Model.Issue.Reports.Count supporting reports nearby. Community duplicates increase priority.</div> }
+    <h4 class="mt-4">Repair evidence</h4>
+    @if (((IEnumerable<FixMyCity.Data.Models.Evidence>)ViewBag.Evidence).Any()) { <div class="row g-3">@foreach (var evidence in (IEnumerable<FixMyCity.Data.Models.Evidence>)ViewBag.Evidence) { <div class="col-md-4"><div class="fmc-evidence-card"><img src="@evidence.PhotoPath" alt="Repair evidence" /><small>@evidence.Note</small><span>@evidence.UploadedAt.ToLocalTime().ToString("MMM d, yyyy")</span></div></div> }</div> } else { <p class="text-muted">Repair photos will appear here after field staff upload evidence.</p> }
 </div>

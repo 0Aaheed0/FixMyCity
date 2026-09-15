@@ -5,6 +5,7 @@
 <div class="fmc-dashboard-hero">
     <h2>Problem Map</h2>
     <p>@Model.Count() reports on record — locations are shown with readable labels and coordinates.</p>
+    <div id="fmc-live-map" style="height:360px;border-radius:20px;margin:20px 0;border:1px solid rgba(216,180,254,.65);"></div>
     <table class="table fmc-map-table mt-3">
         <thead><tr><th>Location</th><th>Category</th><th>Latitude</th><th>Longitude</th></tr></thead>
         <tbody>
@@ -15,3 +16,4 @@
         </tbody>
     </table>
 </div>
+@section Scripts { <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>const map=L.map('fmc-live-map').setView([23.7806,90.407],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);@foreach(var r in Model){<text>L.marker([@r.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),@r.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)]).addTo(map).bindPopup('<b>@Html.Raw(System.Net.WebUtility.HtmlEncode(r.Category?.Name))</b><br/>@Html.Raw(System.Net.WebUtility.HtmlEncode(r.Description))');</text>}</script> }

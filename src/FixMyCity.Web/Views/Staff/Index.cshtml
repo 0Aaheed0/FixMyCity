@@ -3,7 +3,8 @@
     ViewData["Title"] = "Staff Dashboard";
 }
 <div class="fmc-dashboard-hero">
-    <h2>Staff Dashboard</h2>
+    <span class="fmc-dashboard-kicker"><i class="bi bi-tools"></i> FIELD RESPONSE WORKSPACE</span><h2>Staff operations</h2><p>Work the highest-impact civic issues and attach proof when repairs are complete.</p>
+    @if (ViewBag.PriorityRadar != null) { var radar = (FixMyCity.Data.Models.Issue)ViewBag.PriorityRadar; <div class="fmc-priority-radar"><i class="bi bi-broadcast-pin"></i><div><strong>Civic Priority Radar</strong><span>@radar.Category?.Name needs attention first · priority @radar.PriorityScore · @radar.Reports.Count supporting reports</span></div></div> }
     <table class="table mt-3">
         <thead><tr><th>Category</th><th>Priority</th><th>Status</th><th>Reports</th><th></th></tr></thead>
         <tbody>

@@ -19,12 +19,19 @@ namespace FixMyCity.Web.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? status = null, int? categoryId = null)
         {
-            var reports = _context.Reports
+            var query = _context.Reports
                 .Include(r => r.Category)
-                .Include(r => r.User);
-            return View(await reports.ToListAsync());
+                .Include(r => r.User)
+                .Include(r => r.Issue)
+                .AsQueryable();
+            if (categoryId.HasValue) query = query.Where(r => r.CategoryId == categoryId.Value);
+            if (!string.IsNullOrWhiteSpace(status)) query = query.Where(r => r.Issue == null ? status == "Reported" : r.Issue.Status == status);
+            ViewBag.Categories = await _context.Categories.OrderBy(c => c.Name).ToListAsync();
+            ViewBag.SelectedStatus = status;
+            ViewBag.SelectedCategory = categoryId;
+            return View(await query.OrderByDescending(r => r.CreatedAt).ToListAsync());
         }
 
         public async Task<IActionResult> Create()
@@ -114,6 +121,14 @@ namespace FixMyCity.Web.Controllers
             if (ModelState.IsValid)
             {
                 report.CreatedAt = DateTime.UtcNow;
+                var nearby = await _context.Reports.Include(r => r.Issue)
+                    .Where(r => r.CategoryId == report.CategoryId && Math.Abs(r.Latitude - report.Latitude) < 0.00045 && Math.Abs(r.Longitude - report.Longitude) < 0.00045)
+                    .FirstOrDefaultAsync();
+                if (nearby?.Issue != null)
+                {
+                    nearby.Issue.PriorityScore += 2;
+                    report.IssueId = nearby.IssueId;
+                }
                 _context.Add(report);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Issue report submitted successfully! Thank you for helping fix your city.";
@@ -123,15 +138,17 @@ namespace FixMyCity.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> MyReports()
+        public async Task<IActionResult> MyReports(string? status = null)
         {
             var userId = _userManager.GetUserId(User);
             var myReports = await _context.Reports
                 .Include(r => r.Category)
-                .Include(r => r.Issue)
+                .Include(r => r.Issue).ThenInclude(i => i!.Reports)
                 .Where(r => r.UserId == userId)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
+            if (!string.IsNullOrWhiteSpace(status)) myReports = myReports.Where(r => (r.Issue?.Status ?? "Reported") == status).ToList();
+            ViewBag.SelectedStatus = status;
             return View(myReports);
         }
 
@@ -140,9 +157,44 @@ namespace FixMyCity.Web.Controllers
             var report = await _context.Reports
                 .Include(r => r.Category)
                 .Include(r => r.Issue)
+                .ThenInclude(i => i!.Reports)
+                .Include(r => r.Issue)
+                .ThenInclude(i => i!.Reports)
                 .FirstOrDefaultAsync(r => r.Id == id);
             if (report == null) return NotFound();
+            ViewBag.StatusHistory = await _context.StatusHistories.Where(h => h.IssueId == report.IssueId).OrderBy(h => h.ChangedAt).ToListAsync();
+            ViewBag.Evidence = await _context.EvidenceItems.Include(e => e.Assignment).Where(e => report.IssueId != null && e.Assignment!.IssueId == report.IssueId).OrderByDescending(e => e.UploadedAt).ToListAsync();
             return View(report);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Notifications()
+        {
+            var userId = _userManager.GetUserId(User);
+            var issueIds = await _context.Reports.Where(r => r.UserId == userId && r.IssueId != null).Select(r => r.IssueId!.Value).Distinct().ToListAsync();
+            return View(await _context.StatusHistories.Where(h => issueIds.Contains(h.IssueId)).OrderByDescending(h => h.ChangedAt).Take(30).ToListAsync());
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Impact()
+        {
+            var userId = _userManager.GetUserId(User);
+            var reports = await _context.Reports.Include(r => r.Issue).Where(r => r.UserId == userId).ToListAsync();
+            ViewBag.Total = reports.Count;
+            ViewBag.Resolved = reports.Count(r => r.Issue?.Status is "Resolved" or "Verified");
+            ViewBag.Active = reports.Count(r => r.Issue?.Status is not "Resolved" and not "Verified");
+            ViewBag.Score = reports.Count * 10 + reports.Count(r => r.Issue?.Status is "Resolved" or "Verified") * 20;
+            ViewBag.CommunityReach = reports.Sum(r => r.Issue?.Reports.Count ?? 1);
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ExportMyReports()
+        {
+            var userId = _userManager.GetUserId(User);
+            var reports = await _context.Reports.Include(r => r.Category).Include(r => r.Issue).Where(r => r.UserId == userId).OrderByDescending(r => r.CreatedAt).ToListAsync();
+            var csv = "Report Id,Category,Description,Status,Latitude,Longitude,Reported At\r\n" + string.Join("\r\n", reports.Select(r => $"{r.Id},\"{r.Category?.Name?.Replace("\"", "\"\"")}\",\"{r.Description.Replace("\"", "\"\"")}\",{r.Issue?.Status ?? "Reported"},{r.Latitude},{r.Longitude},{r.CreatedAt:yyyy-MM-dd HH:mm}"));
+            return File(System.Text.Encoding.UTF8.GetBytes(csv), "text/csv", "fixmycity-my-reports.csv");
         }
     }
 }

@@ -10,6 +10,7 @@
     }
     else
     {
+        <form method="get" class="d-flex gap-2 mb-3"><select name="status" class="form-select" style="max-width:220px"><option value="">All statuses</option><option value="Reported">Reported</option><option value="InProgress">In progress</option><option value="Resolved">Resolved</option><option value="Verified">Verified</option></select><button class="btn btn-primary" type="submit">Filter my reports</button><a asp-action="ExportMyReports" class="btn btn-outline-primary">Download CSV</a><a asp-action="Impact" class="btn btn-outline-primary">My Civic Impact</a></form>
         <table class="table mt-3">
             <thead>
                 <tr><th>Description</th><th>Category</th><th>Status</th><th>Reported</th></tr>
@@ -18,7 +19,7 @@
                 @foreach (var r in Model)
                 {
                     <tr>
-                        <td>@r.Description</td>
+                        <td><a asp-action="Verify" asp-route-id="@r.Id">@r.Description</a></td>
                         <td>@r.Category?.Name</td>
                         <td>@(r.Issue?.Status ?? "Pending Review")</td>
                         <td>@r.CreatedAt.ToString("MMM d, yyyy")</td>

@@ -32,6 +32,7 @@
 
     <!-- Reports Table Card -->
     <div class="fmc-app-card">
+        <form method="get" class="d-flex flex-wrap gap-2 p-3"><select name="categoryId" class="form-select" style="max-width:260px"><option value="">All categories</option>@foreach (var c in (IEnumerable<FixMyCity.Data.Models.Category>)ViewBag.Categories) { <option value="@c.Id" selected="@(ViewBag.SelectedCategory == c.Id)">@c.Name</option> }</select><select name="status" class="form-select" style="max-width:180px"><option value="">All statuses</option><option value="Reported">Reported</option><option value="InProgress">In progress</option><option value="Resolved">Resolved</option><option value="Verified">Verified</option></select><button class="btn btn-primary" type="submit">Filter reports</button></form>
         @if (!Model.Any())
         {
             <div class="text-center py-5 px-3">

@@ -76,6 +76,7 @@ namespace FixMyCity.Web.Controllers
             if (!allowed.Contains(status)) return BadRequest();
             var report = await _context.Reports.Include(r => r.Issue).FirstOrDefaultAsync(r => r.Id == reportId);
             if (report == null) return NotFound();
+            var previousStatus = report.Issue?.Status ?? "Reported";
             if (report.Issue == null)
             {
                 report.Issue = new Issue { CategoryId = report.CategoryId, Status = status, PriorityScore = 1 };
@@ -84,6 +85,7 @@ namespace FixMyCity.Web.Controllers
             {
                 report.Issue.Status = status;
             }
+            _context.StatusHistories.Add(new StatusHistory { Issue = report.Issue, PreviousStatus = previousStatus, NewStatus = status, Note = "Updated by administrator" });
             await _context.SaveChangesAsync();
             TempData["AdminMessage"] = $"Report #{reportId} status updated to {status}.";
             return RedirectToAction(nameof(Reports));
