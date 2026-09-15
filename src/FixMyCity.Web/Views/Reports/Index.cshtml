@@ -11,7 +11,7 @@
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
                 <span class="fmc-status-dot"></span>
-                <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
+                <span style="color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
                     PUBLIC INCIDENT LOG
                 </span>
             </div>
@@ -46,9 +46,9 @@
         else
         {
             <div class="table-responsive">
-                <table class="table table-dark table-hover mb-0" style="background: transparent;">
-                    <thead style="border-bottom: 1px solid rgba(255, 117, 24, 0.3);">
-                        <tr style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ff7518; text-transform: uppercase;">
+                <table class="table mb-0 fmc-reports-table" style="background: rgba(245,238,252,.72) !important; --bs-table-hover-bg: transparent;">
+                    <thead style="border-bottom: 1px solid rgba(109, 40, 217, 0.3);">
+                        <tr style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6D28D9; text-transform: uppercase;">
                             <th class="py-3 px-4">#</th>
                             <th class="py-3 px-3">Category</th>
                             <th class="py-3 px-3">Description</th>
@@ -64,14 +64,14 @@
                             <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle;">
                                 <td class="py-3 px-4 text-muted" style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">@idx</td>
                                 <td class="py-3 px-3">
-                                    <span class="badge" style="background: rgba(255, 117, 24, 0.15); border: 1px solid #ff7518; color: #ff7518; font-weight: 500; font-size: 12px; padding: 5px 10px;">
+                                    <span class="badge" style="background: rgba(109, 40, 217, 0.15); border: 1px solid #6D28D9; color: #6D28D9; font-weight: 500; font-size: 12px; padding: 5px 10px;">
                                         @(item.Category?.Name ?? "General")
                                     </span>
                                 </td>
                                 <td class="py-3 px-3 text-white">
                                     @if (!string.IsNullOrEmpty(item.PhotoPath))
                                     {
-                                        <i class="bi bi-image text-warning me-1" title="Photo attached"></i>
+                                        <i class="bi bi-image text-fmc-accent me-1" title="Photo attached"></i>
                                     }
                                     @item.Description
                                 </td>

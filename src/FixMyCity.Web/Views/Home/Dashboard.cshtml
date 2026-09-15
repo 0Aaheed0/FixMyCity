@@ -13,7 +13,7 @@
             <div>
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <span class="fmc-live-dot"></span>
-                    <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">
+                    <span style="color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">
                         LIVE CIVIC COMMAND HUB
                     </span>
                     <span class="badge" style="background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; color: #75e092; font-family: 'JetBrains Mono', monospace; font-size: 10px;">
@@ -29,12 +29,12 @@
     <!-- 2. High-Impact Metric Stat Cards -->
     <div class="row g-3 mb-4">
         <div class="col-xl-3 col-sm-6">
-            <div class="fmc-stat-card" style="border-left: 3px solid #ff7518;">
+            <div class="fmc-stat-card" style="border-left: 3px solid #6D28D9;">
                 <div>
                     <div class="fmc-stat-label">Total Reports Logged</div>
                     <div class="fmc-stat-value">@Model.TotalReports</div>
                     <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
-                        <i class="bi bi-shield-check text-warning me-1"></i> Community-wide
+                        <i class="bi bi-shield-check text-fmc-accent me-1"></i> Community-wide
                     </small>
                 </div>
                 <div class="fmc-stat-icon">
@@ -49,7 +49,7 @@
                     <div class="fmc-stat-label">Pending Action</div>
                     <div class="fmc-stat-value" style="color: #ffc107;">@Model.PendingReports</div>
                     <small class="text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
-                        <i class="bi bi-hourglass-split text-warning me-1"></i> Under review / triage
+                        <i class="bi bi-hourglass-split text-fmc-accent me-1"></i> Under review / triage
                     </small>
                 </div>
                 <div class="fmc-stat-icon" style="background: rgba(255, 193, 7, 0.12); color: #ffc107;">
@@ -134,8 +134,8 @@
                     {
                         <div class="text-center py-5">
                             <div class="mb-3">
-                                <span class="d-inline-flex p-3 rounded-circle" style="background: rgba(255, 117, 24, 0.1); border: 1px solid rgba(255, 117, 24, 0.3);">
-                                    <i class="bi bi-shield-check text-warning" style="font-size: 40px;"></i>
+                                <span class="d-inline-flex p-3 rounded-circle" style="background: rgba(109, 40, 217, 0.1); border: 1px solid rgba(109, 40, 217, 0.3);">
+                                    <i class="bi bi-shield-check text-fmc-accent" style="font-size: 40px;"></i>
                                 </span>
                             </div>
                             <h4 class="text-white" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">NO COMMUNITY INCIDENTS LOGGED YET</h4>
@@ -161,12 +161,12 @@
                                             @if (!string.IsNullOrEmpty(report.PhotoPath))
                                             {
                                                 <div class="position-relative flex-shrink-0">
-                                                    <img src="@report.PhotoPath" alt="Evidence" class="rounded border" style="width: 64px; height: 64px; object-fit: cover; border-color: rgba(255,117,24,0.35) !important;" />
+                                                    <img src="@report.PhotoPath" alt="Evidence" class="rounded border" style="width: 64px; height: 64px; object-fit: cover; border-color: rgba(109,40,217,0.35) !important;" />
                                                 </div>
                                             }
                                             else
                                             {
-                                                <div class="rounded d-flex align-items-center justify-content-center flex-shrink-0" style="width: 64px; height: 64px; background: rgba(255, 117, 24, 0.08); border: 1px solid rgba(255, 117, 24, 0.2); color: #ff7518; font-size: 24px;">
+                                                <div class="rounded d-flex align-items-center justify-content-center flex-shrink-0" style="width: 64px; height: 64px; background: rgba(109, 40, 217, 0.08); border: 1px solid rgba(109, 40, 217, 0.2); color: #6D28D9; font-size: 24px;">
                                                     @if (catName.Contains("Pothole")) { <i class="bi bi-cone-striped"></i> }
                                                     else if (catName.Contains("Garbage") || catName.Contains("Waste")) { <i class="bi bi-trash3-fill"></i> }
                                                     else if (catName.Contains("Streetlight") || catName.Contains("Electric")) { <i class="bi bi-lightbulb-fill"></i> }
@@ -195,12 +195,12 @@
 
                                                 <div class="d-flex flex-wrap align-items-center gap-3 text-muted" style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">
                                                     <span>
-                                                        <i class="bi bi-person-circle text-warning me-1"></i> @(report.User?.FullName ?? "Citizen Reporter")
+                                                        <i class="bi bi-person-circle text-fmc-accent me-1"></i> @(report.User?.FullName ?? "Citizen Reporter")
                                                     </span>
                                                     @if (report.Latitude != 0 || report.Longitude != 0)
                                                     {
                                                         <span>
-                                                            <i class="bi bi-geo-alt-fill text-warning me-1"></i> @report.Latitude.ToString("F4"), @report.Longitude.ToString("F4")
+                                                            <i class="bi bi-geo-alt-fill text-fmc-accent me-1"></i> @report.Latitude.ToString("F4"), @report.Longitude.ToString("F4")
                                                         </span>
                                                     }
                                                 </div>
@@ -230,7 +230,7 @@
             <div class="fmc-app-card">
                 <div class="fmc-card-header-styled py-3 px-4">
                     <h4 class="fmc-card-title mb-0" style="font-size: 16px;">
-                        <i class="bi bi-compass text-warning me-2"></i> EXPLORE & TRACK
+                        <i class="bi bi-compass text-fmc-accent me-2"></i> EXPLORE & TRACK
                     </h4>
                 </div>
                 <div class="p-3 d-flex flex-column gap-2">
@@ -255,7 +255,7 @@
                     </a>
 
                     <a asp-controller="Reports" asp-action="Index" class="fmc-action-tile py-3 px-3 d-flex flex-row align-items-center text-start gap-3">
-                        <div class="fmc-stat-icon mb-0 flex-shrink-0" style="background: rgba(255, 117, 24, 0.1); color: #ff7518;">
+                        <div class="fmc-stat-icon mb-0 flex-shrink-0" style="background: rgba(109, 40, 217, 0.1); color: #6D28D9;">
                             <i class="bi bi-archive-fill"></i>
                         </div>
                         <div>
@@ -269,7 +269,7 @@
             <!-- 2. City Infrastructure Resolution Progress -->
             <div class="fmc-app-card p-4">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff7518; letter-spacing: 1.5px; text-transform: uppercase;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6D28D9; letter-spacing: 1.5px; text-transform: uppercase;">
                         MUNICIPAL RESOLUTION RATE
                     </span>
                     <span class="text-white fw-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 13px;">
@@ -288,7 +288,7 @@
             <div class="fmc-app-card">
                 <div class="fmc-card-header-styled py-3 px-4 d-flex justify-content-between align-items-center">
                     <h4 class="fmc-card-title mb-0" style="font-size: 16px;">
-                        <i class="bi bi-building-fill text-warning me-2"></i> ACTIVE DEPARTMENTS
+                        <i class="bi bi-building-fill text-fmc-accent me-2"></i> ACTIVE DEPARTMENTS
                     </h4>
                     <span class="badge bg-success" style="font-size: 9px; font-family: 'JetBrains Mono', monospace;">ALL ONLINE</span>
                 </div>
@@ -323,7 +323,7 @@
             <div>
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <span class="fmc-status-dot"></span>
-                    <span style="color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
+                    <span style="color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
                         MUNICIPAL PROTOCOL
                     </span>
                 </div>
@@ -331,7 +331,7 @@
                     HOW COMMUNITY REPORTS <span>GET RESOLVED</span>
                 </h3>
             </div>
-            <span class="badge" style="background: rgba(255, 117, 24, 0.15); border: 1px solid #ff7518; color: #ff7518; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 12px;">
+            <span class="badge" style="background: rgba(109, 40, 217, 0.15); border: 1px solid #6D28D9; color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 12px;">
                 4-STAGE RESOLUTION PIPELINE
             </span>
         </div>
@@ -339,45 +339,45 @@
         <div class="p-4">
             <div class="row g-3">
                 <div class="col-md-3 col-sm-6">
-                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #ff7518;">
+                    <div class="p-3 rounded h-100 fmc-pipeline-stage" style="border-top: 3px solid #6D28D9;">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff7518; font-weight: 700;">STAGE 01</span>
-                            <i class="bi bi-geo-alt-fill text-warning"></i>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6D28D9; font-weight: 700;">STAGE 01</span>
+                            <i class="bi bi-geo-alt-fill fmc-stage-icon fmc-stage-icon-1"></i>
                         </div>
-                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">INCIDENT CAPTURE</h5>
+                        <h5 class="mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">INCIDENT CAPTURE</h5>
                         <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Resident logs coordinates, photo evidence, and hazard category.</p>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
-                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #ffc107;">
+                    <div class="p-3 rounded h-100 fmc-pipeline-stage" style="border-top: 3px solid #ffc107;">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ffc107; font-weight: 700;">STAGE 02</span>
-                            <i class="bi bi-diagram-3-fill text-warning"></i>
+                            <i class="bi bi-diagram-3-fill fmc-stage-icon fmc-stage-icon-2"></i>
                         </div>
-                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">DEPARTMENT TRIAGE</h5>
+                        <h5 class="mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">DEPARTMENT TRIAGE</h5>
                         <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Automated routing and priority scoring to the responsible municipal team.</p>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
-                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #0dcaf0;">
+                    <div class="p-3 rounded h-100 fmc-pipeline-stage" style="border-top: 3px solid #0dcaf0;">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0dcaf0; font-weight: 700;">STAGE 03</span>
-                            <i class="bi bi-tools text-info"></i>
+                            <i class="bi bi-tools fmc-stage-icon fmc-stage-icon-3"></i>
                         </div>
-                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">FIELD DISPATCH</h5>
+                        <h5 class="mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">FIELD DISPATCH</h5>
                         <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Work crews assigned for physical repair and on-site maintenance.</p>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
-                    <div class="p-3 rounded h-100" style="background: #0a0e14; border: 1px solid rgba(255, 255, 255, 0.06); border-top: 3px solid #28a745;">
+                    <div class="p-3 rounded h-100 fmc-pipeline-stage" style="border-top: 3px solid #28a745;">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #75e092; font-weight: 700;">STAGE 04</span>
-                            <i class="bi bi-patch-check-fill text-success"></i>
+                            <i class="bi bi-patch-check-fill fmc-stage-icon fmc-stage-icon-4"></i>
                         </div>
-                        <h5 class="text-white mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">EVIDENCE & CLOSURE</h5>
+                        <h5 class="mb-1" style="font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 0.5px;">EVIDENCE & CLOSURE</h5>
                         <p class="text-muted mb-0" style="font-size: 12px; line-height: 1.5;">Before/after photo uploaded, verified, and transparently closed.</p>
                     </div>
                 </div>
@@ -387,15 +387,15 @@
 
     <!-- 5. Signature Bottom Hazard Finishing & Civic Audit Bar -->
     <div class="mt-4 pt-2">
-        <div style="height: 6px; width: 100%; border-radius: 3px; background: repeating-linear-gradient(135deg, #ff7518 0px, #ff7518 16px, #111820 16px, #111820 32px); margin-bottom: 20px;"></div>
+        <div style="height: 6px; width: 100%; border-radius: 3px; background: repeating-linear-gradient(135deg, #6D28D9 0px, #6D28D9 16px, #312E81 16px, #312E81 32px); margin-bottom: 20px;"></div>
 
         <div class="d-flex flex-wrap justify-content-between align-items-center text-muted gap-3 pb-3" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">
             <div class="d-flex align-items-center gap-2">
-                <span style="color: #ff7518; font-weight: bold;">+ FIXMYCITY</span>
+                <span style="color: #6D28D9; font-weight: bold;">+ FIXMYCITY</span>
                 <span>&bull; MUNICIPAL CIVIC MONITORING</span>
             </div>
             <div class="d-flex flex-wrap align-items-center gap-4">
-                <span><i class="bi bi-shield-lock-fill text-warning me-1"></i> END-TO-END AUDITABLE</span>
+                <span><i class="bi bi-shield-lock-fill text-fmc-accent me-1"></i> END-TO-END AUDITABLE</span>
                 <span><i class="bi bi-circle-fill text-success me-1" style="font-size: 8px;"></i> DB ACTIVE</span>
                 <span><i class="bi bi-clock-history me-1"></i> REAL-TIME SYNC</span>
             </div>

@@ -14,7 +14,7 @@
                     <td>@i.PriorityScore</td>
                     <td>@i.Status</td>
                     <td>@i.Reports.Count</td>
-                    <td><a asp-controller="Staff" asp-action="Evidence" asp-route-id="@i.Id">Upload Evidence</a></td>
+                    <td><form asp-action="UpdateStatus" method="post" class="d-flex gap-2"><input type="hidden" name="id" value="@i.Id" /><select name="status" class="form-select form-select-sm"><option>InProgress</option><option>Resolved</option><option>Verified</option></select><button class="btn btn-sm btn-primary">Save</button></form><a asp-controller="Staff" asp-action="Evidence" asp-route-id="@i.Id">Upload Evidence</a></td>
                 </tr>
             }
         </tbody>

@@ -8,7 +8,7 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    background: #0d1218;
+    background: #F3E8FF;
     color: #f5f2ed;
     font-family: 'Inter', sans-serif;
 }
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #0d1218;
+    background: #F3E8FF;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -43,7 +43,7 @@
 }
 
     .fmc-logo span {
-        color: #ff7518;
+        color: #6D28D9;
     }
 
 .fmc-logo-mark {
@@ -53,8 +53,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #ff7518;
-    color: #111820;
+    background: #6D28D9;
+    color: #312E81;
     font-size: 19px;
 }
 
@@ -77,7 +77,7 @@
     }
 
         .fmc-nav-links a:hover {
-            color: #ff7518;
+            color: #6D28D9;
         }
 
 
@@ -85,10 +85,10 @@
 
 .fmc-nav-button {
     padding: 11px 22px;
-    border: 1px solid #ff7518;
+    border: 1px solid #6D28D9;
     border-radius: 3px;
     background: transparent;
-    color: #ff7518;
+    color: #6D28D9;
     font-family: 'Oswald', sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -98,8 +98,8 @@
 }
 
     .fmc-nav-button:hover {
-        background: #ff7518;
-        color: #111820;
+        background: #6D28D9;
+        color: #312E81;
     }
 
 
@@ -116,7 +116,7 @@
     justify-content: center;
     position: relative;
     padding: 55px 6% 75px;
-    background: linear-gradient( rgba(255, 255, 255, 0.025) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px ), #0d1218;
+    background: linear-gradient( rgba(255, 255, 255, 0.025) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px ), #F3E8FF;
     background-size: 50px 50px;
 }
 
@@ -143,7 +143,7 @@
     justify-content: center;
     gap: 9px;
     margin-bottom: 22px;
-    color: #ff7518;
+    color: #6D28D9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 500;
@@ -156,8 +156,8 @@
     height: 7px;
     display: inline-block;
     border-radius: 50%;
-    background: #ff7518;
-    box-shadow: 0 0 10px rgba(255, 117, 24, 0.6);
+    background: #6D28D9;
+    box-shadow: 0 0 10px rgba(109, 40, 217, 0.6);
 }
 
 
@@ -177,7 +177,7 @@
 }
 
     .fmc-headline span {
-        color: #ff7518;
+        color: #6D28D9;
     }
 
 
@@ -213,10 +213,10 @@
 .fmc-landing .fmc-cta {
     min-height: 52px;
     padding: 0 25px;
-    border: 2px solid #ff7518;
+    border: 2px solid #6D28D9;
     border-radius: 3px;
-    background: #ff7518;
-    color: #111820;
+    background: #6D28D9;
+    color: #312E81;
     font-family: 'Oswald', sans-serif;
     font-size: 16px;
     font-weight: 600;
@@ -231,7 +231,7 @@
 
     .fmc-landing .fmc-cta:hover {
         background: transparent;
-        color: #ff7518;
+        color: #6D28D9;
         transform: translateY(-2px);
     }
 
@@ -256,8 +256,8 @@
 }
 
     .fmc-secondary-btn:hover {
-        border-color: #ff7518;
-        color: #ff7518;
+        border-color: #6D28D9;
+        color: #6D28D9;
     }
 
 
@@ -286,12 +286,12 @@
 }
 
     .fmc-feature-card:hover {
-        border-color: rgba(255, 117, 24, 0.35);
+        border-color: rgba(109, 40, 217, 0.35);
         transform: translateY(-3px);
     }
 
 .fmc-feature-number {
-    color: #ff7518;
+    color: #6D28D9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     font-weight: 500;
@@ -322,7 +322,7 @@
 .fmc-landing > .fmc-hazard-stripe {
     width: 100%;
     height: 8px;
-    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 18px, #111820 18px, #111820 36px );
+    background: repeating-linear-gradient( 135deg, #6D28D9 0px, #6D28D9 18px, #312E81 18px, #312E81 36px );
 }
 
 
@@ -331,9 +331,9 @@
    ========================================================= */
 
 .fmc-modal .modal-content {
-    border: 1px solid rgba(255, 117, 24, 0.3);
+    border: 1px solid rgba(109, 40, 217, 0.3);
     border-radius: 4px;
-    background: #12181f;
+    background: #F3E8FF;
     color: #f5f2ed;
 }
 
@@ -353,7 +353,7 @@
 }
 
 .fmc-modal-label {
-    color: #ff7518;
+    color: #6D28D9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
     letter-spacing: 3px;
@@ -368,7 +368,7 @@
     justify-content: space-between;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 3px;
-    background: #0d1218;
+    background: #F3E8FF;
     color: #f5f2ed;
     text-decoration: none;
     font-family: 'Oswald', sans-serif;
@@ -378,8 +378,8 @@
 }
 
     .fmc-choice:hover {
-        border-color: #ff7518;
-        color: #ff7518;
+        border-color: #6D28D9;
+        color: #6D28D9;
         transform: translateX(3px);
     }
 
@@ -393,7 +393,7 @@
     }
 
     .fmc-choice strong {
-        color: #ff7518;
+        color: #6D28D9;
     }
 
 
@@ -442,6 +442,396 @@
     }
 }
 
+/* Calm single-tone canvas and deterministic scroll reveals. */
+html, body, .fmc-landing, .fmc-main, .fmc-auth-brand, .fmc-auth-panel, .fmc-app-content {
+    background: #f7fafb !important;
+    background-image: none !important;
+}
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile,
+.fmc-auth-card, .fmc-choice, .modal-content,
+[style*="#F3E8FF"], [style*="#F3E8FF"], [style*="#312E81"], [style*="#F3E8FF"] {
+    background: rgba(255,255,255,.82) !important;
+    color: var(--fmc-ink) !important;
+    border-color: #e1eaee !important;
+}
+.fmc-reveal { animation: none !important; opacity: 0 !important; }
+.fmc-reveal.is-visible { opacity: 1 !important; }
+
+/* Final sidebar button treatment */
+.fmc-sidebar-nav li { margin: 5px 14px !important; }
+.fmc-sidebar-nav li a, .fmc-sidebar-logout { min-height: 52px; padding: 12px 16px !important; gap: 12px; border: 1px solid transparent !important; border-radius: 15px !important; background: transparent !important; color: #526078 !important; font-family: 'DM Sans', sans-serif !important; font-size: 15px !important; font-weight: 600 !important; transition: all .22s ease !important; }
+.fmc-sidebar-nav li a i, .fmc-sidebar-logout i { display: inline-flex; width: 32px !important; height: 32px; align-items: center; justify-content: center; border-radius: 10px; background: #f1edff; color: #6d28d9 !important; font-size: 17px !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a:focus-visible, .fmc-sidebar-nav li a.active { color: #4c1d95 !important; background: linear-gradient(135deg, #f0eaff, #e5dcff) !important; border-color: #c4b5fd !important; box-shadow: 0 10px 22px rgba(109,40,217,.14) !important; transform: translateX(3px); }
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: #6d28d9; color: #f3e8ff !important; }
+.fmc-sidebar-logout { color: #7c3aed !important; }
+.fmc-sidebar-logout:hover { color: #4c1d95 !important; background: #f0eaff !important; border-color: #c4b5fd !important; }
+.fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.84) !important; border-color: #e5def8 !important; }
+.fmc-sidebar .offcanvas-title { color: #2d2752 !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+.fmc-sidebar .btn-close { filter: none !important; opacity: .55; }
+
+/* Last cascade: active dark-purple theme */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: linear-gradient(135deg, #0f0a1e, #180e29 50%, #231238) !important; color: #f3e8ff !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(24,14,41,.94) !important; border-color: rgba(192,132,252,.28) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(35,18,56,.86) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.30) !important; box-shadow: 0 18px 50px rgba(8,4,18,.34) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: #f3e8ff !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #d8c7e8 !important; }
+.fmc-sidebar-nav li a { color: #d8c7e8 !important; }
+.fmc-sidebar-nav li a i { background: rgba(124,58,237,.28) !important; color: #c084fc !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: rgba(124,58,237,.38) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.55) !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #a855f7 !important; color: #f3e8ff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(15,10,30,.8) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.35) !important; }
+
+/* ACTIVE FINAL THEME: ambient pink-white-sky mesh */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important; background-attachment: fixed !important; color: #0f172a !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.9) !important; border-color: rgba(196,181,253,.55) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(255,255,255,.92) !important; color: #0f172a !important; border-color: rgba(196,181,253,.72) !important; box-shadow: 0 16px 36px rgba(109,40,217,.10) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-sidebar-nav li a { color: #475569 !important; }
+.fmc-sidebar-nav li a i { background: #ede9fe !important; color: #6d28d9 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: #ede9fe !important; color: #4c1d95 !important; border-color: #c4b5fd !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #7c3aed !important; color: #ffffff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.94) !important; color: #0f172a !important; border-color: #c4b5fd !important; }
+
+/* ACTIVE FINAL THEME: ambient pink-white-sky mesh */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel {
+    background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important;
+    background-attachment: fixed !important;
+    color: #0f172a !important;
+}
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.9) !important; border-color: rgba(196,181,253,.55) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(255,255,255,.92) !important; color: #0f172a !important; border-color: rgba(196,181,253,.72) !important; box-shadow: 0 16px 36px rgba(109,40,217,.10) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-sidebar-nav li a { color: #475569 !important; }
+.fmc-sidebar-nav li a i { background: #ede9fe !important; color: #6d28d9 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: #ede9fe !important; color: #4c1d95 !important; border-color: #c4b5fd !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #7c3aed !important; color: #ffffff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.94) !important; color: #0f172a !important; border-color: #c4b5fd !important; }
+
+/* ACTIVE FINAL THEME: ambient pink-white-sky mesh */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important; background-attachment: fixed !important; color: #0f172a !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.90) !important; border-color: rgba(124,58,237,.16) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage, .fmc-about-section { background: rgba(255,255,255,.92) !important; color: #0f172a !important; border-color: rgba(221,214,254,.85) !important; box-shadow: 0 10px 25px -5px rgba(15,23,42,.04) !important; backdrop-filter: blur(20px) saturate(160%) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5, h1, h2, h3, h4, h5, h6 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-sidebar-nav li a { color: #475569 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: rgba(237,233,254,.82) !important; color: #4c1d95 !important; border-color: #c4b5fd !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; }
+
+/* Final ambient mesh override */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important; background-attachment: fixed !important; color: #0f172a !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.90) !important; border-color: rgba(124,58,237,.16) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage, .fmc-about-section { background: rgba(255,255,255,.92) !important; color: #0f172a !important; border-color: rgba(255,255,255,.82) !important; box-shadow: 0 10px 25px -5px rgba(15,23,42,.04), 0 8px 10px -6px rgba(15,23,42,.02) !important; backdrop-filter: blur(20px) saturate(160%) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5, h1, h2, h3, h4, h5, h6 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; }
+
+/* Master ambient mesh theme - final cascade. */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel {
+    min-height: 100vh;
+    margin: 0;
+    background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important;
+    background-attachment: fixed !important;
+    color: #0f172a !important;
+}
+.fmc-topbar, .fmc-navbar { background: rgba(255,255,255,.70) !important; border-color: rgba(124,58,237,.16) !important; backdrop-filter: blur(16px) saturate(140%) !important; }
+.fmc-sidebar { background: rgba(255,255,255,.90) !important; border-color: rgba(124,58,237,.18) !important; backdrop-filter: blur(16px) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage, .fmc-about-section {
+    background: rgba(255,255,255,.92) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(255,255,255,.80) !important;
+    box-shadow: 0 10px 25px -5px rgba(15,23,42,.04), 0 8px 10px -6px rgba(15,23,42,.02) !important;
+    border-radius: 1.25rem !important;
+    color: #0f172a !important;
+}
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5, h1, h2, h3, h4, h5, h6 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-sidebar-nav li a { color: #475569 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: rgba(237,233,254,.82) !important; color: #4c1d95 !important; border-color: #c4b5fd !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: #7c3aed !important; border-color: #7c3aed !important; color: #fff !important; border-radius: 999px !important; }
+.fmc-app-content .btn:hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover { background: #6d28d9 !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.88) !important; color: #0f172a !important; border-color: #ddd6fe !important; }
+.fmc-pipeline-stage h5, .fmc-pipeline-stage p { text-shadow: none !important; }
+
+/* Final alternate theme: ocean blue + teal glassmorphism. */
+:root { --fmc-ocean: #0f766e; --fmc-ocean-deep: #115e59; --fmc-sky: #e8f3f8; --fmc-ink-new: #17324d; --fmc-muted-new: #587086; }
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: var(--fmc-sky) !important; background-image: none !important; color: var(--fmc-ink-new) !important; }
+body::before { background-image: linear-gradient(rgba(15,118,110,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15,118,110,.05) 1px, transparent 1px); opacity: .7; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(242,250,252,.88) !important; border-color: rgba(15,118,110,.18) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage, .fmc-about-section { background: rgba(247,252,253,.80) !important; color: var(--fmc-ink-new) !important; border-color: rgba(15,118,110,.20) !important; box-shadow: 0 16px 42px rgba(31,82,101,.12), inset 0 1px 0 rgba(255,255,255,.72) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5, h1, h2, h3, h4, h5, h6 { color: var(--fmc-ink-new) !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: var(--fmc-muted-new) !important; }
+.fmc-logo, .fmc-brand-center, .fmc-sidebar .offcanvas-title { color: var(--fmc-ink-new) !important; }
+.fmc-logo-mark, .fmc-sidebar-nav li a i { background: #d5f0ed !important; color: var(--fmc-ocean) !important; }
+.fmc-sidebar-nav li a { color: #4c687b !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: #d8f1ef !important; color: var(--fmc-ocean-deep) !important; border-color: #94d5cf !important; }
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: var(--fmc-ocean) !important; color: #e8f3f8 !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#0f766e,#159a8d) !important; border-color: #0f766e !important; color: #e8f3f8 !important; }
+.fmc-app-content .btn:hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover { background: var(--fmc-ocean-deep) !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(247,252,253,.92) !important; color: var(--fmc-ink-new) !important; border-color: #b9d8df !important; }
+.fmc-landing .fmc-headline span, .fmc-about-section h2 span, .fmc-about-kicker { color: var(--fmc-ocean) !important; }
+
+/* Bright coral-cream theme: light, warm and distinct. */
+:root { --fmc-coral: #e76f51; --fmc-coral-deep: #c8553d; --fmc-cream: #fff8f3; --fmc-plum: #54324b; --fmc-rose: #fde8df; }
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: var(--fmc-cream) !important; background-image: none !important; color: var(--fmc-plum) !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,248,243,.92) !important; border-color: rgba(231,111,81,.20) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage, .fmc-about-section { background: rgba(255,255,255,.72) !important; color: var(--fmc-plum) !important; border-color: rgba(231,111,81,.24) !important; box-shadow: 0 16px 42px rgba(150,76,54,.10), inset 0 1px 0 rgba(255,255,255,.90) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5, h1, h2, h3, h4, h5, h6 { color: var(--fmc-plum) !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #826d76 !important; }
+.fmc-logo, .fmc-brand-center, .fmc-sidebar .offcanvas-title { color: var(--fmc-plum) !important; }
+.fmc-logo-mark, .fmc-sidebar-nav li a i { background: var(--fmc-rose) !important; color: var(--fmc-coral) !important; }
+.fmc-sidebar-nav li a { color: #806973 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: var(--fmc-rose) !important; color: var(--fmc-coral-deep) !important; border-color: #f0b6a5 !important; }
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: var(--fmc-coral) !important; color: var(--fmc-cream) !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,var(--fmc-coral),#ef9277) !important; border-color: var(--fmc-coral) !important; color: var(--fmc-cream) !important; }
+.fmc-app-content .btn:hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover { background: var(--fmc-coral-deep) !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.88) !important; color: var(--fmc-plum) !important; border-color: #edc8bb !important; }
+.fmc-landing .fmc-headline span, .fmc-about-section h2 span, .fmc-about-kicker { color: var(--fmc-coral) !important; }
+
+/* Dark Purple Theme - no pure white application surfaces. */
+:root {
+    --bg-gradient-start: #0f0a1e;
+    --bg-gradient-mid: #180e29;
+    --bg-gradient-end: #231238;
+    --text-primary: #f3e8ff;
+    --text-secondary: #c084fc;
+    --fmc-purple-vivid: #7c3aed;
+    --fmc-purple-soft: #c084fc;
+}
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%) !important;
+    background-attachment: fixed !important;
+    color: var(--text-primary) !important;
+}
+body::before { opacity: .16; background-image: linear-gradient(rgba(192,132,252,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(192,132,252,.08) 1px, transparent 1px); }
+.fmc-navbar, .fmc-topbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(24,14,41,.82) !important; border-color: rgba(192,132,252,.22) !important; backdrop-filter: blur(18px) saturate(145%) !important; }
+.fmc-logo, .fmc-brand-center, .fmc-sidebar .offcanvas-title, .fmc-card-title, .fmc-dashboard-hero h2, .fmc-stat-value, h1, h2, h3, h4, h5, h6 { color: var(--text-primary) !important; }
+.fmc-subtext, .fmc-auth-tagline, .fmc-card-subtitle, .fmc-dashboard-hero p, .fmc-stat-label, .text-muted { color: #d8c7e8 !important; }
+.fmc-app-card, .fmc-stat-card, .fmc-dashboard-hero, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-about-section { background: rgba(35,18,56,.72) !important; border-color: rgba(192,132,252,.28) !important; box-shadow: 0 18px 50px rgba(8,4,18,.30), inset 0 1px 0 rgba(243,232,255,.12) !important; }
+.fmc-app-card::before, .card::before, .fmc-feature-card::before, .fmc-feed-item::before, .fmc-action-tile::before, .fmc-auth-card::before { background: linear-gradient(180deg, rgba(192,132,252,.10), transparent) !important; }
+.fmc-sidebar-nav li a { color: #d8c7e8 !important; }
+.fmc-sidebar-nav li a i { background: rgba(124,58,237,.25) !important; color: #c084fc !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a:focus-visible, .fmc-sidebar-nav li a.active { color: #f3e8ff !important; background: rgba(124,58,237,.34) !important; border-color: rgba(192,132,252,.52) !important; box-shadow: 0 10px 24px rgba(124,58,237,.22) !important; }
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: #7c3aed !important; color: #f3e8ff !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #a855f7 !important; color: #f3e8ff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(15,10,30,.72) !important; color: var(--text-primary) !important; border-color: rgba(192,132,252,.30) !important; }
+.fmc-pipeline-stage { background: rgba(35,18,56,.78) !important; color: var(--text-primary) !important; border-color: rgba(192,132,252,.30) !important; }
+.fmc-pipeline-stage h5 { color: var(--text-primary) !important; }
+.fmc-pipeline-stage p { color: #d8c7e8 !important; }
+.fmc-about-section h2, .fmc-about-section p { color: var(--text-primary) !important; }
+
+.fmc-pipeline-stage { background: rgba(255,255,255,.84) !important; color: #312E81 !important; border: 1px solid #e1d9fb !important; border-top-width: 3px !important; border-radius: 14px !important; box-shadow: 0 8px 24px rgba(109,40,217,.08) !important; }
+.fmc-pipeline-stage h5 { color: #312E81 !important; }
+.fmc-pipeline-stage p { color: #626783 !important; }
+
+/* Final app-wide glass contract */
+:root { --fmc-purple: #6D28D9; --fmc-purple-deep: #5B21B6; --fmc-purple-soft: #DDD6FE; --fmc-canvas: #F9F7FF; }
+html, body, .fmc-app-content, .fmc-main, .fmc-auth-panel, .fmc-auth-brand { background: var(--fmc-canvas) !important; background-image: none !important; }
+.fmc-app-content { width: 100%; max-width: none !important; padding: 32px clamp(16px, 4vw, 56px) 72px !important; }
+.fmc-app-content > .container-fluid { width: min(100%, 1480px) !important; max-width: none !important; margin-inline: auto; padding-inline: 0 !important; }
+.fmc-app-content .row { --bs-gutter-x: 1.25rem; }
+.fmc-topbar { background: rgba(255,255,255,.88) !important; border-bottom: 1px solid rgba(109,40,217,.14) !important; backdrop-filter: blur(18px) !important; }
+.fmc-sidebar { background: rgba(255,255,255,.92) !important; border-right: 1px solid rgba(109,40,217,.16) !important; backdrop-filter: blur(18px) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card {
+    background: rgba(255,255,255,.68) !important; border: 1px solid rgba(221,214,254,.85) !important; box-shadow: 0 8px 32px rgba(109,40,217,.08), inset 0 1px 0 rgba(255,255,255,.92) !important; backdrop-filter: blur(14px) !important;
+}
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5 { color: #312E81 !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item small { color: #5f6380 !important; }
+.fmc-app-content .btn, .fmc-app-content button:not(.fmc-menu-btn), .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: var(--fmc-purple) !important; border-color: var(--fmc-purple) !important; color: #f3e8ff !important; border-radius: 10px !important; box-shadow: 0 6px 16px rgba(109,40,217,.20) !important; }
+.fmc-app-content .btn:hover, .fmc-app-content button:not(.fmc-menu-btn):hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover { background: var(--fmc-purple-deep) !important; transform: translateY(-2px); }
+.fmc-app-content .btn-outline-warning, .fmc-app-content .btn-outline-primary { background: #f3e8ff !important; color: var(--fmc-purple) !important; border-color: var(--fmc-purple) !important; }
+.fmc-app-content .btn-outline-warning:hover, .fmc-app-content .btn-outline-primary:hover { background: var(--fmc-purple-soft) !important; color: var(--fmc-purple-deep) !important; }
+
+/* Distinctive site canvas - no plain white page background. */
+html, body, .fmc-app-content, .fmc-main, .fmc-auth-panel, .fmc-auth-brand, .fmc-landing {
+    background: #e9e4ff !important;
+    background-image: none !important;
+}
+.fmc-app-content {
+    background: #e9e4ff !important;
+}
+.fmc-navbar, .fmc-topbar { background: rgba(255,255,255,.76) !important; }
+.fmc-app-card, .fmc-stat-card, .fmc-dashboard-hero, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card {
+    background: rgba(255,255,255,.78) !important;
+}
+
+/* Global purple canvas */
+html, body, .fmc-landing, .fmc-main, .fmc-auth-brand, .fmc-auth-panel, .fmc-app-content {
+    background: #f3f0ff !important;
+    background-image: none !important;
+}
+.fmc-landing .fmc-main { background: #f3f0ff !important; }
+.fmc-auth-page .fmc-auth-panel { background: #f3f0ff !important; }
+
+/* Premium sidebar actions: clear, bright and easy to scan. */
+.fmc-sidebar-nav li { margin: 5px 14px !important; }
+.fmc-sidebar-nav li a, .fmc-sidebar-logout {
+    min-height: 52px;
+    padding: 12px 16px !important;
+    gap: 12px;
+    border: 1px solid transparent !important;
+    border-radius: 15px !important;
+    background: transparent !important;
+    color: #526078 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    transition: all .22s ease !important;
+}
+.fmc-sidebar-nav li a i, .fmc-sidebar-logout i {
+    display: inline-flex;
+    width: 32px !important;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #f1edff;
+    color: #6d28d9 !important;
+    font-size: 17px !important;
+}
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a:focus-visible,
+.fmc-sidebar-nav li a.active {
+    color: #4c1d95 !important;
+    background: linear-gradient(135deg, #f0eaff, #e5dcff) !important;
+    border-color: #c4b5fd !important;
+    box-shadow: 0 10px 22px rgba(109,40,217,.14) !important;
+    transform: translateX(3px);
+}
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: #6d28d9; color: #f3e8ff !important; }
+.fmc-sidebar-logout { color: #7c3aed !important; }
+.fmc-sidebar-logout:hover { color: #4c1d95 !important; background: #f0eaff !important; border-color: #c4b5fd !important; }
+.fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.84) !important; border-color: #e5def8 !important; }
+.fmc-sidebar .offcanvas-title { color: #2d2752 !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+.fmc-sidebar .btn-close { filter: none !important; opacity: .55; }
+
+.text-fmc-accent { color: #6D28D9 !important; }
+.bg-fmc-accent { background-color: #6D28D9 !important; color: #f3e8ff !important; }
+.btn-fmc-accent { background: #6D28D9 !important; border-color: #6D28D9 !important; color: #f3e8ff !important; }
+.btn-fmc-accent:hover { background: #5B21B6 !important; border-color: #5B21B6 !important; }
+
+/* Friendly type, abstract welcome page, glossy auth, and purple dashboard system. */
+body, button, input, select, textarea { font-family: 'DM Sans', system-ui, sans-serif !important; }
+h1, h2, h3, h4, h5, h6, .fmc-logo, .fmc-brand-center, .fmc-headline, .fmc-auth-logo { font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important; letter-spacing: -.02em !important; }
+.fmc-landing .fmc-main { min-height: auto !important; padding: 90px 6% 105px !important; }
+.fmc-landing .fmc-headline { font-size: clamp(48px, 8vw, 104px) !important; line-height: 1.02 !important; color: #2d2752 !important; }
+.fmc-landing .fmc-headline span, .fmc-about-section h2 span { color: #7658c8 !important; }
+.fmc-landing .fmc-eyebrow, .fmc-about-kicker { color: #7658c8 !important; }
+.fmc-about-section { width: 100%; max-width: 900px; margin: 95px auto 0; padding: 46px; text-align: center; border: 1px solid #e1d9fb; border-radius: 28px; background: rgba(255,255,255,.82); box-shadow: 0 25px 70px rgba(91,71,155,.12); }
+.fmc-about-kicker { font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+.fmc-about-section h2 { margin: 12px 0; color: #2d2752; font-size: clamp(28px, 4vw, 48px); }
+.fmc-about-section p { max-width: 650px; margin: 0 auto; color: #687080; font-size: 16px; line-height: 1.75; }
+.fmc-about-points { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.fmc-about-points div { display: flex; align-items: center; gap: 9px; padding: 12px 16px; color: #4c3e80; border-radius: 999px; background: #f1edff; font-weight: 600; }
+.fmc-about-points i { color: #7658c8; font-size: 18px; }
+.fmc-auth-page .fmc-auth-brand { background: linear-gradient(145deg, #f1edff, #fbfcff) !important; }
+.fmc-auth-page .fmc-auth-panel { background: #f8fafc !important; }
+.fmc-auth-page .fmc-auth-card { border-color: #e1d9fb !important; box-shadow: 0 28px 80px rgba(91,71,155,.15), inset 0 1px 0 #f3e8ff !important; }
+.fmc-auth-page .fmc-auth-logo, .fmc-auth-page .fmc-auth-logo span, .fmc-auth-page .fmc-auth-eyebrow { color: #7658c8 !important; }
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item { border-color: #e5def8 !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7658c8,#9a7ce8) !important; border-color: #7658c8 !important; color: #f3e8ff !important; }
+.fmc-app-content .btn:hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover { background: linear-gradient(135deg,#6445b8,#8868d9) !important; }
+@media (max-width: 768px) { .fmc-about-section { padding: 30px 22px; margin-top: 62px; } .fmc-landing .fmc-main { padding-top: 64px !important; } }
+.fmc-animated-card { animation: none !important; }
+
+/* Override legacy inline dark surfaces used by older Razor components. */
+[style*="#F3E8FF"], [style*="#F3E8FF"], [style*="#312E81"], [style*="#F3E8FF"], [style*="#F3E8FF"] {
+    background: rgba(255,255,255,.72) !important;
+    color: var(--fmc-ink) !important;
+    border-color: var(--fmc-border) !important;
+}
+
+/* Friendly, bright usability pass: no dark surfaces or dense treatment. */
+body, body::before, .fmc-landing, .fmc-main, .fmc-auth-brand, .fmc-auth-panel,
+.fmc-app-content, .fmc-progress-track, .fmc-dept-item, .fmc-choice {
+    background-color: #f8fbfd !important;
+    color: var(--fmc-ink) !important;
+}
+.fmc-brand-center, .fmc-nav-button, .fmc-cta {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 9px 20px !important;
+    border-radius: 999px !important;
+    font-weight: 600;
+}
+.fmc-brand-center { background: rgba(255,255,255,.72) !important; border: 1px solid rgba(23,33,43,.10); color: var(--fmc-ink) !important; box-shadow: 0 8px 20px rgba(31,76,94,.10); }
+.fmc-dept-item { border-color: var(--fmc-border) !important; border-radius: 12px !important; }
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice {
+    color: var(--fmc-ink) !important;
+}
+.fmc-app-card *, .card *, .fmc-feature-card *, .fmc-feed-item *, .fmc-action-tile *, .fmc-auth-card * { text-shadow: none !important; }
+
+/* =========================================================
+   FIXMYCITY LIGHT PREMIUM SYSTEM
+   A single visual foundation shared by landing, auth and app views.
+   ========================================================= */
+:root {
+    --fmc-bg: #f6f8fb;
+    --fmc-surface: #F3E8FF;
+    --fmc-surface-soft: #eef4f8;
+    --fmc-ink: #17212b;
+    --fmc-muted: #667482;
+    --fmc-border: #dce5eb;
+    --fmc-accent: #ef6c18;
+    --fmc-accent-dark: #b94b08;
+    --fmc-blue: #176b87;
+    --fmc-shadow: 0 18px 50px rgba(34, 58, 75, .10);
+    --fmc-radius: 16px;
+}
+
+html { scroll-behavior: smooth; }
+body:not(.fmc-landing):not(.fmc-auth-page) {
+    background: var(--fmc-bg) !important;
+    color: var(--fmc-ink) !important;
+}
+body:not(.fmc-auth-page) .fmc-navbar,
+body:not(.fmc-auth-page) .fmc-topbar {
+    background: rgba(255,255,255,.88) !important;
+    border-color: var(--fmc-border) !important;
+    box-shadow: 0 1px 0 rgba(23,33,43,.04), 0 8px 24px rgba(34,58,75,.06);
+    backdrop-filter: blur(16px);
+}
+.fmc-logo, .fmc-brand-center { color: var(--fmc-ink) !important; }
+.fmc-nav-links a, .fmc-sidebar-nav a, .text-muted { color: var(--fmc-muted) !important; }
+.fmc-sidebar { background: var(--fmc-surface) !important; color: var(--fmc-ink) !important; }
+.fmc-sidebar .offcanvas-header { border-color: var(--fmc-border) !important; }
+.fmc-sidebar-nav a:hover, .fmc-sidebar-nav a:focus { background: #f3e8ff1e8 !important; color: var(--fmc-accent-dark) !important; }
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile {
+    background: var(--fmc-surface) !important;
+    color: var(--fmc-ink) !important;
+    border-color: var(--fmc-border) !important;
+    border-radius: var(--fmc-radius) !important;
+    box-shadow: var(--fmc-shadow);
+}
+.fmc-card-header-styled, .fmc-card-title, h1, h2, h3, h4, h5, h6,
+.fmc-feed-item h5, .fmc-dept-name, .text-white { color: var(--fmc-ink) !important; }
+.fmc-app-content, .fmc-page { animation: fmc-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+.btn, .fmc-cta, .fmc-nav-button, .fmc-secondary-btn, .fmc-filter-btn, .fmc-action-tile {
+    transition: transform .22s ease, box-shadow .22s ease, background-color .22s ease, border-color .22s ease;
+}
+.btn:hover, .fmc-cta:hover, .fmc-nav-button:hover, .fmc-secondary-btn:hover, .fmc-action-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(34,58,75,.13);
+}
+input, select, textarea, .form-control, .form-select {
+    background-color: #f3e8ff !important; color: var(--fmc-ink) !important; border-color: var(--fmc-border) !important;
+    border-radius: 10px !important;
+}
+input:focus, select:focus, textarea:focus, .form-control:focus, .form-select:focus {
+    border-color: var(--fmc-accent) !important; box-shadow: 0 0 0 .22rem rgba(239,108,24,.14) !important;
+}
+.bg-dark, .bg-black { background-color: var(--fmc-surface-soft) !important; }
+.fmc-status-dot { animation: fmc-pulse 2s ease-in-out infinite; }
+@keyframes fmc-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fmc-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,108,24,.30); } 50% { box-shadow: 0 0 0 8px rgba(239,108,24,0); } }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
 
 /* =========================================================
    =========================================================
@@ -463,7 +853,7 @@ body.fmc-auth-page {
     height: 100vh;
     min-height: 100vh;
     overflow: hidden;
-    background: #0d1218;
+    background: #F3E8FF;
     color: #f5f2ed;
     font-family: 'Inter', sans-serif;
 }
@@ -480,7 +870,7 @@ body.fmc-auth-page {
     display: grid;
     grid-template-columns: 50% 50%;
     overflow: hidden;
-    background: #0d1218;
+    background: #F3E8FF;
 }
 
 
@@ -497,7 +887,7 @@ body.fmc-auth-page {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #0d1218;
+    background: #F3E8FF;
 }
 
 
@@ -521,7 +911,7 @@ body.fmc-auth-page {
     justify-content: center;
     gap: 9px;
     margin-bottom: 18px;
-    color: #ff7518;
+    color: #6D28D9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 500;
@@ -535,8 +925,8 @@ body.fmc-auth-page {
         height: 7px;
         display: inline-block;
         border-radius: 50%;
-        background: #ff7518;
-        box-shadow: 0 0 10px rgba(255, 117, 24, 0.6);
+        background: #6D28D9;
+        box-shadow: 0 0 10px rgba(109, 40, 217, 0.6);
     }
 
 
@@ -557,7 +947,7 @@ body.fmc-auth-page {
 
 
     .fmc-auth-page .fmc-auth-logo span {
-        color: #ff7518;
+        color: #6D28D9;
     }
 
 
@@ -575,7 +965,7 @@ body.fmc-auth-page {
 
 
 /* =========================================================
-   AUTH ORANGE STRIPE
+   AUTH PURPLE STRIPE
    ========================================================= */
 
 .fmc-auth-page .fmc-auth-stripe {
@@ -584,7 +974,7 @@ body.fmc-auth-page {
     bottom: 0;
     width: 100%;
     height: 8px;
-    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 18px, #111820 18px, #111820 36px );
+    background: repeating-linear-gradient( 135deg, #6D28D9 0px, #6D28D9 18px, #312E81 18px, #312E81 36px );
 }
 
 
@@ -601,7 +991,7 @@ body.fmc-auth-page {
     justify-content: center;
     padding: 40px;
     overflow: hidden;
-    background: linear-gradient( rgba(255, 255, 255, 0.025) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px ), #111820;
+    background: linear-gradient( rgba(255, 255, 255, 0.025) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px ), #312E81;
     background-size: 45px 45px;
 }
 
@@ -613,7 +1003,7 @@ body.fmc-auth-page {
 .fmc-auth-page .fmc-auth-card {
     width: min(440px, 100%);
     padding: 35px;
-    border: 1px solid rgba(255, 117, 24, 0.28);
+    border: 1px solid rgba(109, 40, 217, 0.28);
     border-radius: 4px;
     background: rgba(18, 24, 31, 0.97);
     box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
@@ -640,7 +1030,7 @@ body.fmc-auth-page {
 
         .fmc-auth-page .fmc-auth-card h2 i {
             margin-right: 7px;
-            color: #ff7518;
+            color: #6D28D9;
             font-size: 26px;
         }
 
@@ -659,7 +1049,7 @@ body.fmc-auth-page {
         height: 58px;
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 3px;
-        background: #0d1218;
+        background: #F3E8FF;
         color: #f5f2ed;
         font-family: 'Inter', sans-serif;
         box-shadow: none;
@@ -667,10 +1057,10 @@ body.fmc-auth-page {
 
 
         .fmc-auth-page .fmc-auth-card .form-control:focus {
-            border-color: #ff7518;
-            background: #10161d;
+            border-color: #6D28D9;
+            background: #F3E8FF;
             color: #f5f2ed;
-            box-shadow: 0 0 0 2px rgba(255, 117, 24, 0.12);
+            box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.12);
         }
 
 
@@ -682,7 +1072,7 @@ body.fmc-auth-page {
 
     .fmc-auth-page .fmc-auth-card .form-control:focus ~ label,
     .fmc-auth-page .fmc-auth-card .form-control:not(:placeholder-shown) ~ label {
-        color: #ff7518;
+        color: #6D28D9;
     }
 
 
@@ -697,14 +1087,14 @@ body.fmc-auth-page {
 
 
     .fmc-auth-page .fmc-auth-card .form-check-input {
-        background-color: #0d1218;
+        background-color: #F3E8FF;
         border-color: rgba(255, 255, 255, 0.2);
     }
 
 
         .fmc-auth-page .fmc-auth-card .form-check-input:checked {
-            background-color: #ff7518;
-            border-color: #ff7518;
+            background-color: #6D28D9;
+            border-color: #6D28D9;
         }
 
 
@@ -723,10 +1113,10 @@ body.fmc-auth-page {
         width: 100%;
         min-height: 52px;
         margin-top: 5px;
-        border: 2px solid #ff7518;
+        border: 2px solid #6D28D9;
         border-radius: 3px;
-        background: #ff7518;
-        color: #111820;
+        background: #6D28D9;
+        color: #312E81;
         font-family: 'Oswald', sans-serif;
         font-size: 17px;
         font-weight: 600;
@@ -738,9 +1128,9 @@ body.fmc-auth-page {
 
         .fmc-auth-page .fmc-auth-card .fmc-cta:hover {
             background: transparent;
-            color: #ff7518;
+            color: #6D28D9;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 117, 24, 0.15);
+            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.15);
         }
 
 
@@ -754,7 +1144,7 @@ body.fmc-auth-page {
 
 
         .fmc-auth-page .fmc-auth-card p a {
-            color: #ff7518;
+            color: #6D28D9;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             text-decoration: none;
@@ -855,7 +1245,7 @@ body.fmc-auth-page {
    ========================================================= */
 
 body {
-    background: #0d1218;
+    background: #F3E8FF;
     color: #f5f2ed;
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
@@ -863,7 +1253,7 @@ body {
 
 /* Top Navigation Bar */
 .fmc-topbar {
-    background: #111820;
+    background: #312E81;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 14px 20px;
     position: sticky;
@@ -887,13 +1277,13 @@ body {
     display: block;
     width: 20px;
     height: 2px;
-    background: #ff7518;
+    background: #6D28D9;
     border-radius: 2px;
 }
 
 .fmc-menu-btn:hover {
-    border-color: #ff7518;
-    background: rgba(255, 117, 24, 0.1);
+    border-color: #6D28D9;
+    background: rgba(109, 40, 217, 0.1);
 }
 
 .fmc-brand-center {
@@ -907,13 +1297,13 @@ body {
 }
 
 .fmc-brand-center span {
-    color: #ff7518;
+    color: #6D28D9;
 }
 
 /* Offcanvas Sidebar */
 .fmc-sidebar {
     background: #0f151c !important;
-    border-right: 1px solid rgba(255, 117, 24, 0.3) !important;
+    border-right: 1px solid rgba(109, 40, 217, 0.3) !important;
     color: #f5f2ed !important;
     width: 290px !important;
 }
@@ -948,15 +1338,15 @@ body {
 
 .fmc-sidebar-nav li a i {
     font-size: 17px;
-    color: #ff7518;
+    color: #6D28D9;
     width: 24px;
 }
 
 .fmc-sidebar-nav li a:hover,
 .fmc-sidebar-nav li a.active {
     color: #f5f2ed;
-    background: rgba(255, 117, 24, 0.08);
-    border-left-color: #ff7518;
+    background: rgba(109, 40, 217, 0.08);
+    border-left-color: #6D28D9;
 }
 
 .fmc-sidebar-logout {
@@ -991,7 +1381,7 @@ body {
 .fmc-app-content {
     min-height: calc(100vh - 65px);
     padding: 35px 20px 60px;
-    background: linear-gradient( rgba(255, 255, 255, 0.018) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px ), #0d1218;
+    background: linear-gradient( rgba(255, 255, 255, 0.018) 1px, transparent 1px ), linear-gradient( 90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px ), #F3E8FF;
     background-size: 40px 40px;
 }
 
@@ -1001,7 +1391,7 @@ body {
 
 .fmc-app-card {
     background: rgba(18, 24, 31, 0.95);
-    border: 1px solid rgba(255, 117, 24, 0.25);
+    border: 1px solid rgba(109, 40, 217, 0.25);
     border-radius: 4px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
     position: relative;
@@ -1015,7 +1405,7 @@ body {
     left: 0;
     right: 0;
     height: 3px;
-    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 12px, #111820 12px, #111820 24px );
+    background: repeating-linear-gradient( 135deg, #6D28D9 0px, #6D28D9 12px, #312E81 12px, #312E81 24px );
 }
 
 .fmc-card-header-styled {
@@ -1034,7 +1424,7 @@ body {
 }
 
 .fmc-card-title span {
-    color: #ff7518;
+    color: #6D28D9;
 }
 
 .fmc-card-subtitle {
@@ -1064,7 +1454,7 @@ body {
 }
 
 .fmc-form-label span.req {
-    color: #ff7518;
+    color: #6D28D9;
     margin-left: 2px;
 }
 
@@ -1072,7 +1462,7 @@ body {
 .fmc-select,
 .fmc-textarea {
     width: 100%;
-    background: #0a0e14;
+    background: #F3E8FF;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 3px;
     color: #f5f2ed;
@@ -1086,10 +1476,10 @@ body {
 .fmc-select:focus,
 .fmc-textarea:focus {
     outline: none;
-    border-color: #ff7518;
+    border-color: #6D28D9;
     background: #0e141c;
-    color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(255, 117, 24, 0.15);
+    color: #F3E8FF;
+    box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.15);
 }
 
 .fmc-input::placeholder,
@@ -1098,13 +1488,13 @@ body {
 }
 
 .fmc-select option {
-    background: #12181f;
+    background: #F3E8FF;
     color: #f5f2ed;
 }
 
 /* Location Helper Box */
 .fmc-location-box {
-    background: #0a0e14;
+    background: #F3E8FF;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 3px;
     padding: 16px;
@@ -1112,9 +1502,9 @@ body {
 }
 
 .fmc-location-btn {
-    background: rgba(255, 117, 24, 0.12);
-    border: 1px solid #ff7518;
-    color: #ff7518;
+    background: rgba(109, 40, 217, 0.12);
+    border: 1px solid #6D28D9;
+    color: #6D28D9;
     border-radius: 3px;
     padding: 8px 16px;
     font-family: 'Oswald', sans-serif;
@@ -1127,16 +1517,16 @@ body {
 }
 
 .fmc-location-btn:hover {
-    background: #ff7518;
-    color: #111820;
+    background: #6D28D9;
+    color: #312E81;
 }
 
 /* Submit & Action Buttons */
 .fmc-btn-submit {
-    background: #ff7518;
-    border: 2px solid #ff7518;
+    background: #6D28D9;
+    border: 2px solid #6D28D9;
     border-radius: 3px;
-    color: #111820;
+    color: #312E81;
     font-family: 'Oswald', sans-serif;
     font-size: 16px;
     font-weight: 700;
@@ -1154,9 +1544,9 @@ body {
 
 .fmc-btn-submit:hover {
     background: transparent;
-    color: #ff7518;
+    color: #6D28D9;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 117, 24, 0.2);
+    box-shadow: 0 6px 20px rgba(109, 40, 217, 0.2);
 }
 
 .fmc-btn-outline-cancel {
@@ -1188,19 +1578,19 @@ body {
     border-radius: 4px;
     padding: 24px;
     text-align: center;
-    background: #0a0e14;
+    background: #F3E8FF;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .fmc-upload-box:hover {
-    border-color: #ff7518;
-    background: rgba(255, 117, 24, 0.03);
+    border-color: #6D28D9;
+    background: rgba(109, 40, 217, 0.03);
 }
 
 .fmc-upload-box i {
     font-size: 32px;
-    color: #ff7518;
+    color: #6D28D9;
     margin-bottom: 8px;
     display: block;
 }
@@ -1212,14 +1602,14 @@ body {
 }
 
 .fmc-upload-text span {
-    color: #ff7518;
+    color: #6D28D9;
     font-weight: 500;
 }
 
 /* Dashboard Hero */
 .fmc-dashboard-hero {
-    background: rgba(18, 24, 31, 0.95);
-    border: 1px solid rgba(255, 117, 24, 0.25);
+    background: linear-gradient(135deg, #F3E8FF, #f0ebff) !important;
+    border: 1px solid rgba(109, 40, 217, 0.25);
     border-radius: 4px;
     padding: 30px 35px;
     margin-bottom: 30px;
@@ -1234,33 +1624,33 @@ body {
     left: 0;
     right: 0;
     height: 3px;
-    background: repeating-linear-gradient( 135deg, #ff7518 0px, #ff7518 12px, #111820 12px, #111820 24px );
+    background: repeating-linear-gradient( 135deg, #6D28D9 0px, #6D28D9 12px, #312E81 12px, #312E81 24px );
 }
 
 .fmc-dashboard-hero h2 {
     font-family: 'Oswald', sans-serif;
     font-size: clamp(28px, 4vw, 38px);
     text-transform: uppercase;
-    color: #f5f2ed;
+    color: #2d2752;
     margin: 0 0 6px;
     letter-spacing: 1px;
 }
 
 .fmc-dashboard-hero h2 span {
-    color: #ff7518;
+    color: #6D28D9;
 }
 
 .fmc-dashboard-hero p {
-    color: #858d95;
+    color: #665d7d;
     font-size: 14px;
     margin: 0;
 }
 
 /* Stat Metric Cards */
 .fmc-stat-card {
-    background: rgba(18, 24, 31, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
+    background: linear-gradient(135deg, #F3E8FF, #f5f1ff) !important;
+    border: 1px solid #e2d9fb;
+    border-radius: 18px;
     padding: 22px 24px;
     display: flex;
     align-items: center;
@@ -1270,12 +1660,12 @@ body {
 }
 
 .fmc-stat-card:hover {
-    border-color: rgba(255, 117, 24, 0.4);
+    border-color: rgba(109, 40, 217, 0.4);
     transform: translateY(-2px);
 }
 
 .fmc-stat-label {
-    color: #858d95;
+    color: #665d7d;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     letter-spacing: 1.5px;
@@ -1284,7 +1674,7 @@ body {
 }
 
 .fmc-stat-value {
-    color: #f5f2ed;
+    color: #4c2b9b;
     font-family: 'Oswald', sans-serif;
     font-size: 36px;
     font-weight: 700;
@@ -1295,8 +1685,8 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 4px;
-    background: rgba(255, 117, 24, 0.1);
-    color: #ff7518;
+    background: #eee8ff;
+    color: #6D28D9;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1305,7 +1695,7 @@ body {
 
 /* Live Feed Items */
 .fmc-feed-item {
-    background: #0a0e14;
+    background: #F3E8FF;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 4px;
     padding: 18px 22px;
@@ -1314,7 +1704,7 @@ body {
 }
 
 .fmc-feed-item:hover {
-    border-color: rgba(255, 117, 24, 0.3);
+    border-color: rgba(109, 40, 217, 0.3);
     background: #0e141c;
 }
 
@@ -1322,9 +1712,9 @@ body {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 3px;
-    background: rgba(255, 117, 24, 0.15);
-    border: 1px solid #ff7518;
-    color: #ff7518;
+    background: rgba(109, 40, 217, 0.15);
+    border: 1px solid #6D28D9;
+    color: #6D28D9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 600;
@@ -1378,7 +1768,7 @@ body {
 
 .fmc-action-tile i {
     font-size: 32px;
-    color: #ff7518;
+    color: #6D28D9;
     margin-bottom: 12px;
 }
 
@@ -1397,16 +1787,16 @@ body {
 }
 
 .fmc-action-tile:hover {
-    border-color: #ff7518;
-    color: #ff7518;
+    border-color: #6D28D9;
+    color: #6D28D9;
     transform: translateY(-3px);
 }
 
 /* Dynamic Pulse Animation for Live Status */
 @keyframes fmc-pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 24, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 117, 24, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 24, 0); }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(109, 40, 217, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(109, 40, 217, 0); }
 }
 
 .fmc-live-dot {
@@ -1414,13 +1804,13 @@ body {
     height: 9px;
     display: inline-block;
     border-radius: 50%;
-    background: #ff7518;
+    background: #6D28D9;
     animation: fmc-pulse 2s infinite ease-in-out;
 }
 
 /* Category Filter Tabs */
 .fmc-filter-btn {
-    background: #0a0e14;
+    background: #F3E8FF;
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #a7adb3;
     padding: 6px 14px;
@@ -1435,9 +1825,9 @@ body {
 
 .fmc-filter-btn:hover,
 .fmc-filter-btn.active {
-    background: rgba(255, 117, 24, 0.15);
-    border-color: #ff7518;
-    color: #ff7518;
+    background: rgba(109, 40, 217, 0.15);
+    border-color: #6D28D9;
+    color: #6D28D9;
 }
 
 /* Department Mini Status Items */
@@ -1446,7 +1836,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: #0a0e14;
+    background: #F3E8FF;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 3px;
     margin-bottom: 8px;
@@ -1454,7 +1844,7 @@ body {
 }
 
 .fmc-dept-item:hover {
-    border-color: rgba(255, 117, 24, 0.3);
+    border-color: rgba(109, 40, 217, 0.3);
 }
 
 .fmc-dept-name {
@@ -1484,7 +1874,7 @@ body {
 .fmc-progress-track {
     width: 100%;
     height: 8px;
-    background: #0a0e14;
+    background: #F3E8FF;
     border-radius: 4px;
     overflow: hidden;
     margin-top: 10px;
@@ -1493,10 +1883,261 @@ body {
 
 .fmc-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ff7518, #28a745);
+    background: linear-gradient(90deg, #6D28D9, #28a745);
     border-radius: 4px;
     transition: width 0.6s ease;
 }
+
+/* Final cascade guard: keep every page on the light product surface. */
+body.fmc-landing, body.fmc-auth-page,
+body:not(.fmc-auth-page) { background: var(--fmc-bg) !important; color: var(--fmc-ink) !important; }
+.fmc-landing .fmc-navbar, .fmc-landing .fmc-main,
+.fmc-auth-page .fmc-auth-brand, .fmc-auth-page .fmc-auth-panel,
+.fmc-app-content { background: var(--fmc-bg) !important; color: var(--fmc-ink) !important; }
+.fmc-landing .fmc-headline, .fmc-landing .fmc-logo,
+.fmc-auth-page .fmc-auth-logo, .fmc-auth-page .fmc-auth-card h2 { color: var(--fmc-ink) !important; }
+.fmc-landing .fmc-subtext, .fmc-auth-page .fmc-auth-tagline,
+.fmc-landing .fmc-feature-card p { color: var(--fmc-muted) !important; }
+.fmc-landing .fmc-feature-card, .fmc-auth-page .fmc-auth-card,
+.fmc-landing .fmc-choice { background: var(--fmc-surface) !important; color: var(--fmc-ink) !important; border-color: var(--fmc-border) !important; border-radius: var(--fmc-radius) !important; box-shadow: var(--fmc-shadow); }
+.fmc-landing .fmc-main { background-image: linear-gradient(rgba(23,33,43,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(23,33,43,.035) 1px, transparent 1px) !important; background-size: 50px 50px; }
+.fmc-auth-page .fmc-auth-card .form-control { background: #f3e8ff !important; color: var(--fmc-ink) !important; border-color: var(--fmc-border) !important; }
+.fmc-animated-card { animation: fmc-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Glossy premium surfaces and side-to-side viewport reveals. */
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile,
+.fmc-auth-card, .fmc-choice {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,250,252,.94)) !important;
+    box-shadow: 0 20px 55px rgba(39,70,91,.10), inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+.fmc-app-card::before, .card::before, .fmc-feature-card::before,
+.fmc-feed-item::before, .fmc-action-tile::before, .fmc-auth-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(255,255,255,.62), transparent);
+    pointer-events: none;
+    z-index: -1;
+}
+.fmc-app-card:hover, .card:hover, .fmc-feature-card:hover, .fmc-feed-item:hover,
+.fmc-action-tile:hover, .fmc-auth-card:hover {
+    border-color: rgba(239,108,24,.32) !important;
+    box-shadow: 0 25px 65px rgba(39,70,91,.16), inset 0 1px 0 #f3e8ff !important;
+}
+.fmc-reveal { opacity: 0; will-change: transform, opacity; }
+.fmc-reveal-left { transform: translateX(-56px); }
+.fmc-reveal-right { transform: translateX(56px); }
+.fmc-reveal.is-visible { opacity: 1; transform: translateX(0); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) {
+    .fmc-reveal, .fmc-reveal-left, .fmc-reveal-right { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   GLASS CITY - COMPLETE VISUAL OVERRIDE
+   ========================================================= */
+body:not(.fmc-auth-page), body.fmc-auth-page {
+    background:
+        radial-gradient(circle at 8% 8%, rgba(93, 196, 214, .20), transparent 28rem),
+        radial-gradient(circle at 92% 18%, rgba(239, 108, 24, .14), transparent 26rem),
+        linear-gradient(135deg, #f8fbfd 0%, #eaf3f6 48%, #f9f7f3 100%) !important;
+    background-attachment: fixed;
+}
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .32;
+    background-image: linear-gradient(rgba(23,33,43,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(23,33,43,.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, black, transparent 80%);
+    z-index: -1;
+}
+.fmc-navbar, .fmc-topbar {
+    height: 76px !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    background: rgba(255,255,255,.58) !important;
+    box-shadow: 0 12px 35px rgba(31,76,94,.10), inset 0 1px 0 rgba(255,255,255,.92) !important;
+    backdrop-filter: blur(22px) saturate(150%);
+}
+.fmc-logo-mark { border-radius: 10px !important; box-shadow: 0 8px 18px rgba(239,108,24,.25); }
+.fmc-nav-button, .fmc-cta, .fmc-btn-submit {
+    border-radius: 999px !important;
+    box-shadow: 0 9px 20px rgba(239,108,24,.20) !important;
+}
+.fmc-nav-button { border-color: rgba(239,108,24,.45) !important; background: rgba(255,255,255,.44) !important; }
+.fmc-app-content, .fmc-page { max-width: 1240px; }
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile,
+.fmc-auth-card, .fmc-choice, .modal-content {
+    border: 1px solid rgba(255,255,255,.78) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,.70), rgba(255,255,255,.38)) !important;
+    backdrop-filter: blur(20px) saturate(135%);
+    box-shadow: 0 22px 55px rgba(31,76,94,.12), inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+.fmc-app-card:hover, .card:hover, .fmc-feature-card:hover, .fmc-feed-item:hover,
+.fmc-action-tile:hover, .fmc-auth-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 70px rgba(31,76,94,.17), 0 0 0 1px rgba(239,108,24,.18), inset 0 1px 0 #f3e8ff !important;
+}
+.fmc-card-header-styled { background: rgba(255,255,255,.26) !important; border-color: rgba(255,255,255,.58) !important; }
+.fmc-filter-btn { border-radius: 999px !important; background: rgba(255,255,255,.46) !important; border-color: rgba(23,33,43,.10) !important; }
+.fmc-filter-btn.active, .fmc-filter-btn:hover { background: rgba(239,108,24,.12) !important; border-color: rgba(239,108,24,.45) !important; color: var(--fmc-accent-dark) !important; }
+.fmc-sidebar { background: rgba(248,252,253,.76) !important; border-right: 1px solid rgba(255,255,255,.78) !important; backdrop-filter: blur(24px) saturate(150%); }
+.fmc-sidebar-nav a, .fmc-sidebar-logout { border-radius: 12px !important; margin: 3px 10px; }
+footer { color: var(--fmc-muted) !important; border-color: rgba(255,255,255,.7) !important; }
+@media (max-width: 768px) {
+    .fmc-navbar, .fmc-topbar { height: 68px !important; }
+    .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item { border-radius: 14px !important; }
+}
+
+/* Final visual contract: one soft canvas, bright glass surfaces, scroll-only motion. */
+html, body, .fmc-landing, .fmc-main, .fmc-auth-brand, .fmc-auth-panel, .fmc-app-content {
+    background: #f7fafb !important;
+    background-image: none !important;
+}
+.fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile,
+.fmc-auth-card, .fmc-choice, .modal-content {
+    background: rgba(255,255,255,.84) !important;
+    border-color: #e1eaee !important;
+}
+.fmc-reveal, .fmc-animated-card { animation: none !important; }
+.fmc-reveal { opacity: 0 !important; }
+.fmc-reveal.is-visible { opacity: 1 !important; }
+
+/* Final sidebar button treatment */
+.fmc-sidebar-nav li { margin: 5px 14px !important; }
+.fmc-sidebar-nav li a, .fmc-sidebar-logout { min-height: 52px; padding: 12px 16px !important; gap: 12px; border: 1px solid transparent !important; border-radius: 15px !important; background: transparent !important; color: #526078 !important; font-family: 'DM Sans', sans-serif !important; font-size: 15px !important; font-weight: 600 !important; transition: all .22s ease !important; }
+.fmc-sidebar-nav li a i, .fmc-sidebar-logout i { display: inline-flex; width: 32px !important; height: 32px; align-items: center; justify-content: center; border-radius: 10px; background: #f1edff; color: #6d28d9 !important; font-size: 17px !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a:focus-visible, .fmc-sidebar-nav li a.active { color: #4c1d95 !important; background: linear-gradient(135deg, #f0eaff, #e5dcff) !important; border-color: #c4b5fd !important; box-shadow: 0 10px 22px rgba(109,40,217,.14) !important; transform: translateX(3px); }
+.fmc-sidebar-nav li a:hover i, .fmc-sidebar-nav li a.active i { background: #6d28d9; color: #f3e8ff !important; }
+.fmc-sidebar-logout { color: #7c3aed !important; }
+.fmc-sidebar-logout:hover { color: #4c1d95 !important; background: #f0eaff !important; border-color: #c4b5fd !important; }
+.fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.84) !important; border-color: #e5def8 !important; }
+.fmc-sidebar .offcanvas-title { color: #2d2752 !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
+.fmc-sidebar .btn-close { filter: none !important; opacity: .55; }
+
+/* Dark-purple theme is intentionally last so it overrides legacy page styles. */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: linear-gradient(135deg, #0f0a1e, #180e29 50%, #231238) !important; color: #f3e8ff !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(24,14,41,.94) !important; border-color: rgba(192,132,252,.28) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(35,18,56,.86) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.30) !important; box-shadow: 0 18px 50px rgba(8,4,18,.34) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: #f3e8ff !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-stat-label, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #d8c7e8 !important; }
+.fmc-sidebar-nav li a { color: #d8c7e8 !important; }
+.fmc-sidebar-nav li a i { background: rgba(124,58,237,.28) !important; color: #c084fc !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: rgba(124,58,237,.38) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.55) !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #a855f7 !important; color: #f3e8ff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(15,10,30,.8) !important; color: #f3e8ff !important; border-color: rgba(192,132,252,.35) !important; }
+
+/* OVERRIDE: ambient light mesh theme */
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel { background: radial-gradient(at 0% 50%, #fce7f3 0, transparent 50%), radial-gradient(at 100% 50%, #e0f2fe 0, transparent 50%), linear-gradient(90deg, #fce7f3 0%, #ffffff 50%, #e0f2fe 100%) !important; background-attachment: fixed !important; color: #0f172a !important; }
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(255,255,255,.92) !important; border-color: #c4b5fd !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(255,255,255,.94) !important; color: #0f172a !important; border-color: #c4b5fd !important; box-shadow: 0 16px 36px rgba(109,40,217,.12) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: #0f172a !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: #475569 !important; }
+.fmc-sidebar-nav li a { color: #475569 !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: #ede9fe !important; color: #4c1d95 !important; border-color: #c4b5fd !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit { background: linear-gradient(135deg,#7c3aed,#9333ea) !important; border-color: #7c3aed !important; color: #ffffff !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.96) !important; color: #0f172a !important; border-color: #c4b5fd !important; }
+
+/* Pixel-perfect soft lavender and magenta UI */
+:root {
+    --bg-soft-lavender: #f4ebf8;
+    --bg-gradient-pink: #fbeaf4;
+    --bg-gradient-blue: #e8f0fe;
+    --card-lavender-glass: rgba(240,230,248,.75);
+    --card-white-glass: rgba(255,255,255,.85);
+    --card-border-light: rgba(216,180,254,.4);
+    --accent-magenta-start: #b91c1c;
+    --accent-magenta-mid: #9333ea;
+    --accent-purple-gradient: linear-gradient(135deg,#a855f7 0%,#d946ef 50%,#c026d3 100%);
+    --text-main: #2e1065;
+    --text-body: #4c1d95;
+    --text-muted: #7e22ce;
+}
+html, body, .fmc-landing, .fmc-main, .fmc-app-content, .fmc-auth-page, .fmc-auth-brand, .fmc-auth-panel {
+    background: radial-gradient(at 0% 0%, #fbeaf4 0, transparent 50%), radial-gradient(at 100% 100%, #e8f0fe 0, transparent 50%), linear-gradient(135deg, #f4ebf8 0%, #f3e8ff 50%, #ede9fe 100%) !important;
+    background-attachment: fixed !important;
+    color: var(--text-main) !important;
+}
+.fmc-topbar, .fmc-navbar, .fmc-sidebar, .fmc-sidebar .offcanvas-header { background: rgba(240,230,248,.9) !important; border-color: var(--card-border-light) !important; }
+.fmc-dashboard-hero, .fmc-stat-card, .fmc-app-card, .card, .fmc-feature-card, .fmc-feed-item, .fmc-action-tile, .fmc-auth-card, .fmc-choice, .modal-content, .fmc-pipeline-stage { background: rgba(245,238,252,.75) !important; backdrop-filter: blur(16px) saturate(160%) !important; -webkit-backdrop-filter: blur(16px) saturate(160%) !important; color: var(--text-main) !important; border: 1px solid rgba(225,204,250,.6) !important; border-radius: 1.25rem !important; box-shadow: 0 10px 30px -5px rgba(147,51,234,.08) !important; }
+.fmc-dashboard-hero h2, .fmc-stat-value, .fmc-card-title, .fmc-stat-label, .fmc-feed-item h5, .fmc-pipeline-stage h5 { color: var(--text-main) !important; }
+.fmc-dashboard-hero p, .fmc-card-subtitle, .fmc-feed-item p, .fmc-pipeline-stage p, .text-muted { color: var(--text-body) !important; }
+.fmc-app-content .btn, .fmc-app-content .fmc-cta, .fmc-app-content .fmc-btn-submit, .fmc-auth-page .btn { background: var(--accent-purple-gradient) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 8px 18px rgba(192,38,211,.22) !important; }
+.fmc-app-content .btn:hover, .fmc-app-content .fmc-cta:hover, .fmc-app-content .fmc-btn-submit:hover, .fmc-auth-page .btn:hover { filter: brightness(1.06) saturate(1.08); transform: translateY(-2px); }
+.fmc-sidebar-nav li a { color: var(--text-body) !important; }
+.fmc-sidebar-nav li a:hover, .fmc-sidebar-nav li a.active { background: rgba(216,180,254,.42) !important; color: var(--text-main) !important; border-color: rgba(192,38,211,.35) !important; box-shadow: 0 8px 18px rgba(192,38,211,.12) !important; }
+input, select, textarea, .form-control, .form-select { background: rgba(255,255,255,.85) !important; color: var(--text-main) !important; border-color: rgba(216,180,254,.6) !important; }
+
+/* Lively navigation and polished pipeline accents */
+.fmc-navbar, .fmc-topbar { position: relative !important; overflow: hidden !important; background: linear-gradient(100deg, rgba(255,255,255,.92), rgba(250,232,255,.88), rgba(232,240,254,.9)) !important; backdrop-filter: blur(18px) saturate(160%) !important; border-bottom: 1px solid rgba(168,85,247,.28) !important; box-shadow: 0 10px 28px rgba(147,51,234,.12) !important; }
+.fmc-navbar::after, .fmc-topbar::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,.7) 48%, transparent 70%); transform: translateX(-100%); animation: fmc-nav-sheen 7s ease-in-out infinite; }
+@keyframes fmc-nav-sheen { 0%, 55% { transform: translateX(-100%); } 75%, 100% { transform: translateX(100%); } }
+.fmc-navbar a, .fmc-topbar a, .fmc-navbar button, .fmc-topbar button { position: relative; z-index: 1; color: #4c1d95 !important; transition: transform .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease !important; }
+.fmc-navbar a:hover, .fmc-topbar a:hover, .fmc-navbar button:hover, .fmc-topbar button:hover { color: #c026d3 !important; transform: translateY(-2px); }
+.fmc-navbar .fmc-brand, .fmc-topbar .fmc-brand { color: #4c1d95 !important; text-shadow: 0 0 18px rgba(217,70,239,.28); }
+.fmc-pipeline-stage { background: linear-gradient(145deg, rgba(240,230,248,.86), rgba(255,255,255,.74)) !important; border-top: 3px solid #d946ef !important; }
+.fmc-pipeline-stage h5, .fmc-pipeline-stage p { color: #4c1d95 !important; }
+.fmc-pipeline-stage [class*="text-orange"], .fmc-pipeline-stage [class*="border-orange"] { color: #9333ea !important; border-color: #d946ef !important; }
+
+/* Always-colorful icons and no dark pipeline boxes */
+.fmc-pipeline-stage, .fmc-pipeline-stage.card, .fmc-pipeline-stage > div { background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(240,230,248,.78)) !important; color: #2e1065 !important; }
+.fmc-pipeline-stage i, .fmc-pipeline-stage svg, .fmc-pipeline-stage .fa, .fmc-pipeline-stage .fas, .fmc-pipeline-stage .bi { opacity: 1 !important; filter: none !important; }
+.fmc-pipeline-stage:nth-child(1) i, .fmc-pipeline-stage:nth-child(1) svg, .fmc-pipeline-stage:nth-child(1) .fa, .fmc-pipeline-stage:nth-child(1) .fas, .fmc-pipeline-stage:nth-child(1) .bi { color: #d946ef !important; }
+.fmc-pipeline-stage:nth-child(2) i, .fmc-pipeline-stage:nth-child(2) svg, .fmc-pipeline-stage:nth-child(2) .fa, .fmc-pipeline-stage:nth-child(2) .fas, .fmc-pipeline-stage:nth-child(2) .bi { color: #7c3aed !important; }
+.fmc-pipeline-stage:nth-child(3) i, .fmc-pipeline-stage:nth-child(3) svg, .fmc-pipeline-stage:nth-child(3) .fa, .fmc-pipeline-stage:nth-child(3) .fas, .fmc-pipeline-stage:nth-child(3) .bi { color: #0891b2 !important; }
+.fmc-pipeline-stage:nth-child(4) i, .fmc-pipeline-stage:nth-child(4) svg, .fmc-pipeline-stage:nth-child(4) .fa, .fmc-pipeline-stage:nth-child(4) .fas, .fmc-pipeline-stage:nth-child(4) .bi { color: #16a34a !important; }
+.fmc-stage-icon { display: inline-block !important; font-size: 1.25rem !important; opacity: 1 !important; }
+.fmc-stage-icon-1 { color: #d946ef !important; text-shadow: 0 0 12px rgba(217,70,239,.35); }
+.fmc-stage-icon-2 { color: #7c3aed !important; text-shadow: 0 0 12px rgba(124,58,237,.35); }
+.fmc-stage-icon-3 { color: #0891b2 !important; text-shadow: 0 0 12px rgba(8,145,178,.35); }
+.fmc-stage-icon-4 { color: #16a34a !important; text-shadow: 0 0 12px rgba(22,163,74,.35); }
+.fmc-dashboard-kicker { color: #c026d3; font-size: .72rem; font-weight: 800; letter-spacing: .16em; }
+.fmc-admin-stat { min-height: 150px; padding: 1.4rem !important; display: flex; flex-direction: column; gap: .45rem; }
+.fmc-admin-stat i { color: #d946ef; font-size: 1.5rem; }
+.fmc-admin-stat span { color: #7e22ce; font-size: .72rem; font-weight: 800; letter-spacing: .14em; }
+.fmc-admin-stat strong { color: #2e1065; font-size: 2.4rem; line-height: 1; }
+.fmc-admin-action { min-height: 145px; display: flex; flex-direction: column; gap: .4rem; padding: 1.35rem; border: 1px solid rgba(216,180,254,.6); border-radius: 1.25rem; background: rgba(255,255,255,.72); color: #2e1065; text-decoration: none; box-shadow: 0 10px 30px -5px rgba(147,51,234,.08); transition: transform .22s ease, box-shadow .22s ease, background .22s ease; }
+.fmc-admin-action i { color: #9333ea; font-size: 1.5rem; }
+.fmc-admin-action span { font-size: 1.05rem; font-weight: 800; }
+.fmc-admin-action small { color: #7e22ce; }
+.fmc-admin-action:hover { color: #2e1065; transform: translateY(-5px); background: rgba(240,230,248,.92); box-shadow: 0 18px 35px rgba(192,38,211,.18); }
+.fmc-admin-menu-label { margin: 18px 28px 8px !important; color: #c026d3; font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.fmc-app-content .text-white, .fmc-app-content .text-light, .fmc-app-content h1.text-white, .fmc-app-content h2.text-white, .fmc-app-content h3.text-white, .fmc-app-content h4.text-white, .fmc-app-content h5.text-white, .fmc-app-content h6.text-white { color: #2e1065 !important; }
+.fmc-app-content .btn-outline-warning { color: #9333ea !important; border-color: #c026d3 !important; }
+.fmc-form-label, .fmc-form-label span.req { color: #4c1d95 !important; }
+.fmc-input, .fmc-select, .fmc-textarea, .fmc-select option { background: rgba(255,255,255,.94) !important; color: #2e1065 !important; border-color: rgba(216,180,254,.72) !important; }
+.fmc-input:focus, .fmc-select:focus, .fmc-textarea:focus { background: #fff !important; color: #2e1065 !important; border-color: #c026d3 !important; box-shadow: 0 0 0 3px rgba(217,70,239,.14) !important; }
+.fmc-input::placeholder, .fmc-textarea::placeholder { color: #7e22ce !important; opacity: .72; }
+.fmc-location-box, .fmc-upload-box { background: rgba(240,230,248,.58) !important; color: #4c1d95 !important; border-color: rgba(216,180,254,.65) !important; }
+.fmc-map-table { --bs-table-bg: transparent !important; --bs-table-color: #2e1065 !important; color: #2e1065 !important; border-collapse: separate !important; border-spacing: 0 9px !important; }
+.fmc-map-table thead th { background: rgba(216,180,254,.34) !important; color: #4c1d95 !important; border: 0 !important; padding: 14px !important; }
+.fmc-map-table tbody tr { background: rgba(255,255,255,.72) !important; box-shadow: 0 5px 16px rgba(147,51,234,.06); }
+.fmc-map-table tbody td { background: transparent !important; color: #2e1065 !important; border-top: 1px solid rgba(216,180,254,.35) !important; border-bottom: 1px solid rgba(216,180,254,.35) !important; padding: 14px !important; }
+.fmc-map-table tbody td:first-child { border-left: 1px solid rgba(216,180,254,.35) !important; border-radius: 14px 0 0 14px; }
+.fmc-map-table tbody td:last-child { border-right: 1px solid rgba(216,180,254,.35) !important; border-radius: 0 14px 14px 0; }
+.fmc-map-table td strong { display: block; color: #9333ea !important; }
+.fmc-map-table td strong i { color: #d946ef !important; }
+.fmc-map-table td small { display: block; margin-top: 3px; color: #7e22ce !important; }
+.fmc-app-content .table, .fmc-app-content .table > :not(caption) > * > * { --bs-table-bg: transparent !important; --bs-table-color: #2e1065 !important; color: #2e1065 !important; border-color: rgba(147,51,234,.16) !important; }
+.fmc-app-content .table thead tr { background: linear-gradient(135deg, rgba(216,180,254,.48), rgba(232,240,254,.7)) !important; }
+.fmc-app-content .table thead th { background: transparent !important; color: #2e1065 !important; font-weight: 800; }
+.fmc-app-content .table tbody tr { background: rgba(240,230,248,.58) !important; }
+.fmc-app-content .table tbody tr:nth-child(even) { background: rgba(255,255,255,.5) !important; }
+.fmc-app-content .table tbody td { background: transparent !important; color: #2e1065 !important; }
+.fmc-app-content .bg-white, .fmc-app-content .bg-light { background: rgba(240,230,248,.7) !important; color: #2e1065 !important; }
+.fmc-app-content .fmc-app-card:hover, .fmc-app-content .card:hover, .fmc-app-content .fmc-feature-card:hover, .fmc-app-content .fmc-feed-item:hover, .fmc-app-content .fmc-action-tile:hover, .fmc-app-content .fmc-auth-card:hover { background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(240,230,248,.78)) !important; border-color: rgba(217,70,239,.42) !important; box-shadow: 0 22px 50px rgba(147,51,234,.14), inset 0 1px 0 rgba(255,255,255,.95) !important; }
+.fmc-app-content .fmc-feed-item:hover { color: #2e1065 !important; }
+.fmc-app-content .fmc-input:hover, .fmc-app-content .fmc-select:hover, .fmc-app-content .fmc-textarea:hover { background: rgba(255,255,255,.96) !important; color: #2e1065 !important; }
+.fmc-app-card, .fmc-card-body-styled, .fmc-card-header-styled { background: rgba(245,238,252,.78) !important; color: #2e1065 !important; }
+.fmc-app-card:hover, .fmc-card-body-styled:hover, .fmc-card-header-styled:hover { background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(240,230,248,.8)) !important; color: #2e1065 !important; }
+.fmc-input:focus, .fmc-select:focus, .fmc-textarea:focus, .fmc-location-box:hover, .fmc-upload-box:hover { background: rgba(255,255,255,.96) !important; color: #2e1065 !important; }
+.fmc-app-content .table tbody tr:hover, .fmc-app-content .table tbody tr:hover > td, .table-hover > tbody > tr:hover > * { background: linear-gradient(90deg, rgba(240,230,248,.92), rgba(232,240,254,.86)) !important; color: #2e1065 !important; }
+.fmc-reports-table, .fmc-reports-table tbody, .fmc-reports-table tbody tr, .fmc-reports-table tbody tr:hover, .fmc-reports-table tbody tr > td, .fmc-reports-table tbody tr:hover > td { background: rgba(245,238,252,.72) !important; background-color: rgba(245,238,252,.72) !important; color: #2e1065 !important; }
 
 
 

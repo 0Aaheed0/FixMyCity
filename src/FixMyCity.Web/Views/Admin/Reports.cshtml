@@ -1,0 +1,15 @@
+@model IEnumerable<FixMyCity.Data.Models.Report>
+@{ ViewData["Title"] = "Review Reports"; }
+<div class="container-fluid py-4">
+    @if (TempData["AdminMessage"] is string message) { <div class="alert alert-success">@message</div> }
+    <div class="fmc-dashboard-hero mb-4"><span class="fmc-dashboard-kicker"><i class="bi bi-shield-check"></i> ADMIN MODERATION</span><h2>Review civic reports</h2><p>Validate submissions and move issues through the official resolution workflow.</p></div>
+    <div class="fmc-app-card p-3">
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Report</th><th>Category</th><th>Resident</th><th>Status</th><th>Admin action</th></tr></thead><tbody>
+        @foreach (var report in Model)
+        {
+            var status = report.Issue?.Status ?? "Reported";
+            <tr><td><strong>#@report.Id</strong><div class="text-muted small">@report.Description</div></td><td>@report.Category?.Name</td><td>@report.User?.Email</td><td><span class="badge bg-light text-purple">@status</span></td><td><form asp-action="UpdateReportStatus" method="post" class="d-flex gap-2"><input type="hidden" name="reportId" value="@report.Id" /><select name="status" class="form-select form-select-sm"><option value="Reported" selected="@(status == "Reported")">Reported</option><option value="InProgress" selected="@(status == "InProgress")">In Progress</option><option value="Resolved" selected="@(status == "Resolved")">Resolved</option><option value="Verified" selected="@(status == "Verified")">Verified</option></select><button class="btn btn-sm btn-primary" type="submit">Update status</button></form></td></tr>
+        }
+        </tbody></table></div>
+    </div>
+</div>

@@ -5,11 +5,11 @@
 <div class="fmc-dashboard-hero">
     <h2>Manage Users</h2>
     <table class="table mt-3">
-        <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Access control</th></tr></thead>
         <tbody>
             @foreach (var u in Model)
             {
-                <tr><td>@u.FullName</td><td>@u.Email</td><td>@u.Role</td></tr>
+                <tr><td>@u.FullName</td><td>@u.Email</td><td><span class="badge bg-light text-purple">@u.Role</span></td><td><form asp-action="UpdateUserRole" method="post" class="d-flex gap-2"><input type="hidden" name="id" value="@u.Id" /><select name="role" class="form-select form-select-sm"><option value="Citizen" selected="@(u.Role == "Citizen")">Citizen</option><option value="DepartmentStaff" selected="@(u.Role == "DepartmentStaff")">Staff</option><option value="DepartmentManager" selected="@(u.Role == "DepartmentManager")">Manager</option></select><button class="btn btn-sm btn-primary" type="submit">Save role</button></form></td></tr>
             }
         </tbody>
     </table>

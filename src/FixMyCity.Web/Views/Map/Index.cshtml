@@ -4,13 +4,13 @@
 }
 <div class="fmc-dashboard-hero">
     <h2>Problem Map</h2>
-    <p>@Model.Count() reports on record — actual Leaflet map goes here next.</p>
-    <table class="table mt-3">
-        <thead><tr><th>Category</th><th>Lat</th><th>Lng</th></tr></thead>
+    <p>@Model.Count() reports on record — locations are shown with readable labels and coordinates.</p>
+    <table class="table fmc-map-table mt-3">
+        <thead><tr><th>Location</th><th>Category</th><th>Latitude</th><th>Longitude</th></tr></thead>
         <tbody>
             @foreach (var r in Model)
             {
-                <tr><td>@r.Category?.Name</td><td>@r.Latitude</td><td>@r.Longitude</td></tr>
+                <tr><td><strong><i class="bi bi-geo-alt-fill me-2"></i>Reported location</strong><small>Community area near @r.Latitude.ToString("F4"), @r.Longitude.ToString("F4")</small></td><td>@r.Category?.Name</td><td>@r.Latitude.ToString("F6")</td><td>@r.Longitude.ToString("F6")</td></tr>
             }
         </tbody>
     </table>

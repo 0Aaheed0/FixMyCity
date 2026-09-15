@@ -1,9 +1,23 @@
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
-<div class="fmc-dashboard-hero">
-    <h2>Admin Dashboard</h2>
-    <p>Total Reports: @ViewBag.TotalReports</p>
-    <p>Total Issues: @ViewBag.TotalIssues</p>
-    <p>Total Users: @ViewBag.TotalUsers</p>
+<div class="container-fluid fmc-admin-dashboard py-4">
+    <div class="fmc-dashboard-hero mb-4">
+        <span class="fmc-dashboard-kicker"><i class="bi bi-stars"></i> CITY OPERATIONS CONTROL</span>
+        <h2>Admin command center</h2>
+        <p>Monitor reports, keep civic data organized, and help departments respond faster.</p>
+    </div>
+    <div class="row g-4 mb-4">
+        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-flag-fill"></i><span>REPORTS</span><strong>@ViewBag.TotalReports</strong></div></div>
+        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-exclamation-diamond-fill"></i><span>OPEN ISSUES</span><strong>@(ViewBag.ReportedIssues + ViewBag.InProgressIssues)</strong><small>Reported: @ViewBag.ReportedIssues · In progress: @ViewBag.InProgressIssues</small></div></div>
+        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-people-fill"></i><span>REGISTERED USERS</span><strong>@ViewBag.TotalUsers</strong></div></div>
+    </div>
+    <div class="fmc-app-card p-4 mb-4"><h4>Resolution progress</h4><p class="mb-0">Reported <strong>@ViewBag.ReportedIssues</strong> · In progress <strong>@ViewBag.InProgressIssues</strong> · Resolved <strong>@ViewBag.ResolvedIssues</strong> · Verified <strong>@ViewBag.VerifiedIssues</strong></p></div>
+    <div class="row g-4">
+        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Reports"><i class="bi bi-shield-check"></i><span>Review reports</span><small>Verify and update issue status</small></a></div>
+        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Users"><i class="bi bi-person-gear"></i><span>Manage users</span><small>Review community access</small></a></div>
+        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Departments"><i class="bi bi-building"></i><span>Departments</span><small>Coordinate civic teams</small></a></div>
+        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Categories"><i class="bi bi-tags-fill"></i><span>Categories</span><small>Maintain report choices</small></a></div>
+        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Analytics"><i class="bi bi-graph-up-arrow"></i><span>Hotspot analytics</span><small>Find recurring problems</small></a></div>
+    </div>
 </div>

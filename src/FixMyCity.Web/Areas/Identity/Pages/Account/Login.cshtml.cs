@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using FixMyCity.Data.Models;
+using FixMyCity.Data;
 
 namespace FixMyCity.Web.Areas.Identity.Pages.Account
 {
@@ -22,11 +23,21 @@ namespace FixMyCity.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        private static readonly HashSet<string> AdministratorEmails = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "yousha.cse.20230104097@aust.edu",
+            "noman.cse.20230104088@aust.edu",
+            "miraz.cse.20230104092@aust.edu",
+            "aaheed.cse.20230104094@aust.edu"
+        };
+
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -81,6 +92,19 @@ namespace FixMyCity.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var signedInUser = await _userManager.FindByEmailAsync(Input.Email.Trim());
+                    if (AdministratorEmails.Contains(Input.Email.Trim()))
+                    {
+                        var administrator = signedInUser;
+                        if (administrator != null && administrator.Role != "Administrator")
+                        {
+                            administrator.Role = "Administrator";
+                            await _userManager.UpdateAsync(administrator);
+                        }
+                        return LocalRedirect(Url.Content("~/Admin/Index"));
+                    }
+                    if (signedInUser?.Role == "DepartmentManager") return LocalRedirect(Url.Content("~/Manager/Index"));
+                    if (signedInUser?.Role == "DepartmentStaff") return LocalRedirect(Url.Content("~/Staff/Index"));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -6,14 +6,14 @@
 
 <style>
     body {
-        background: #0d1218;
+        background: #F3E8FF;
         color: #f5f2ed;
     }
 
     .fmc-profile-page {
         min-height: 100vh;
         padding: 40px 0;
-        background: #0d1218;
+        background: #F3E8FF;
     }
 
     .fmc-profile-card {
@@ -26,7 +26,7 @@
     }
 
     .fmc-profile-card:hover {
-        border-color: rgba(255, 117, 24, 0.2);
+        border-color: rgba(109, 40, 217, 0.2);
         background: rgba(20, 25, 32, 0.8);
     }
 
@@ -49,7 +49,7 @@
     }
 
     .fmc-profile-header h2 i {
-        color: #ff7518;
+        color: #6D28D9;
         margin-right: 12px;
     }
 
@@ -86,7 +86,7 @@
     }
 
     .fmc-profile-section-title i {
-        color: #ff7518;
+        color: #6D28D9;
         font-size: 20px;
     }
 
@@ -100,7 +100,7 @@
         height: 140px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #ff7518;
+        border: 3px solid #6D28D9;
         margin-bottom: 15px;
         display: inline-block;
     }
@@ -124,8 +124,8 @@
 
     .fmc-profile-role {
         display: inline-block;
-        background: #ff7518;
-        color: #111820;
+        background: #6D28D9;
+        color: #312E81;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 12px;
@@ -137,9 +137,9 @@
         display: inline-block;
         margin-top: 15px;
         padding: 10px 18px;
-        border: 1px solid rgba(255, 117, 24, 0.5);
+        border: 1px solid rgba(109, 40, 217, 0.5);
         background: transparent;
-        color: #ff7518;
+        color: #6D28D9;
         border-radius: 4px;
         cursor: pointer;
         font-size: 13px;
@@ -148,8 +148,8 @@
     }
 
     .fmc-upload-button:hover {
-        background: rgba(255, 117, 24, 0.1);
-        border-color: #ff7518;
+        background: rgba(109, 40, 217, 0.1);
+        border-color: #6D28D9;
     }
 
     .fmc-form-group {
@@ -179,9 +179,9 @@
 
     .fmc-form-control:focus {
         background: rgba(255, 255, 255, 0.05);
-        border-color: #ff7518;
+        border-color: #6D28D9;
         color: #f5f2ed;
-        box-shadow: 0 0 0 3px rgba(255, 117, 24, 0.1);
+        box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
         outline: none;
     }
 
@@ -231,16 +231,16 @@
     }
 
     .fmc-cta {
-        background: #ff7518;
-        color: #111820;
-        border: 2px solid #ff7518;
+        background: #6D28D9;
+        color: #312E81;
+        border: 2px solid #6D28D9;
     }
 
     .fmc-cta:hover {
         background: transparent;
-        color: #ff7518;
+        color: #6D28D9;
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(255, 117, 24, 0.15);
+        box-shadow: 0 8px 25px rgba(109, 40, 217, 0.15);
     }
 
     .fmc-btn-cancel {
@@ -316,7 +316,7 @@
             <form asp-action="Index" method="post" enctype="multipart/form-data">
                 <div class="fmc-profile-grid">
                     <!-- Profile Picture Section -->
-                    <div class="fmc-profile-card" style="border: 1px solid rgba(255, 117, 24, 0.2); text-align: center;">
+                    <div class="fmc-profile-card" style="border: 1px solid rgba(109, 40, 217, 0.2); text-align: center;">
                         <div class="fmc-profile-section-title" style="margin-bottom: 20px; justify-content: center;">
                             <i class="bi bi-image"></i> Profile Picture
                         </div>
@@ -365,7 +365,7 @@
 
                         <div class="fmc-form-group" style="margin-bottom: 0;">
                             <label class="fmc-form-label">Account Role</label>
-                            <div class="fmc-form-control" style="background: rgba(255, 117, 24, 0.1); border-color: #ff7518; display: flex; align-items: center;">
+                            <div class="fmc-form-control" style="background: rgba(109, 40, 217, 0.1); border-color: #6D28D9; display: flex; align-items: center;">
                                 <span class="fmc-profile-role" style="margin: 0;">@Model.Role</span>
                             </div>
                             <small style="color: #7a8088; display: block; margin-top: 5px;">Your role is managed by administrators</small>

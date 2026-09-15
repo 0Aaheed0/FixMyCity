@@ -27,17 +27,54 @@ namespace FixMyCity.Web.Controllers
             return View(await reports.ToListAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name");
-            ViewBag.UserId = new SelectList(_context.Users, "Id", "FullName");
-            return View();
+            await EnsureDefaultCategoriesAsync();
+            return await CreateFormViewAsync();
+        }
+
+        private async Task EnsureDefaultCategoriesAsync()
+        {
+            var defaults = new[]
+            {
+                ("Pothole / Road Damage", "Roads & Transport"),
+                ("Broken Traffic Signal", "Roads & Transport"),
+                ("Garbage / Waste", "Waste Management"),
+                ("Water Leak / Drainage", "Water & Utilities"),
+                ("Broken Streetlight", "Public Lighting"),
+                ("Damaged Public Property", "Roads & Transport")
+            };
+            var existing = await _context.Categories.Select(c => c.Name).ToListAsync();
+            var missing = defaults
+                .Where(item => !existing.Contains(item.Item1, StringComparer.OrdinalIgnoreCase))
+                .Select(item => new Category { Name = item.Item1, ResponsibleDepartment = item.Item2 });
+            if (missing.Any())
+            {
+                _context.Categories.AddRange(missing);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task<IActionResult> CreateFormViewAsync(Report? report = null)
+        {
+            var categories = await _context.Categories
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+            var users = await _context.Users
+                .AsNoTracking()
+                .OrderBy(u => u.FullName)
+                .ToListAsync();
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name", report?.CategoryId);
+            ViewBag.UserId = new SelectList(users, "Id", "FullName", report?.UserId);
+            return View(report);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Description,Latitude,Longitude,CategoryId,UserId")] Report report, IFormFile? photo)
         {
+            await EnsureDefaultCategoriesAsync();
             if (User.Identity?.IsAuthenticated == true)
             {
                 var currentUserId = _userManager.GetUserId(User);
@@ -82,9 +119,7 @@ namespace FixMyCity.Web.Controllers
                 TempData["SuccessMessage"] = "Issue report submitted successfully! Thank you for helping fix your city.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", report.CategoryId);
-            ViewBag.UserId = new SelectList(_context.Users, "Id", "FullName", report.UserId);
-            return View(report);
+            return await CreateFormViewAsync(report);
         }
 
         [Authorize]
