@@ -1,0 +1,120 @@
+@model IEnumerable<FixMyCity.Data.Models.MunicipalService>
+@{
+    ViewData["Title"] = "Municipal Services - Admin";
+    Layout = "_LayoutApp";
+}
+
+<div class="container-fluid py-4" style="max-width: 1100px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to Admin Dashboard
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h2 class="h3 fw-bold mb-1">MUNICIPAL <span>SERVICES CONFIGURATION</span></h2>
+            <p class="text-muted small mb-0">Configure utility sectors, municipal fees, and service categories for citizen payments.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="MunicipalProviders" class="btn btn-outline-secondary">
+                <i class="bi bi-building me-1"></i> Manage Providers
+            </a>
+            <button class="btn btn-primary d-inline-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#newServiceBox">
+                <i class="bi bi-plus-lg"></i> Add New Service
+            </button>
+        </div>
+    </div>
+
+    <!-- Create Collapsible Form -->
+    <div class="collapse mb-4" id="newServiceBox">
+        <div class="card border rounded-3 shadow-sm p-4">
+            <h4 class="h5 fw-bold mb-3 text-primary"><i class="bi bi-plus-circle-fill me-2"></i> Add Municipal Service Category</h4>
+            <form asp-action="CreateService" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="row g-3 mb-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Service Name <span class="text-danger">*</span></label>
+                        <input name="Name" class="form-control" placeholder="e.g. Electricity Supply" required />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                        <select name="Category" class="form-select" required>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Gas">Gas</option>
+                            <option value="Water">Water</option>
+                            <option value="Tax">City Corporation / Holding Tax</option>
+                            <option value="Waste">Waste Management</option>
+                            <option value="Trade">Trade License & Commercial</option>
+                            <option value="Certificate">Certificates & Permits</option>
+                            <option value="Other">Other Civic Services</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Description</label>
+                        <input name="Description" class="form-control" placeholder="Brief explanation of bill scope..." />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">Create Service</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#newServiceBox">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light border-bottom">
+                    <tr>
+                        <th class="py-3 px-3">Service Name</th>
+                        <th class="py-3">Category</th>
+                        <th class="py-3">Description</th>
+                        <th class="py-3">Active Providers</th>
+                        <th class="py-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td class="px-3">
+                                <div class="fw-bold">@s.Name</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border">@s.Category</span>
+                            </td>
+                            <td class="small text-muted">@s.Description</td>
+                            <td>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                    @s.Providers.Count Providers
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge @(s.IsActive ? "bg-success" : "bg-secondary")">
+                                    @(s.IsActive ? "Active" : "Disabled")
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

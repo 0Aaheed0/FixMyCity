@@ -1,11 +1,14 @@
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using FixMyCity.Data;
 using FixMyCity.Data.Models;
 using FixMyCity.Web.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace FixMyCity.Web.Controllers;
 
@@ -39,9 +42,11 @@ public class HomeController : Controller
         var pendingReports = await _context.Reports.CountAsync(r => r.IssueId == null || (r.Issue != null && r.Issue.Status != "Resolved" && r.Issue.Status != "Verified"));
         
         var myReportsCount = 0;
+        var pendingBillsCount = 0;
         if (!string.IsNullOrEmpty(currentUserId))
         {
             myReportsCount = await _context.Reports.CountAsync(r => r.UserId == currentUserId);
+            pendingBillsCount = await _context.CitizenBills.CountAsync(b => b.UserId == currentUserId && b.Status == "Unpaid");
         }
 
         var recentReports = await _context.Reports
@@ -55,6 +60,45 @@ public class HomeController : Controller
         var departments = await _context.Departments.Take(5).ToListAsync();
         var categories = await _context.Categories.ToListAsync();
 
+        var now = DateTime.UtcNow;
+        var emergencyAlerts = await _context.EmergencyAlerts
+            .Where(e => e.Status == "Active" && e.ExpireAt >= now)
+            .OrderByDescending(e => e.Severity == "Critical")
+            .ThenByDescending(e => e.StartAt)
+            .Take(3)
+            .ToListAsync();
+
+        var announcements = await _context.Announcements
+            .Where(a => a.Status == "Active" && a.ExpiryDate >= now)
+            .OrderByDescending(a => a.StartDate)
+            .Take(4)
+            .ToListAsync();
+
+        var recentNotifications = !string.IsNullOrEmpty(currentUserId)
+            ? await _context.Notifications
+                .Where(n => n.UserId == currentUserId)
+                .OrderByDescending(n => n.CreatedAt)
+                .Take(5)
+                .ToListAsync()
+            : new();
+
+        var recentLostFound = await _context.LostFoundPosts
+            .Where(p => !p.IsHidden && p.Status == "Active")
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(4)
+            .ToListAsync();
+
+        var municipalServices = await _context.MunicipalServices
+            .Include(s => s.Providers.Where(p => p.IsActive))
+            .Where(s => s.IsActive)
+            .OrderBy(s => s.Id)
+            .Take(4)
+            .ToListAsync();
+
+        var pendingBills = !string.IsNullOrEmpty(currentUserId)
+            ? await _context.CitizenBills.Include(b => b.Provider).Where(b => b.UserId == currentUserId && b.Status == "Unpaid").ToListAsync()
+            : new List<CitizenBill>();
+
         var viewModel = new DashboardViewModel
         {
             TotalReports = totalReports,
@@ -65,7 +109,14 @@ public class HomeController : Controller
             UserFullName = currentUser?.FullName ?? User.Identity?.Name ?? "Citizen",
             RecentReports = recentReports,
             Departments = departments,
-            Categories = categories
+            Categories = categories,
+            ActiveEmergencyAlerts = emergencyAlerts,
+            NearbyAnnouncements = announcements,
+            RecentNotifications = recentNotifications,
+            PendingBills = pendingBills,
+            PendingBillsCount = pendingBills.Count,
+            RecentLostFound = recentLostFound,
+            MunicipalServices = municipalServices
         };
 
         return View(viewModel);

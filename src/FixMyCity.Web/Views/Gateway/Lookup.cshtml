@@ -1,0 +1,134 @@
+@model FixMyCity.Web.Models.BillLookupViewModel
+@{
+    ViewData["Title"] = "Look Up Bill - Municipal Gateway";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 860px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="text-decoration-none text-muted" style="font-size: 13px;">
+            <i class="bi bi-arrow-left me-1"></i> BACK TO GATEWAY
+        </a>
+    </div>
+
+    <div class="card border rounded-3 shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3 border-bottom">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="fmc-status-dot"></span>
+                <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                    BILL SEARCH & VERIFICATION
+                </span>
+            </div>
+            <h2 class="h4 mb-1 fw-bold">SEARCH <span>MUNICIPAL & UTILITY BILL</span></h2>
+            <p class="text-muted small mb-0">Select your utility or city corporation provider and enter your account/meter/holding number.</p>
+        </div>
+
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                    <div>@Model.ErrorMessage</div>
+                </div>
+            }
+
+            <form asp-action="Lookup" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label asp-for="ProviderId" class="form-label fw-semibold">
+                        <i class="bi bi-building me-1 text-primary"></i> Service Provider <span class="text-danger">*</span>
+                    </label>
+                    <select asp-for="ProviderId" class="form-select form-select-lg" required>
+                        <option value="">-- Choose Provider (e.g. DPDC, DESCO, Titas Gas, WASA) --</option>
+                        @foreach (var provider in Model.Providers)
+                        {
+                            <option value="@provider.Id">@provider.Name - @provider.Service?.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ProviderId" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ConsumerNumber" class="form-label fw-semibold">
+                        <i class="bi bi-card-text me-1 text-primary"></i> Consumer / Account / Holding Number <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="ConsumerNumber" class="form-control form-control-lg" placeholder="e.g. 100234892 or DH-99231" required />
+                    <span asp-validation-for="ConsumerNumber" class="text-danger small"></span>
+                    <small class="form-text text-muted">
+                        <i class="bi bi-info-circle me-1"></i> Tip: In sandbox mode, entering any 8+ digit or demo number will instantly retrieve or simulate your authentic Dhaka bill.
+                    </small>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-search"></i> Fetch Bill Details
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- If Bill was Found -->
+    @if (Model.FoundBill != null)
+    {
+        <div class="card border-success border-2 rounded-3 shadow-sm bg-success-subtle bg-opacity-10 mb-4 animate__animated animate__fadeIn">
+            <div class="card-header bg-transparent py-3 border-bottom border-success-subtle d-flex justify-content-between align-items-center">
+                <span class="badge bg-success px-3 py-2 fs-6">
+                    <i class="bi bi-check2-circle me-1"></i> BILL FOUND & VERIFIED
+                </span>
+                <span class="text-muted small">Period: <strong>@Model.FoundBill.BillingPeriod</strong></span>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <small class="text-uppercase text-muted fw-semibold">Service Provider</small>
+                        <h4 class="fw-bold text-dark mt-1">@Model.FoundBill.Provider?.Name</h4>
+                        <div class="text-muted small">@Model.FoundBill.Provider?.Service?.Name</div>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small class="text-uppercase text-muted fw-semibold">Net Payable Amount</small>
+                        <h2 class="fw-bold text-primary mt-1">BDT @Model.FoundBill.Amount.ToString("N2")</h2>
+                        <span class="badge @(Model.FoundBill.Status == "Paid" ? "bg-success" : "bg-danger") px-2 py-1">
+                            Status: @Model.FoundBill.Status
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="my-3 opacity-25" />
+
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <div class="small text-muted">Consumer / Meter No.</div>
+                        <div class="fw-bold font-monospace">@Model.FoundBill.ConsumerNumber</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="small text-muted">Invoice / Bill Number</div>
+                        <div class="fw-bold font-monospace">@Model.FoundBill.BillNumber</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="small text-muted">Payment Due Date</div>
+                        <div class="fw-bold text-danger">@Model.FoundBill.DueDate.ToString("MMMM dd, yyyy")</div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top border-success-subtle">
+                    @if (Model.FoundBill.Status == "Paid")
+                    {
+                        <button class="btn btn-secondary px-4" disabled>
+                            <i class="bi bi-check-all me-1"></i> Already Paid
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-action="Pay" asp-route-billId="@Model.FoundBill.Id" class="btn btn-success btn-lg px-4 d-inline-flex align-items-center gap-2 shadow-sm">
+                            <i class="bi bi-credit-card-fill"></i> Proceed to Pay (BDT @Model.FoundBill.Amount.ToString("N2"))
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

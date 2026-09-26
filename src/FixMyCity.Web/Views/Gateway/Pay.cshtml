@@ -1,0 +1,218 @@
+@model FixMyCity.Web.Models.PayBillViewModel
+@{
+    ViewData["Title"] = "Pay Bill - Municipal Gateway";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 980px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="text-decoration-none text-muted" style="font-size: 13px;">
+            <i class="bi bi-arrow-left me-1"></i> BACK TO GATEWAY
+        </a>
+    </div>
+
+    <!-- Alert / Errors -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <div asp-validation-summary="All" class="mb-0"></div>
+        </div>
+    }
+
+    <div class="row g-4">
+        <!-- Left: Payment Details Form -->
+        <div class="col-lg-7">
+            <div class="card border rounded-3 shadow-sm h-100">
+                <div class="card-header bg-transparent py-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="fmc-status-dot"></span>
+                        <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                            CHECKOUT & DISBURSEMENT
+                        </span>
+                    </div>
+                    <h2 class="h4 mb-0 fw-bold">SELECT <span>PAYMENT METHOD</span></h2>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Pay" method="post" id="payForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="BillId" />
+
+                        <!-- Method selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-muted small text-uppercase">Payment Channel</label>
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-4">
+                                    <input type="radio" class="btn-check" name="PaymentMethod" id="methodBkash" value="bKash" checked onchange="toggleFields('mfs')">
+                                    <label class="btn btn-outline-secondary w-100 p-3 text-center rounded-3 h-100 d-flex flex-column align-items-center justify-content-center" for="methodBkash">
+                                        <i class="bi bi-phone-fill text-danger fs-3 mb-1"></i>
+                                        <span class="fw-bold d-block text-body">bKash</span>
+                                        <small class="text-muted" style="font-size: 11px;">MFS Wallet</small>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <input type="radio" class="btn-check" name="PaymentMethod" id="methodNagad" value="Nagad" onchange="toggleFields('mfs')">
+                                    <label class="btn btn-outline-secondary w-100 p-3 text-center rounded-3 h-100 d-flex flex-column align-items-center justify-content-center" for="methodNagad">
+                                        <i class="bi bi-wallet2 text-warning fs-3 mb-1"></i>
+                                        <span class="fw-bold d-block text-body">Nagad</span>
+                                        <small class="text-muted" style="font-size: 11px;">Post Office MFS</small>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <input type="radio" class="btn-check" name="PaymentMethod" id="methodRocket" value="Rocket" onchange="toggleFields('mfs')">
+                                    <label class="btn btn-outline-secondary w-100 p-3 text-center rounded-3 h-100 d-flex flex-column align-items-center justify-content-center" for="methodRocket">
+                                        <i class="bi bi-lightning-charge-fill text-primary fs-3 mb-1"></i>
+                                        <span class="fw-bold d-block text-body">Rocket</span>
+                                        <small class="text-muted" style="font-size: 11px;">DBBL MFS</small>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <input type="radio" class="btn-check" name="PaymentMethod" id="methodCard" value="Card" onchange="toggleFields('card')">
+                                    <label class="btn btn-outline-secondary w-100 p-3 text-center rounded-3 h-100 d-flex flex-column align-items-center justify-content-center" for="methodCard">
+                                        <i class="bi bi-credit-card-2-front-fill text-info fs-3 mb-1"></i>
+                                        <span class="fw-bold d-block text-body">Debit / Credit</span>
+                                        <small class="text-muted" style="font-size: 11px;">Visa / Master</small>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <input type="radio" class="btn-check" name="PaymentMethod" id="methodMock" value="Mock" onchange="toggleFields('mock')">
+                                    <label class="btn btn-outline-secondary w-100 p-3 text-center rounded-3 h-100 d-flex flex-column align-items-center justify-content-center" for="methodMock">
+                                        <i class="bi bi-cpu text-success fs-3 mb-1"></i>
+                                        <span class="fw-bold d-block text-body">Test Sandbox</span>
+                                        <small class="text-muted" style="font-size: 11px;">Simulated API</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MFS Fields -->
+                        <div id="mfsFieldsBlock">
+                            <div class="mb-3">
+                                <label asp-for="CustomerPhone" class="form-label fw-semibold">
+                                    <i class="bi bi-telephone me-1 text-primary"></i> Mobile Wallet Number <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="CustomerPhone" class="form-control form-control-lg" placeholder="e.g. 01711000000" />
+                                <span asp-validation-for="CustomerPhone" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="PinOrOtp" class="form-label fw-semibold">
+                                    <i class="bi bi-shield-lock me-1 text-primary"></i> Wallet PIN or OTP
+                                </label>
+                                <input asp-for="PinOrOtp" type="password" class="form-control" placeholder="**** (Sandbox: any 4 digits)" maxlength="6" />
+                                <small class="text-muted">In sandbox test mode, enter any demo PIN (e.g. 1234).</small>
+                            </div>
+                        </div>
+
+                        <!-- Card Fields -->
+                        <div id="cardFieldsBlock" style="display: none;">
+                            <div class="mb-3">
+                                <label asp-for="CardNumber" class="form-label fw-semibold">Card Number</label>
+                                <input asp-for="CardNumber" class="form-control form-control-lg" placeholder="4111 2222 3333 4444" />
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label asp-for="CardExpiry" class="form-label fw-semibold">Expiry (MM/YY)</label>
+                                    <input asp-for="CardExpiry" class="form-control" placeholder="12/28" />
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="CardCvv" class="form-label fw-semibold">CVV</label>
+                                    <input asp-for="CardCvv" class="form-control" placeholder="123" maxlength="4" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sandbox Alert Notice -->
+                        <div class="alert alert-info border-info-subtle d-flex align-items-center gap-2 py-2 mb-4" style="font-size: 13px;">
+                            <i class="bi bi-shield-check fs-5 text-info"></i>
+                            <div>
+                                <strong>Secure Sandbox Mode Active:</strong> No real bank funds will be deducted. All digital signatures, transaction references, and receipts are formally generated.
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-lock-fill me-2"></i> Confirm & Authorize Payment</span>
+                                <span>BDT @Model.Bill?.Amount.ToString("N2")</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Bill Order Summary -->
+        <div class="col-lg-5">
+            <div class="card border rounded-3 shadow-sm bg-light">
+                <div class="card-header bg-transparent py-3 border-bottom">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2 text-primary"></i> Bill Breakdown</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-3 p-3 bg-white border text-primary" style="width: 50px; height: 50px; display:flex; align-items:center; justify-content:center; font-size:22px;">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">@Model.Bill?.Provider?.Name</h5>
+                            <small class="text-muted">@Model.Bill?.Provider?.Service?.Name</small>
+                        </div>
+                    </div>
+
+                    <div class="list-group list-group-flush mb-3">
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Consumer / Account:</span>
+                            <span class="fw-bold font-monospace">@Model.Bill?.ConsumerNumber</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Bill / Reference:</span>
+                            <span class="fw-bold font-monospace">@Model.Bill?.BillNumber</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Billing Cycle:</span>
+                            <span>@Model.Bill?.BillingPeriod</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Payment Deadline:</span>
+                            <span class="text-danger fw-bold">@Model.Bill?.DueDate.ToString("MMM dd, yyyy")</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Municipal Surcharge:</span>
+                            <span class="text-success fw-semibold">BDT 0.00 (Waived)</span>
+                        </div>
+                    </div>
+
+                    <hr class="my-2" />
+
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span class="fs-5 fw-bold">Total Payable</span>
+                        <span class="fs-4 fw-bold text-primary">BDT @Model.Bill?.Amount.ToString("N2")</span>
+                    </div>
+
+                    <div class="text-center mt-3 pt-3 border-top">
+                        <small class="text-muted">
+                            <i class="bi bi-patch-check-fill text-success me-1"></i> Authorized by Dhaka Municipal Corporation & Utility Regulators
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleFields(type) {
+            const mfs = document.getElementById('mfsFieldsBlock');
+            const card = document.getElementById('cardFieldsBlock');
+            if (type === 'card') {
+                mfs.style.display = 'none';
+                card.style.display = 'block';
+            } else {
+                mfs.style.display = 'block';
+                card.style.display = 'none';
+            }
+        }
+    </script>
+}

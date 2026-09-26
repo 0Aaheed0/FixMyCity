@@ -1,88 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FixMyCity Smart Municipal Portal</title>
 
-    <title>@ViewData["Title"] - FixMyCity</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-          rel="stylesheet" />
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-
-    <!-- Main Site CSS -->
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-
 <body class="fmc-auth-page">
-
     <div class="fmc-auth-screen">
-
-        <!-- =========================================
-             LEFT BRAND SECTION
-             ========================================= -->
-
+        <!-- LEFT BRAND SECTION -->
         <div class="fmc-auth-brand">
+            <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Back to Home
+                </a>
+                <button id="themeToggleBtnAuth" type="button" class="btn btn-sm btn-outline-light rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="Toggle Theme">
+                    <i id="themeToggleIconAuth" class="bi bi-moon-stars-fill"></i>
+                </button>
+            </div>
 
             <div class="fmc-auth-brand-content">
-
                 <div class="fmc-auth-eyebrow">
-                    <span></span>
-                    CIVIC REPORTING, FIXED
+                    <i class="bi bi-shield-check me-1"></i> CIVIC REPORTING &bull; REAL-TIME RESOLUTION
                 </div>
-
                 <h1 class="fmc-auth-logo">
-                    FIX<span>MY</span>CITY
+                    FIX<span class="text-primary-accent">MY</span>CITY
                 </h1>
-
                 <p class="fmc-auth-tagline">
-                    Report it. Track it. Watch your city get fixed.
+                    Report civic problems, monitor municipal repair progress, pay public utility bills, and stay informed on emergency directives.
                 </p>
 
+                <div class="mt-4 pt-3 border-top border-white-50 small text-white-50 d-flex flex-column gap-2">
+                    <div><i class="bi bi-check2-circle text-primary-accent me-2"></i> Verified Department Routing</div>
+                    <div><i class="bi bi-check2-circle text-primary-accent me-2"></i> Real-time Incident Geolocation</div>
+                    <div><i class="bi bi-check2-circle text-primary-accent me-2"></i> Resolution Verification & Photo Proof</div>
+                </div>
             </div>
 
-            <div class="fmc-auth-stripe"></div>
-
+            <div class="small text-white-50 mt-4">
+                &copy; 2026 FixMyCity Municipal Governance Portal. All rights reserved.
+            </div>
         </div>
 
-
-        <!-- =========================================
-             RIGHT LOGIN / REGISTER SECTION
-             ========================================= -->
-
+        <!-- RIGHT LOGIN / REGISTER SECTION -->
         <div class="fmc-auth-panel">
-
             <div class="fmc-auth-card">
-
                 @RenderBody()
-
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- Scripts -->
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            const themeBtn = document.getElementById('themeToggleBtnAuth');
+            const themeIcon = document.getElementById('themeToggleIconAuth');
 
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                localStorage.setItem('fmc-theme', theme);
+                if (theme === 'dark') {
+                    if (themeIcon) themeIcon.className = 'bi bi-sun-fill text-warning';
+                } else {
+                    if (themeIcon) themeIcon.className = 'bi bi-moon-stars-fill';
+                }
+            }
+
+            const savedTheme = localStorage.getItem('fmc-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'light';
+                    applyTheme(current === 'dark' ? 'light' : 'dark');
+                });
+            }
+        })();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>

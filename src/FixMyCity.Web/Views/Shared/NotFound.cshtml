@@ -1,9 +1,71 @@
 @{
-    ViewData["Title"] = "Page Not Found";
-    Layout = "_LayoutHero";
+    ViewData["Title"] = "404 - Page Not Found";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
 }
-<section class="fmc-hero">
-    <div class="fmc-eyebrow">Error 404</div>
-    <h1 class="fmc-headline">Page <span>Not Found</span></h1>
-    <a href="/" class="btn fmc-cta mt-3">Back to Home</a>
-</section>
+
+<div class="container py-5 text-center" style="max-width: 680px;">
+    <div class="card border rounded-4 shadow-sm p-4 p-md-5 my-4">
+        <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning-subtle text-warning p-4" style="width: 88px; height: 88px; font-size: 42px;">
+                <i class="bi bi-compass"></i>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+            <span class="fmc-status-dot"></span>
+            <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                ERROR 404 &bull; ADDRESS UNMAPPED
+            </span>
+        </div>
+
+        <h1 class="display-6 fw-bold mb-2">Page Not Found</h1>
+        <p class="text-muted fs-6 mb-4" style="line-height: 1.6;">
+            The civic page, report reference, or municipal resource you requested could not be located on the server. It may have been archived, relocated, or temporarily decommissioned.
+        </p>
+
+        <!-- Quick Route Options -->
+        <div class="row g-2 mb-4 text-start">
+            <div class="col-sm-6">
+                <a asp-controller="Home" asp-action="Index" class="card p-3 border rounded-3 text-decoration-none h-100 hover-shadow transition-all">
+                    <div class="d-flex align-items-center gap-2 fw-semibold text-primary">
+                        <i class="bi bi-house-door-fill"></i> Home Portal
+                    </div>
+                    <small class="text-muted">Return to municipal overview</small>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a asp-controller="Map" asp-action="Index" class="card p-3 border rounded-3 text-decoration-none h-100 hover-shadow transition-all">
+                    <div class="d-flex align-items-center gap-2 fw-semibold text-primary">
+                        <i class="bi bi-pin-map-fill"></i> Incident Radar
+                    </div>
+                    <small class="text-muted">View live city problems</small>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a asp-controller="Reports" asp-action="Create" class="card p-3 border rounded-3 text-decoration-none h-100 hover-shadow transition-all">
+                    <div class="d-flex align-items-center gap-2 fw-semibold text-primary">
+                        <i class="bi bi-plus-circle-fill"></i> Report Issue
+                    </div>
+                    <small class="text-muted">Submit an infrastructure hazard</small>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a asp-controller="Gateway" asp-action="Index" class="card p-3 border rounded-3 text-decoration-none h-100 hover-shadow transition-all">
+                    <div class="d-flex align-items-center gap-2 fw-semibold text-primary">
+                        <i class="bi bi-wallet2"></i> Utility Gateway
+                    </div>
+                    <small class="text-muted">Pay city corporation bills</small>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <a href="javascript:history.back()" class="btn btn-outline-secondary px-4 me-2">
+                <i class="bi bi-arrow-left me-1"></i> Go Back
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4">
+                <i class="bi bi-buildings me-1"></i> Return Home
+            </a>
+        </div>
+    </div>
+</div>

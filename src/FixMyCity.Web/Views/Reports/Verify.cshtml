@@ -1,15 +1,160 @@
 @model FixMyCity.Data.Models.Report
 @{
-    ViewData["Title"] = "Verify Resolution";
+    ViewData["Title"] = "Report Details & Verification";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+    var status = Model.Issue?.Status ?? "Reported";
+    var evidenceList = ViewBag.Evidence as IEnumerable<FixMyCity.Data.Models.Evidence> ?? Enumerable.Empty<FixMyCity.Data.Models.Evidence>();
+    var historyList = ViewBag.StatusHistory as IEnumerable<FixMyCity.Data.Models.StatusHistory> ?? Enumerable.Empty<FixMyCity.Data.Models.StatusHistory>();
 }
-<div class="fmc-dashboard-hero">
-    <h2>Verify Resolution</h2>
-    <p><strong>@Model.Description</strong></p>
-    <p>Category: @Model.Category?.Name</p>
-    <p>Status: @(Model.Issue?.Status ?? "Not yet grouped into an issue")</p>
-    <h4 class="mt-4">Resolution timeline</h4>
-    <div class="fmc-status-timeline"><div><strong>Reported</strong><small>Issue submitted by the community</small></div>@foreach (var item in (IEnumerable<FixMyCity.Data.Models.StatusHistory>)ViewBag.StatusHistory) { <div><strong>@item.NewStatus</strong><small>@item.ChangedAt.ToLocalTime().ToString("MMM d, yyyy HH:mm") · @item.Note</small></div> }</div>
-    @if (Model.Issue?.Reports?.Count > 1) { <div class="alert alert-info mt-3">This issue has @Model.Issue.Reports.Count supporting reports nearby. Community duplicates increase priority.</div> }
-    <h4 class="mt-4">Repair evidence</h4>
-    @if (((IEnumerable<FixMyCity.Data.Models.Evidence>)ViewBag.Evidence).Any()) { <div class="row g-3">@foreach (var evidence in (IEnumerable<FixMyCity.Data.Models.Evidence>)ViewBag.Evidence) { <div class="col-md-4"><div class="fmc-evidence-card"><img src="@evidence.PhotoPath" alt="Repair evidence" /><small>@evidence.Note</small><span>@evidence.UploadedAt.ToLocalTime().ToString("MMM d, yyyy")</span></div></div> }</div> } else { <p class="text-muted">Repair photos will appear here after field staff upload evidence.</p> }
+
+<div class="container-fluid py-4" style="max-width: 1000px;">
+
+    <!-- Navigation Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to Reports
+        </a>
+    </div>
+
+    <!-- Main Incident Card -->
+    <div class="card border rounded-3 shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <span class="fmc-dashboard-kicker mb-1">
+                    <i class="bi bi-geo-alt-fill text-danger"></i> INCIDENT #@Model.Id
+                </span>
+                <h1 class="h3 fw-bold mb-0">@(Model.Category?.Name ?? "Civic Incident")</h1>
+            </div>
+            <div>
+                @if (status == "Verified")
+                {
+                    <span class="badge badge-verified fs-6 px-3 py-2"><i class="bi bi-patch-check-fill me-1"></i> Verified Resolution</span>
+                }
+                else if (status == "Resolved")
+                {
+                    <span class="badge badge-resolved fs-6 px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i> Issue Resolved</span>
+                }
+                else if (status == "InProgress")
+                {
+                    <span class="badge badge-in-progress fs-6 px-3 py-2"><i class="bi bi-tools me-1"></i> Under Repair</span>
+                }
+                else
+                {
+                    <span class="badge badge-reported fs-6 px-3 py-2"><i class="bi bi-hourglass-split me-1"></i> Reported / Pending Review</span>
+                }
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-7">
+                    <h5 class="fw-bold mb-2">Description</h5>
+                    <p class="lead fs-6 text-body">@Model.Description</p>
+
+                    <div class="p-3 rounded-3 bg-body-secondary border mt-3">
+                        <div class="row g-2 small">
+                            <div class="col-6">
+                                <span class="text-muted d-block">Reported Date</span>
+                                <strong class="text-body">@Model.CreatedAt.ToLocalTime().ToString("MMM d, yyyy · hh:mm tt")</strong>
+                            </div>
+                            <div class="col-6">
+                                <span class="text-muted d-block">Department</span>
+                                <strong class="text-body">@(Model.Category?.ResponsibleDepartment ?? "Public Works")</strong>
+                            </div>
+                            @if (Model.Latitude != 0 || Model.Longitude != 0)
+                            {
+                                <div class="col-12 mt-2 pt-2 border-top">
+                                    <span class="text-muted d-block">Coordinates</span>
+                                    <span class="font-monospace text-body">@Model.Latitude.ToString("F4"), @Model.Longitude.ToString("F4")</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                    {
+                        <div>
+                            <span class="text-muted small fw-semibold d-block mb-2">Citizen Uploaded Photo</span>
+                            <div class="rounded-3 overflow-hidden border shadow-sm" style="max-height: 260px;">
+                                <img src="@Model.PhotoPath" alt="Problem photo" class="w-100 h-100 object-fit-cover" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="p-4 rounded-3 border bg-body-secondary text-center text-muted">
+                            <i class="bi bi-image fs-1 d-block mb-2 opacity-50"></i>
+                            <span class="small">No citizen photo attached</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.Issue?.Reports?.Count > 1)
+            {
+                <div class="alert alert-info d-flex align-items-center gap-2 mt-4 mb-0">
+                    <i class="bi bi-people-fill fs-5"></i>
+                    <div>
+                        <strong>Community Confirmation:</strong> This issue has <strong>@(Model.Issue.Reports.Count)</strong> supporting reports from nearby citizens, which increases its municipal dispatch priority score.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Status History Timeline -->
+    <div class="card border rounded-3 shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom">
+            <h5 class="fw-bold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i> Resolution Timeline</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="fmc-status-timeline mb-0">
+                <div>
+                    <strong>Report Submitted</strong>
+                    <small>Incident registered by community member &bull; @Model.CreatedAt.ToLocalTime().ToString("MMM d, yyyy HH:mm")</small>
+                </div>
+                @foreach (var item in historyList)
+                {
+                    <div>
+                        <strong>Status changed to: @item.NewStatus</strong>
+                        <small>@item.ChangedAt.ToLocalTime().ToString("MMM d, yyyy HH:mm") &bull; @(string.IsNullOrEmpty(item.Note) ? "Updated in municipal operations" : item.Note)</small>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Field Repair Evidence -->
+    <div class="card border rounded-3 shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom">
+            <h5 class="fw-bold mb-0"><i class="bi bi-shield-check me-2 text-success"></i> Field Repair Proof & Evidence</h5>
+        </div>
+        <div class="card-body p-4">
+            @if (evidenceList.Any())
+            {
+                <div class="row g-3">
+                    @foreach (var evidence in evidenceList)
+                    {
+                        <div class="col-md-4 col-sm-6">
+                            <div class="fmc-evidence-card">
+                                <img src="@evidence.PhotoPath" alt="Repair evidence" />
+                                <small>@(string.IsNullOrEmpty(evidence.Note) ? "Field completion verified" : evidence.Note)</small>
+                                <span><i class="bi bi-calendar-event me-1"></i> @evidence.UploadedAt.ToLocalTime().ToString("MMM d, yyyy")</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-camera fs-1 opacity-50 d-block mb-2"></i>
+                    <p class="mb-0">Photographic repair evidence will be displayed here as soon as field response personnel complete on-site repairs.</p>
+                </div>
+            }
+        </div>
+    </div>
+
 </div>

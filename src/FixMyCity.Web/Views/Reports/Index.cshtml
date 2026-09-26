@@ -4,87 +4,151 @@
     Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
 }
 
-<div class="container py-4" style="max-width: 1100px;">
+<div class="container-fluid py-4" style="max-width: 1200px;">
 
     <!-- Top Action Bar -->
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <span class="fmc-status-dot"></span>
-                <span style="color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;">
-                    PUBLIC INCIDENT LOG
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <span class="fmc-dashboard-kicker">
+                    <i class="bi bi-broadcast"></i> PUBLIC INCIDENT LOG
                 </span>
+                <h1 class="fmc-card-title mb-1">COMMUNITY <span>REPORTS</span></h1>
+                <p class="fmc-card-subtitle">
+                    Live civic problem registry across all city wards. View public reports, resolution progress, and local fixes.
+                </p>
             </div>
-            <h1 class="fmc-card-title mb-0">COMMUNITY <span>REPORTS</span></h1>
+            <div class="d-flex gap-2">
+                <a asp-action="Create" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm">
+                    <i class="bi bi-plus-lg"></i> Report New Issue
+                </a>
+                <a asp-controller="Map" asp-action="Index" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-map"></i> View on Map
+                </a>
+            </div>
         </div>
-
-        <a asp-action="Create" class="fmc-btn-submit text-decoration-none">
-            <i class="bi bi-plus-lg"></i> REPORT NEW ISSUE
-        </a>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success d-flex align-items-center gap-2 mb-4" style="background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; color: #75e092;">
+        <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
             <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
         </div>
     }
 
+    <!-- Filter Card -->
+    <div class="card border rounded-3 p-3 mb-4 shadow-sm">
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+            <div class="input-group" style="max-width: 280px;">
+                <span class="input-group-text bg-body border-end-0"><i class="bi bi-tag"></i></span>
+                <select name="categoryId" class="form-select border-start-0">
+                    <option value="">All Categories</option>
+                    @if (ViewBag.Categories != null)
+                    {
+                        foreach (var c in (IEnumerable<FixMyCity.Data.Models.Category>)ViewBag.Categories)
+                        {
+                            <option value="@c.Id" selected="@(ViewBag.SelectedCategory == c.Id)">@c.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="input-group" style="max-width: 220px;">
+                <span class="input-group-text bg-body border-end-0"><i class="bi bi-filter"></i></span>
+                <select name="status" class="form-select border-start-0">
+                    <option value="">All Statuses</option>
+                    <option value="Reported">Reported</option>
+                    <option value="InProgress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Verified">Verified</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Filter Reports</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+        </form>
+    </div>
+
     <!-- Reports Table Card -->
-    <div class="fmc-app-card">
-        <form method="get" class="d-flex flex-wrap gap-2 p-3"><select name="categoryId" class="form-select" style="max-width:260px"><option value="">All categories</option>@foreach (var c in (IEnumerable<FixMyCity.Data.Models.Category>)ViewBag.Categories) { <option value="@c.Id" selected="@(ViewBag.SelectedCategory == c.Id)">@c.Name</option> }</select><select name="status" class="form-select" style="max-width:180px"><option value="">All statuses</option><option value="Reported">Reported</option><option value="InProgress">In progress</option><option value="Resolved">Resolved</option><option value="Verified">Verified</option></select><button class="btn btn-primary" type="submit">Filter reports</button></form>
-        @if (!Model.Any())
-        {
-            <div class="text-center py-5 px-3">
-                <i class="bi bi-clipboard-check text-muted" style="font-size: 48px;"></i>
-                <h4 class="mt-3 text-white" style="font-family: 'Oswald', sans-serif;">NO REPORTS SUBMITTED YET</h4>
-                <p class="text-muted" style="font-size: 14px;">Be the first to report a problem in your city.</p>
-                <a asp-action="Create" class="fmc-btn-submit text-decoration-none mt-2">
-                    <i class="bi bi-plus-lg"></i> Submit First Report
+    @if (!Model.Any())
+    {
+        <div class="card border rounded-3 shadow-sm py-5 px-4 text-center">
+            <div class="fmc-empty-state">
+                <i class="bi bi-clipboard2-check text-muted"></i>
+                <h4>No reports match your criteria</h4>
+                <p>There are currently no civic incidents matching the selected filters. Be the first to report an issue in your area.</p>
+                <a asp-action="Create" class="btn btn-primary px-4 py-2">
+                    <i class="bi bi-plus-lg me-1"></i> Submit First Report
                 </a>
             </div>
-        }
-        else
-        {
+        </div>
+    }
+    else
+    {
+        <div class="card border rounded-3 shadow-sm overflow-hidden">
             <div class="table-responsive">
-                <table class="table mb-0 fmc-reports-table" style="background: rgba(245,238,252,.72) !important; --bs-table-hover-bg: transparent;">
-                    <thead style="border-bottom: 1px solid rgba(109, 40, 217, 0.3);">
-                        <tr style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6D28D9; text-transform: uppercase;">
-                            <th class="py-3 px-4">#</th>
-                            <th class="py-3 px-3">Category</th>
-                            <th class="py-3 px-3">Description</th>
-                            <th class="py-3 px-3">Reported By</th>
-                            <th class="py-3 px-3">Date</th>
-                            <th class="py-3 px-4 text-end">Action</th>
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">#</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Reported By</th>
+                            <th>Date</th>
+                            <th class="text-end pe-4">Action</th>
                         </tr>
                     </thead>
-                    <tbody style="border-top: none; font-size: 14px;">
+                    <tbody>
                         @{ int idx = 1; }
                         @foreach (var item in Model)
                         {
-                            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle;">
-                                <td class="py-3 px-4 text-muted" style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">@idx</td>
-                                <td class="py-3 px-3">
-                                    <span class="badge" style="background: rgba(109, 40, 217, 0.15); border: 1px solid #6D28D9; color: #6D28D9; font-weight: 500; font-size: 12px; padding: 5px 10px;">
+                            var status = item.Issue?.Status ?? "Reported";
+                            <tr>
+                                <td class="ps-4 text-muted small" style="font-family: var(--font-mono);">@idx</td>
+                                <td>
+                                    <span class="badge bg-body-secondary text-body border">
                                         @(item.Category?.Name ?? "General")
                                     </span>
                                 </td>
-                                <td class="py-3 px-3 text-white">
-                                    @if (!string.IsNullOrEmpty(item.PhotoPath))
-                                    {
-                                        <i class="bi bi-image text-fmc-accent me-1" title="Photo attached"></i>
-                                    }
-                                    @item.Description
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        @if (!string.IsNullOrEmpty(item.PhotoPath))
+                                        {
+                                            <i class="bi bi-image text-primary" title="Photo evidence attached"></i>
+                                        }
+                                        <a asp-action="Verify" asp-route-id="@item.Id" class="fw-semibold text-body text-decoration-none">
+                                            @item.Description
+                                        </a>
+                                    </div>
                                 </td>
-                                <td class="py-3 px-3 text-muted">
+                                <td>
+                                    @if (status == "Verified")
+                                    {
+                                        <span class="badge badge-verified"><i class="bi bi-patch-check-fill me-1"></i> Verified</span>
+                                    }
+                                    else if (status == "Resolved")
+                                    {
+                                        <span class="badge badge-resolved"><i class="bi bi-check-circle-fill me-1"></i> Resolved</span>
+                                    }
+                                    else if (status == "InProgress")
+                                    {
+                                        <span class="badge badge-in-progress"><i class="bi bi-tools me-1"></i> In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-reported"><i class="bi bi-hourglass-split me-1"></i> Reported</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">
                                     @(item.User?.FullName ?? "Community Member")
                                 </td>
-                                <td class="py-3 px-3 text-muted" style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">
-                                    @item.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy HH:mm")
+                                <td class="text-muted small" style="font-family: var(--font-mono);">
+                                    @item.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy")
                                 </td>
-                                <td class="py-3 px-4 text-end">
-                                    <a asp-action="Verify" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" style="font-size: 12px; font-family: 'Oswald', sans-serif; letter-spacing: 0.5px;">
-                                        DETAILS <i class="bi bi-arrow-right"></i>
+                                <td class="text-end pe-4">
+                                    <a asp-action="Verify" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
+                                        <span>Details</span> <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -93,7 +157,7 @@
                     </tbody>
                 </table>
             </div>
-        }
-    </div>
+        </div>
+    }
 
 </div>

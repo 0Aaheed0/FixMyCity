@@ -1,83 +1,260 @@
+@using FixMyCity.Data
 @using FixMyCity.Data.Models
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
 @inject UserManager<ApplicationUser> LayoutUserManager
+@inject FixMyCityDbContext LayoutDbContext
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FixMyCity</title>
+    <title>@ViewData["Title"] - FixMyCity Smart Municipal Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
-    @{ var layoutUser = await LayoutUserManager.GetUserAsync(User); var signedInEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? User.Identity?.Name ?? string.Empty; var isApprovedAdministrator = new[] { "yousha.cse.20230104097@aust.edu", "noman.cse.20230104088@aust.edu", "miraz.cse.20230104092@aust.edu", "aaheed.cse.20230104094@aust.edu" }.Contains(signedInEmail.Trim(), StringComparer.OrdinalIgnoreCase); var isStaffUser = layoutUser?.Role == "DepartmentStaff"; var isManagerUser = layoutUser?.Role == "DepartmentManager"; }
-    <nav class="fmc-topbar">
-        <div class="container-fluid d-flex align-items-center">
-            <button class="fmc-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#fmcSidebar" aria-controls="fmcSidebar">
-                <span></span><span></span><span></span>
-            </button>
-            <a class="fmc-brand-center" asp-controller="Home" asp-action="Dashboard">FIXMYCITY</a>
+    @{
+        var layoutUser = await LayoutUserManager.GetUserAsync(User);
+        var signedInEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? User.Identity?.Name ?? string.Empty;
+        var isApprovedAdministrator = layoutUser?.Role == "Administrator" || new[] { "yousha.cse.20230104097@aust.edu", "noman.cse.20230104088@aust.edu", "miraz.cse.20230104092@aust.edu", "aaheed.cse.20230104094@aust.edu", "nabdullahal83@gmail.com", "admin@fixmycity.com" }.Contains(signedInEmail.Trim(), StringComparer.OrdinalIgnoreCase);
+        var isStaffUser = layoutUser?.Role == "DepartmentStaff";
+        var isManagerUser = layoutUser?.Role == "DepartmentManager";
+        var now = DateTime.UtcNow;
+        var liveEmergency = await LayoutDbContext.EmergencyAlerts.Where(e => e.Status == "Active" && e.ExpireAt >= now).OrderByDescending(e => e.StartAt).FirstOrDefaultAsync();
+    }
+
+    <!-- Sticky City-wide Emergency Alert Bar (Feature 3 & 13) -->
+    @if (liveEmergency != null)
+    {
+        <div class="fmc-global-emergency-bar d-print-none py-2 px-3 text-white d-flex align-items-center justify-content-between">
+            <div class="container-fluid d-flex align-items-center gap-3">
+                <span class="badge bg-white text-danger fw-bold text-uppercase px-2 py-1">
+                    <i class="bi bi-shield-exclamation me-1"></i> @liveEmergency.Severity EMERGENCY
+                </span>
+                <span class="fw-semibold text-truncate" style="max-width: 820px;">
+                    @liveEmergency.Title &mdash; @liveEmergency.Description
+                </span>
+            </div>
+            <a asp-controller="Community" asp-action="Alerts" class="btn btn-sm btn-light text-danger fw-bold text-nowrap flex-shrink-0">
+                View Directive &rarr;
+            </a>
+        </div>
+    }
+
+    <!-- Modern Topbar Navigation -->
+    <nav class="fmc-topbar shadow-sm">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="fmc-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#fmcSidebar" aria-controls="fmcSidebar" title="Toggle Navigation Menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <a class="fmc-brand-logo text-decoration-none d-flex align-items-center gap-2" asp-controller="Home" asp-action="Dashboard">
+                    <span class="fmc-logo-badge"><i class="bi bi-buildings"></i></span>
+                    <span class="fw-bold tracking-tight text-white fs-5">FIX<span class="text-primary-accent">MY</span>CITY</span>
+                </a>
+            </div>
+
+            <!-- Topbar Right Controls -->
+            <div class="d-flex align-items-center gap-2 gap-md-3">
+                <!-- Notifications Bell with Live Badge -->
+                <a asp-controller="Notifications" asp-action="Index" class="btn btn-sm btn-outline-light position-relative p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="Notifications">
+                    <i class="bi bi-bell-fill"></i>
+                    <span id="navUnreadBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 10px;">
+                        0
+                    </span>
+                </a>
+
+                <!-- Theme Toggle Button (Light / Dark Mode) -->
+                <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-light rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="Toggle Light/Dark Theme">
+                    <i id="themeToggleIcon" class="bi bi-moon-stars-fill"></i>
+                </button>
+
+                <!-- User Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-2 rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span class="d-none d-md-inline small fw-semibold">@(layoutUser?.FullName ?? User.Identity?.Name ?? "User")</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border">
+                        <li><h6 class="dropdown-header">@(layoutUser?.Role ?? "Citizen") Workspace</h6></li>
+                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index"><i class="bi bi-person me-2"></i>Profile Settings</a></li>
+                        <li><a class="dropdown-item" asp-controller="Reports" asp-action="MyReports"><i class="bi bi-card-checklist me-2"></i>My Submissions</a></li>
+                        <li><a class="dropdown-item" asp-controller="Gateway" asp-action="History"><i class="bi bi-clock-history me-2"></i>Payment History</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
+                                <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="offcanvas offcanvas-start fmc-sidebar" tabindex="-1" id="fmcSidebar">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title fmc-brand">Menu</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="filter: invert(1);"></button>
+    <!-- Sidebar Navigation Offcanvas -->
+    <div class="offcanvas offcanvas-start fmc-sidebar shadow" tabindex="-1" id="fmcSidebar">
+        <div class="offcanvas-header border-bottom">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fmc-logo-badge"><i class="bi bi-buildings"></i></span>
+                <h5 class="offcanvas-title fw-bold text-white mb-0">FIX<span class="text-primary-accent">MY</span>CITY</h5>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <ul class="fmc-sidebar-nav">
+
+        <div class="offcanvas-body p-0">
+            <ul class="fmc-sidebar-nav list-unstyled mb-0 py-3">
                 @if (!isApprovedAdministrator && !isStaffUser && !isManagerUser)
                 {
-                    <li><a asp-controller="Home" asp-action="Dashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
-                    <li><a asp-controller="Reports" asp-action="Index"><i class="bi bi-flag me-2"></i>Report an Issue</a></li>
-                    <li><a asp-controller="Reports" asp-action="MyReports"><i class="bi bi-list-check me-2"></i>My Reports</a></li>
-                    <li><a asp-controller="Reports" asp-action="Notifications"><i class="bi bi-bell me-2"></i>Notifications</a></li>
-                    <li><a asp-controller="Reports" asp-action="Impact"><i class="bi bi-stars me-2"></i>My Civic Impact</a></li>
-                    <li><a asp-controller="Map" asp-action="Index"><i class="bi bi-map me-2"></i>Problem Map</a></li>
-                    <li><a asp-controller="Home" asp-action="About"><i class="bi bi-info-circle me-2"></i>About</a></li>
-                    <li><a asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+                    <!-- CITIZEN SECTION -->
+                    <li class="sidebar-section-title">CORE SERVICES</li>
+                    <li><a asp-controller="Home" asp-action="Dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
+                    <li><a asp-controller="Reports" asp-action="Create"><i class="bi bi-plus-circle-fill"></i><span>Report an Issue</span></a></li>
+                    <li><a asp-controller="Reports" asp-action="MyReports"><i class="bi bi-list-check"></i><span>My Reports</span></a></li>
+                    <li><a asp-controller="Map" asp-action="Index"><i class="bi bi-map-fill"></i><span>Active Problem Map</span></a></li>
+
+                    <li class="sidebar-section-title">ONLINE MUNICIPAL GATEWAY</li>
+                    <li><a asp-controller="Gateway" asp-action="Index"><i class="bi bi-wallet2"></i><span>Municipal Gateway</span></a></li>
+                    <li><a asp-controller="Gateway" asp-action="Lookup"><i class="bi bi-search"></i><span>Bill Search & Pay</span></a></li>
+                    <li><a asp-controller="Gateway" asp-action="History"><i class="bi bi-receipt-cutoff"></i><span>Payment History</span></a></li>
+
+                    <li class="sidebar-section-title">COMMUNITY NETWORK</li>
+                    <li><a asp-controller="Community" asp-action="Announcements"><i class="bi bi-megaphone-fill"></i><span>Announcements</span></a></li>
+                    <li><a asp-controller="Community" asp-action="Alerts"><i class="bi bi-shield-exclamation text-danger"></i><span class="text-danger fw-semibold">Emergency Alerts</span></a></li>
+                    <li><a asp-controller="Community" asp-action="LostFound"><i class="bi bi-box-seam-fill"></i><span>Lost & Found</span></a></li>
+
+                    <li class="sidebar-section-title">CITIZEN HUB</li>
+                    <li><a asp-controller="Notifications" asp-action="Index"><i class="bi bi-bell-fill"></i><span>Notifications</span></a></li>
+                    <li><a asp-controller="Reports" asp-action="Impact"><i class="bi bi-stars"></i><span>My Civic Impact</span></a></li>
+                    <li><a asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i><span>Profile</span></a></li>
                 }
                 else if (isStaffUser)
                 {
-                    <li class="fmc-admin-menu-label"><span>STAFF WORKSPACE</span></li>
-                    <li><a asp-controller="Staff" asp-action="Index"><i class="bi bi-tools me-2"></i>Assigned Issues</a></li>
+                    <li class="sidebar-section-title">STAFF WORKSPACE</li>
+                    <li><a asp-controller="Staff" asp-action="Index"><i class="bi bi-tools"></i><span>Assigned Issues</span></a></li>
+                    <li><a asp-controller="Map" asp-action="Index"><i class="bi bi-map-fill"></i><span>Problem Map</span></a></li>
+                    <li><a asp-controller="Community" asp-action="Announcements"><i class="bi bi-megaphone-fill"></i><span>Announcements</span></a></li>
+                    <li><a asp-controller="Community" asp-action="Alerts"><i class="bi bi-shield-exclamation"></i><span>Emergency Alerts</span></a></li>
+                    <li><a asp-controller="Notifications" asp-action="Index"><i class="bi bi-bell-fill"></i><span>Notifications</span></a></li>
                 }
                 else if (isManagerUser)
                 {
-                    <li class="fmc-admin-menu-label"><span>MANAGER WORKSPACE</span></li>
-                    <li><a asp-controller="Manager" asp-action="Index"><i class="bi bi-diagram-3 me-2"></i>Assign & Coordinate</a></li>
+                    <li class="sidebar-section-title">MANAGER WORKSPACE</li>
+                    <li><a asp-controller="Manager" asp-action="Index"><i class="bi bi-diagram-3-fill"></i><span>Assign & Coordinate</span></a></li>
+                    <li><a asp-controller="Map" asp-action="Index"><i class="bi bi-map-fill"></i><span>Active Problem Map</span></a></li>
+                    <li><a asp-controller="Community" asp-action="Announcements"><i class="bi bi-megaphone-fill"></i><span>Announcements</span></a></li>
+                    <li><a asp-controller="Community" asp-action="Alerts"><i class="bi bi-shield-exclamation"></i><span>Emergency Alerts</span></a></li>
+                    <li><a asp-controller="Notifications" asp-action="Index"><i class="bi bi-bell-fill"></i><span>Notifications</span></a></li>
                 }
                 else
                 {
-                    <li class="fmc-admin-menu-label"><span>ADMIN OPERATIONS</span></li>
-                    <li><a asp-controller="Admin" asp-action="Reports"><i class="bi bi-shield-check me-2"></i>Review Reports</a></li>
-                    <li><a asp-controller="Admin" asp-action="Users"><i class="bi bi-person-gear me-2"></i>Manage Users</a></li>
-                    <li><a asp-controller="Admin" asp-action="Departments"><i class="bi bi-building me-2"></i>Manage Departments</a></li>
-                    <li><a asp-controller="Admin" asp-action="Categories"><i class="bi bi-tags me-2"></i>Manage Categories</a></li>
-                    <li><a asp-controller="Admin" asp-action="Analytics"><i class="bi bi-graph-up me-2"></i>Hotspot Analytics</a></li>
+                    <li class="sidebar-section-title">ADMIN OPERATIONS</li>
+                    <li><a asp-controller="Admin" asp-action="Index"><i class="bi bi-speedometer2"></i><span>Admin Dashboard</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="Reports"><i class="bi bi-shield-check"></i><span>Review Reports</span></a></li>
+                    <li><a asp-controller="Map" asp-action="Index"><i class="bi bi-map-fill"></i><span>Active Problem Map</span></a></li>
+
+                    <li class="sidebar-section-title">CIVIC BROADCAST & COMMUNITY</li>
+                    <li><a asp-controller="Admin" asp-action="Announcements"><i class="bi bi-megaphone-fill"></i><span>Announcements (2KM Geo)</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="EmergencyAlerts"><i class="bi bi-shield-exclamation text-danger"></i><span class="text-danger fw-semibold">Emergency Alerts (Global)</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="LostFound"><i class="bi bi-box-seam-fill"></i><span>Lost & Found Moderation</span></a></li>
+
+                    <li class="sidebar-section-title">MUNICIPAL GATEWAY AUDIT</li>
+                    <li><a asp-controller="Admin" asp-action="MunicipalServices"><i class="bi bi-building-gear"></i><span>Municipal Services</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="MunicipalProviders"><i class="bi bi-building-add"></i><span>Utility Providers</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="Transactions"><i class="bi bi-cash-stack"></i><span>Payment Transactions</span></a></li>
+
+                    <li class="sidebar-section-title">GOVERNANCE & SYSTEM</li>
+                    <li><a asp-controller="Admin" asp-action="Users"><i class="bi bi-person-gear"></i><span>Manage Users</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="Departments"><i class="bi bi-building"></i><span>Departments</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="Categories"><i class="bi bi-tags-fill"></i><span>Categories</span></a></li>
+                    <li><a asp-controller="Admin" asp-action="Analytics"><i class="bi bi-graph-up-arrow"></i><span>Hotspot Analytics</span></a></li>
                 }
+
+                <li class="sidebar-section-title">ACCOUNT</li>
                 <li>
                     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" onsubmit="return confirm('Are you sure you want to log out?');">
-                        <button type="submit" class="fmc-sidebar-logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
+                        <button type="submit" class="fmc-sidebar-logout-btn">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Logout</span>
+                        </button>
                     </form>
                 </li>
             </ul>
         </div>
     </div>
 
+    <!-- Main Content Area -->
     <main class="fmc-app-content">
         @RenderBody()
     </main>
 
+    <!-- Global App Footer -->
+    <footer class="fmc-app-footer py-3 text-center d-print-none">
+        <div class="container-fluid small text-muted">
+            &copy; 2026 <strong>FixMyCity Smart Municipal Portal</strong> &bull; Dhaka Municipal Governance &bull; All Rights Reserved.
+        </div>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Notification Polling & Theme Management Script -->
+    <script>
+        (function() {
+            // Theme toggle logic (Requirement 37)
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('themeToggleIcon');
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                localStorage.setItem('fmc-theme', theme);
+                if (theme === 'dark') {
+                    themeIcon.className = 'bi bi-sun-fill text-warning';
+                } else {
+                    themeIcon.className = 'bi bi-moon-stars-fill';
+                }
+            }
+
+            const savedTheme = localStorage.getItem('fmc-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'light';
+                    applyTheme(current === 'dark' ? 'light' : 'dark');
+                });
+            }
+
+            // Real-time Notification Unread Count Poller (Requirement 16 & 17)
+            function pollUnreadNotifications() {
+                fetch('/Notifications/UnreadCount')
+                    .then(response => response.json())
+                    .then(data => {
+                        const badge = document.getElementById('navUnreadBadge');
+                        if (badge) {
+                            if (data.unreadCount > 0) {
+                                badge.textContent = data.unreadCount > 99 ? '99+' : data.unreadCount;
+                                badge.style.display = 'inline-block';
+                            } else {
+                                badge.style.display = 'none';
+                            }
+                        }
+                    })
+                    .catch(() => {});
+            }
+
+            pollUnreadNotifications();
+            setInterval(pollUnreadNotifications, 30000); // Poll every 30 seconds
+        })();
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

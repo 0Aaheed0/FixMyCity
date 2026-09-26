@@ -1,31 +1,150 @@
 @model IEnumerable<FixMyCity.Data.Models.Report>
 @{
     ViewData["Title"] = "My Reports";
+    Layout = "_LayoutApp";
 }
-<div class="fmc-dashboard-hero">
-    <h2>My Reports</h2>
+
+<div class="container-fluid py-4" style="max-width: 1200px;">
+
+    <!-- Hero Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <span class="fmc-dashboard-kicker">
+                    <i class="bi bi-person-lines-fill"></i> CITIZEN LOGBOOK
+                </span>
+                <h1 class="fmc-card-title mb-1">MY CIVIC <span>SUBMISSIONS</span></h1>
+                <p class="fmc-card-subtitle">
+                    Track your reported issues through inspection, departmental assignment, and photo-verified completion.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-controller="Reports" asp-action="Create" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm">
+                    <i class="bi bi-plus-lg"></i> Report New Issue
+                </a>
+                <a asp-action="Impact" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-stars text-warning"></i> My Civic Impact
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters & Action Bar -->
+    <div class="card border rounded-3 p-3 mb-4 shadow-sm">
+        <form method="get" class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <div class="input-group" style="max-width: 260px;">
+                    <span class="input-group-text bg-body border-end-0"><i class="bi bi-filter"></i></span>
+                    <select name="status" class="form-select border-start-0">
+                        <option value="">All Statuses</option>
+                        <option value="Reported">Reported</option>
+                        <option value="InProgress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Verified">Verified</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">
+                    Filter
+                </button>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a asp-action="ExportMyReports" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-download"></i> Download CSV
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Reports Content -->
     @if (!Model.Any())
     {
-        <p>You haven't reported anything yet — <a asp-controller="Reports" asp-action="Create">get started</a>.</p>
+        <div class="card border rounded-3 shadow-sm py-5 px-4 text-center">
+            <div class="fmc-empty-state">
+                <i class="bi bi-clipboard2-check text-muted"></i>
+                <h4>No reports submitted yet</h4>
+                <p>You haven't reported any civic infrastructure issues in your area. Spot a problem in your neighborhood?</p>
+                <a asp-controller="Reports" asp-action="Create" class="btn btn-primary px-4 py-2">
+                    <i class="bi bi-plus-circle me-1"></i> Submit Your First Report
+                </a>
+            </div>
+        </div>
     }
     else
     {
-        <form method="get" class="d-flex gap-2 mb-3"><select name="status" class="form-select" style="max-width:220px"><option value="">All statuses</option><option value="Reported">Reported</option><option value="InProgress">In progress</option><option value="Resolved">Resolved</option><option value="Verified">Verified</option></select><button class="btn btn-primary" type="submit">Filter my reports</button><a asp-action="ExportMyReports" class="btn btn-outline-primary">Download CSV</a><a asp-action="Impact" class="btn btn-outline-primary">My Civic Impact</a></form>
-        <table class="table mt-3">
-            <thead>
-                <tr><th>Description</th><th>Category</th><th>Status</th><th>Reported</th></tr>
-            </thead>
-            <tbody>
-                @foreach (var r in Model)
-                {
-                    <tr>
-                        <td><a asp-action="Verify" asp-route-id="@r.Id">@r.Description</a></td>
-                        <td>@r.Category?.Name</td>
-                        <td>@(r.Issue?.Status ?? "Pending Review")</td>
-                        <td>@r.CreatedAt.ToString("MMM d, yyyy")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="card border rounded-3 shadow-sm overflow-hidden">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">#</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Submitted Date</th>
+                            <th class="text-end pe-4">Verification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int index = 1; }
+                        @foreach (var r in Model)
+                        {
+                            var status = r.Issue?.Status ?? "Reported";
+                            <tr>
+                                <td class="ps-4 text-muted small" style="font-family: var(--font-mono);">@index</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        @if (!string.IsNullOrEmpty(r.PhotoPath))
+                                        {
+                                            <i class="bi bi-image text-primary" title="Photo attached"></i>
+                                        }
+                                        <a asp-action="Verify" asp-route-id="@r.Id" class="fw-semibold text-body text-decoration-none hover-primary">
+                                            @r.Description
+                                        </a>
+                                    </div>
+                                    @if (r.Issue?.Reports?.Count > 1)
+                                    {
+                                        <small class="text-muted"><i class="bi bi-people me-1"></i>@(r.Issue.Reports.Count) community reports</small>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge bg-body-secondary text-body border">
+                                        @(r.Category?.Name ?? "General")
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (status == "Verified")
+                                    {
+                                        <span class="badge badge-verified"><i class="bi bi-patch-check-fill me-1"></i> Verified</span>
+                                    }
+                                    else if (status == "Resolved")
+                                    {
+                                        <span class="badge badge-resolved"><i class="bi bi-check-circle-fill me-1"></i> Resolved</span>
+                                    }
+                                    else if (status == "InProgress")
+                                    {
+                                        <span class="badge badge-in-progress"><i class="bi bi-tools me-1"></i> In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-reported"><i class="bi bi-hourglass-split me-1"></i> Reported</span>
+                                    }
+                                </td>
+                                <td class="text-muted small" style="font-family: var(--font-mono);">
+                                    @r.CreatedAt.ToString("MMM d, yyyy")
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="Verify" asp-route-id="@r.Id" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
+                                        <span>Details</span> <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
+
 </div>

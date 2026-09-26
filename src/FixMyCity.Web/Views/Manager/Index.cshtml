@@ -1,30 +1,172 @@
 @model IEnumerable<FixMyCity.Data.Models.Assignment>
 @{
-    ViewData["Title"] = "Manager Dashboard";
+    ViewData["Title"] = "Department Manager Workspace";
+    Layout = "_LayoutApp";
+    var issuesList = ViewBag.Issues as IEnumerable<FixMyCity.Data.Models.Issue> ?? Enumerable.Empty<FixMyCity.Data.Models.Issue>();
+    var deptsList = ViewBag.Departments as IEnumerable<FixMyCity.Data.Models.Department> ?? Enumerable.Empty<FixMyCity.Data.Models.Department>();
+    var staffList = ViewBag.Staff as IEnumerable<FixMyCity.Data.Models.ApplicationUser> ?? Enumerable.Empty<FixMyCity.Data.Models.ApplicationUser>();
+    var radar = ViewBag.PriorityRadar as FixMyCity.Data.Models.Issue;
 }
-<div class="fmc-dashboard-hero">
-    <span class="fmc-dashboard-kicker"><i class="bi bi-diagram-3-fill"></i> DEPARTMENT CONTROL ROOM</span><h2>Manager workspace</h2><p>Balance teams, route urgent work, and track civic response from assignment to closure.</p>
-    @if (ViewBag.PriorityRadar != null) { var radar = (FixMyCity.Data.Models.Issue)ViewBag.PriorityRadar; <div class="fmc-priority-radar"><i class="bi bi-broadcast-pin"></i><div><strong>Civic Priority Radar</strong><span>Recommended next assignment: @radar.Category?.Name · priority @radar.PriorityScore · @radar.Reports.Count supporting reports</span></div></div> }
-    @if (!Model.Any())
+
+<div class="container-fluid py-4" style="max-width: 1240px;">
+
+    <!-- Control Room Hero -->
+    <div class="fmc-dashboard-hero mb-4">
+        <span class="fmc-dashboard-kicker">
+            <i class="bi bi-diagram-3-fill"></i> DEPARTMENT CONTROL ROOM
+        </span>
+        <h1 class="fmc-card-title mb-1">MUNICIPAL <span>MANAGER WORKSPACE</span></h1>
+        <p class="fmc-card-subtitle">
+            Coordinate inter-departmental dispatch, assign field response crews, and ensure SLA compliance on reported incidents.
+        </p>
+    </div>
+
+    <!-- Priority Radar Alert -->
+    @if (radar != null)
     {
-        <p>No assignments yet.</p>
+        <div class="fmc-priority-radar mb-4">
+            <i class="bi bi-broadcast-pin"></i>
+            <div>
+                <strong>Civic Priority Radar &bull; High Dispatch Urgency</strong>
+                <span>
+                    Recommended Next Action: <strong>@(radar.Category?.Name ?? "General Civic Issue")</strong> &bull; Priority Score: <strong>@radar.PriorityScore</strong> &bull; <strong>@(radar.Reports.Count)</strong> supporting citizen reports.
+                </span>
+            </div>
+        </div>
     }
-    else
-    {
-        <table class="table mt-3">
-            <thead><tr><th>Department</th><th>Staff</th><th>Status</th><th>Assigned</th></tr></thead>
-            <tbody>
-                @foreach (var a in Model)
-                {
-                    <tr>
-                        <td>@a.Department?.Name</td>
-                        <td>@a.AssignedStaff?.FullName</td>
-                        <td>@a.Status</td>
-                        <td>@a.AssignedAt.ToString("MMM d, yyyy")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+
+    <!-- Quick Assignment Action Form Card -->
+    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+        <h4 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+            <i class="bi bi-person-plus-fill text-primary"></i> Dispatch New Field Assignment
+        </h4>
+        <form asp-action="Assign" method="post">
+            @Html.AntiForgeryToken()
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label small text-muted">Select Unresolved Issue <span class="text-danger">*</span></label>
+                    <select name="issueId" class="form-select" required>
+                        <option value="">-- Choose Incident --</option>
+                        @foreach (var i in issuesList)
+                        {
+                            <option value="@i.Id">#@i.Id &bull; @(i.Category?.Name ?? "Incident") (Priority: @i.PriorityScore)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label small text-muted">Responsible Department <span class="text-danger">*</span></label>
+                    <select name="departmentId" class="form-select" required>
+                        <option value="">-- Department --</option>
+                        @foreach (var d in deptsList)
+                        {
+                            <option value="@d.Id">@d.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label small text-muted">Assign Field Personnel</label>
+                    <select name="assignedStaffUserId" class="form-select">
+                        <option value="">-- Unassigned (Pool) --</option>
+                        @foreach (var s in staffList)
+                        {
+                            <option value="@s.Id">@s.FullName (@s.Email)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6 d-flex align-items-end">
+                    <button class="btn btn-primary w-100 py-2 d-inline-flex align-items-center justify-content-center gap-1" type="submit">
+                        <i class="bi bi-send-check"></i> Assign Task
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Active Assignments Table Card -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden mb-4">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Active Department Assignments</h5>
+            <span class="badge bg-body-secondary text-body border">@Model.Count() Work Orders</span>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="p-5 text-center text-muted">
+                <i class="bi bi-inbox fs-1 d-block mb-2 opacity-50"></i>
+                <h5>No active assignments dispatched</h5>
+                <p class="small mb-0">Use the form above to assign reported civic issues to municipal departments and response staff.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Issue Details</th>
+                            <th>Department</th>
+                            <th>Field Staff</th>
+                            <th>Status</th>
+                            <th>Assigned Date</th>
+                            <th class="text-end pe-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold text-body">
+                                        #@(a.Issue?.Id ?? 0) &bull; @(a.Issue?.Category?.Name ?? "Civic Issue")
+                                    </div>
+                                    <small class="text-muted">Priority: @(a.Issue?.PriorityScore ?? 0)</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-body-secondary text-body border">
+                                        @(a.Department?.Name ?? "General")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-person-badge text-primary"></i>
+                                        <span>@(a.AssignedStaff?.FullName ?? "Unassigned Crew")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (a.Status == "Verified")
+                                    {
+                                        <span class="badge badge-verified">Verified</span>
+                                    }
+                                    else if (a.Status == "Resolved")
+                                    {
+                                        <span class="badge badge-resolved">Resolved</span>
+                                    }
+                                    else if (a.Status == "InProgress")
+                                    {
+                                        <span class="badge badge-in-progress">In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-reported">Assigned</span>
+                                    }
+                                </td>
+                                <td class="text-muted small" style="font-family: var(--font-mono);">
+                                    @a.AssignedAt.ToLocalTime().ToString("MMM d, yyyy")
+                                </td>
+                                <td class="text-end pe-4">
+                                    @if (a.IssueId > 0)
+                                    {
+                                        <a asp-controller="Reports" asp-action="Verify" asp-route-id="@a.IssueId" class="btn btn-sm btn-outline-secondary">
+                                            View Logs
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
 </div>
-<div class="fmc-app-card p-4 mt-4"><h4>Assign an issue</h4><form asp-action="Assign" method="post" class="row g-3"><div class="col-md-3"><select name="issueId" class="form-select" required><option value="">Issue</option>@foreach (var i in (IEnumerable<FixMyCity.Data.Models.Issue>)ViewBag.Issues) { <option value="@i.Id">#@i.Id - @i.Category?.Name</option> }</select></div><div class="col-md-3"><select name="departmentId" class="form-select" required><option value="">Department</option>@foreach (var d in (IEnumerable<FixMyCity.Data.Models.Department>)ViewBag.Departments) { <option value="@d.Id">@d.Name</option> }</select></div><div class="col-md-3"><select name="assignedStaffUserId" class="form-select"><option value="">Assign staff</option>@foreach (var s in (IEnumerable<FixMyCity.Data.Models.ApplicationUser>)ViewBag.Staff) { <option value="@s.Id">@s.FullName</option> }</select></div><div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Assign issue</button></div></form></div>

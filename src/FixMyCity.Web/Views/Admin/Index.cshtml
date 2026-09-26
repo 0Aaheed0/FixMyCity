@@ -1,23 +1,235 @@
 @{
     ViewData["Title"] = "Admin Dashboard";
+    Layout = "_LayoutApp";
 }
-<div class="container-fluid fmc-admin-dashboard py-4">
+<div class="container-fluid fmc-admin-dashboard py-4" style="max-width: 1240px;">
     <div class="fmc-dashboard-hero mb-4">
         <span class="fmc-dashboard-kicker"><i class="bi bi-stars"></i> CITY OPERATIONS CONTROL</span>
-        <h2>Admin command center</h2>
-        <p>Monitor reports, keep civic data organized, and help departments respond faster.</p>
+        <h2>ADMIN COMMAND CENTER</h2>
+        <p>Monitor civic reports, manage municipal services, broadcast public notices & coordinate departments.</p>
     </div>
-    <div class="row g-4 mb-4">
-        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-flag-fill"></i><span>REPORTS</span><strong>@ViewBag.TotalReports</strong></div></div>
-        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-exclamation-diamond-fill"></i><span>OPEN ISSUES</span><strong>@(ViewBag.ReportedIssues + ViewBag.InProgressIssues)</strong><small>Reported: @ViewBag.ReportedIssues · In progress: @ViewBag.InProgressIssues</small></div></div>
-        <div class="col-md-4"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-people-fill"></i><span>REGISTERED USERS</span><strong>@ViewBag.TotalUsers</strong></div></div>
+
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="fmc-stat-card border-start border-4 border-primary">
+                <div>
+                    <div class="fmc-stat-label">Total Reports</div>
+                    <div class="fmc-stat-value">@ViewBag.TotalReports</div>
+                    <small class="text-muted">Civic incidents</small>
+                </div>
+                <div class="fmc-stat-icon text-primary bg-primary-subtle">
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="fmc-stat-card border-start border-4 border-warning">
+                <div>
+                    <div class="fmc-stat-label">Active / Open Issues</div>
+                    <div class="fmc-stat-value text-warning">@(ViewBag.ReportedIssues + ViewBag.InProgressIssues)</div>
+                    <small class="text-muted">In triage & repair</small>
+                </div>
+                <div class="fmc-stat-icon text-warning bg-warning-subtle">
+                    <i class="bi bi-activity"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="fmc-stat-card border-start border-4 border-success">
+                <div>
+                    <div class="fmc-stat-label">Resolved & Closed</div>
+                    <div class="fmc-stat-value text-success">@(ViewBag.ResolvedIssues + ViewBag.VerifiedIssues)</div>
+                    <small class="text-muted">Fixed municipal issues</small>
+                </div>
+                <div class="fmc-stat-icon text-success bg-success-subtle">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="fmc-stat-card border-start border-4 border-info">
+                <div>
+                    <div class="fmc-stat-label">Citizens & Staff</div>
+                    <div class="fmc-stat-value text-info">@ViewBag.TotalUsers</div>
+                    <small class="text-muted">Active user accounts</small>
+                </div>
+                <div class="fmc-stat-icon text-info bg-info-subtle">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="fmc-app-card p-4 mb-4"><h4>Resolution progress</h4><p class="mb-0">Reported <strong>@ViewBag.ReportedIssues</strong> · In progress <strong>@ViewBag.InProgressIssues</strong> · Resolved <strong>@ViewBag.ResolvedIssues</strong> · Verified <strong>@ViewBag.VerifiedIssues</strong></p></div>
-    <div class="row g-4">
-        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Reports"><i class="bi bi-shield-check"></i><span>Review reports</span><small>Verify and update issue status</small></a></div>
-        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Users"><i class="bi bi-person-gear"></i><span>Manage users</span><small>Review community access</small></a></div>
-        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Departments"><i class="bi bi-building"></i><span>Departments</span><small>Coordinate civic teams</small></a></div>
-        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Categories"><i class="bi bi-tags-fill"></i><span>Categories</span><small>Maintain report choices</small></a></div>
-        <div class="col-md-4"><a class="fmc-admin-action" asp-action="Analytics"><i class="bi bi-graph-up-arrow"></i><span>Hotspot analytics</span><small>Find recurring problems</small></a></div>
+
+    <!-- Management Navigation Hub -->
+    <h4 class="mb-3 fw-bold text-primary-emphasis">
+        <i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i> Municipal Management Portals
+    </h4>
+
+    <div class="row g-3">
+        <!-- Civic Reports & Moderation -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Reports">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-primary-subtle text-primary fs-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Civic Reports</h5>
+                        <small class="text-muted">Triage, review & update issue status</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Public Announcements -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Announcements">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-info-subtle text-info fs-3">
+                        <i class="bi bi-megaphone-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Public Announcements</h5>
+                        <small class="text-muted">Geo-targeted notices with 2km radius</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Emergency Alerts -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="EmergencyAlerts">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-danger-subtle text-danger fs-3">
+                        <i class="bi bi-shield-exclamation"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-danger">Emergency Alerts</h5>
+                        <small class="text-muted">City-wide urgent broadcast</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Lost & Found Moderation -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="LostFound">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-warning-subtle text-warning fs-3">
+                        <i class="bi bi-box-seam-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Lost & Found Moderation</h5>
+                        <small class="text-muted">Review listings and flagged posts</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Municipal Services -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="MunicipalServices">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-success-subtle text-success fs-3">
+                        <i class="bi bi-building-gear"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Municipal Services</h5>
+                        <small class="text-muted">Utility categories & citizen fees</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Service Providers -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="MunicipalProviders">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-secondary-subtle text-secondary fs-3">
+                        <i class="bi bi-building-add"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Utility Providers</h5>
+                        <small class="text-muted">DPDC, DESCO, Titas Gas, WASA config</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Payment Transactions -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Transactions">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-success-subtle text-success fs-3">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Payment Transactions</h5>
+                        <small class="text-muted">Audit digital revenue & citizen receipts</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Manage Users -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Users">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-info-subtle text-info fs-3">
+                        <i class="bi bi-person-gear"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">User Management</h5>
+                        <small class="text-muted">Manage roles, staff & credentials</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Departments -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Departments">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-primary-subtle text-primary fs-3">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Departments</h5>
+                        <small class="text-muted">Coordinate municipal civic teams</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Categories -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Categories">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-warning-subtle text-warning fs-3">
+                        <i class="bi bi-tags-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Issue Categories</h5>
+                        <small class="text-muted">Assign categories to departments</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Analytics -->
+        <div class="col-md-4 col-sm-6">
+            <a class="card h-100 border rounded-3 p-3 text-decoration-none shadow-sm hover-shadow text-body" asp-action="Analytics">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 p-3 bg-danger-subtle text-danger fs-3">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-1 fw-bold text-body">Hotspot Analytics</h5>
+                        <small class="text-muted">Identify recurring infrastructure bottlenecks</small>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>

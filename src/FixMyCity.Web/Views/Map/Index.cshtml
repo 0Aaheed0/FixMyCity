@@ -1,19 +1,172 @@
 @model IEnumerable<FixMyCity.Data.Models.Report>
 @{
-    ViewData["Title"] = "Problem Map";
+    ViewData["Title"] = "Active Problem Map";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+    var activeReports = Model.ToList();
 }
-<div class="fmc-dashboard-hero">
-    <h2>Problem Map</h2>
-    <p>@Model.Count() reports on record — locations are shown with readable labels and coordinates.</p>
-    <div id="fmc-live-map" style="height:360px;border-radius:20px;margin:20px 0;border:1px solid rgba(216,180,254,.65);"></div>
-    <table class="table fmc-map-table mt-3">
-        <thead><tr><th>Location</th><th>Category</th><th>Latitude</th><th>Longitude</th></tr></thead>
-        <tbody>
-            @foreach (var r in Model)
-            {
-                <tr><td><strong><i class="bi bi-geo-alt-fill me-2"></i>Reported location</strong><small>Community area near @r.Latitude.ToString("F4"), @r.Longitude.ToString("F4")</small></td><td>@r.Category?.Name</td><td>@r.Latitude.ToString("F6")</td><td>@r.Longitude.ToString("F6")</td></tr>
-            }
-        </tbody>
-    </table>
+
+<div class="container-fluid py-4" style="max-width: 1240px;">
+    <!-- Hero / Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fmc-status-dot"></span>
+                    <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                        LIVE GEOGRAPHIC DISPATCH
+                    </span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                        <i class="bi bi-broadcast me-1"></i> ACTIVE INCIDENTS ONLY
+                    </span>
+                </div>
+                <h1 class="fmc-card-title mb-1">
+                    ACTIVE <span>CIVIC PROBLEM MAP</span>
+                </h1>
+                <p class="fmc-card-subtitle">
+                    Real-time visualization of open civic bottlenecks. Resolved and verified incidents automatically cycle off this active surveillance map.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-controller="Reports" asp-action="Create" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm">
+                    <i class="bi bi-plus-lg"></i> Report New Problem
+                </a>
+                <a asp-controller="Reports" asp-action="MyReports" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-clock-history"></i> Full Archive
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Container & Legend -->
+    <div class="card border rounded-3 shadow-sm mb-4 overflow-hidden">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div class="fw-bold d-flex align-items-center gap-2">
+                <i class="bi bi-pin-map-fill text-danger"></i>
+                <span>Metropolitan Incident Radar</span>
+                <span class="badge bg-primary rounded-pill font-monospace">@activeReports.Count Active</span>
+            </div>
+            <!-- Legend -->
+            <div class="d-flex align-items-center gap-3 small text-muted">
+                <span><span class="d-inline-block rounded-circle bg-warning me-1" style="width: 10px; height: 10px;"></span> Reported</span>
+                <span><span class="d-inline-block rounded-circle bg-primary me-1" style="width: 10px; height: 10px;"></span> In Progress</span>
+                <span class="text-success"><i class="bi bi-check2-all me-1"></i> Resolved Removed</span>
+            </div>
+        </div>
+
+        <div id="fmc-active-map" style="height: 520px; width: 100%;"></div>
+    </div>
+
+    <!-- Incident List Table below Map -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-list-task me-2 text-primary"></i> Active Incidents Directory</h5>
+        </div>
+        @if (!activeReports.Any())
+        {
+            <div class="p-5 text-center text-muted">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 40px;"></i>
+                <h5 class="fw-bold mt-2">No Active Incidents</h5>
+                <p class="small mb-0">All reported issues have been successfully addressed or resolved!</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light border-bottom">
+                        <tr>
+                            <th class="py-3 px-3">Issue Category</th>
+                            <th class="py-3">Description</th>
+                            <th class="py-3">Coordinates</th>
+                            <th class="py-3">Status</th>
+                            <th class="py-3">Reported On</th>
+                            <th class="py-3 text-end px-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in activeReports)
+                        {
+                            var status = r.Issue?.Status ?? "Reported";
+                            <tr>
+                                <td class="px-3">
+                                    <span class="badge bg-light text-dark border">
+                                        @r.Category?.Name
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold text-truncate" style="max-width: 320px;" title="@r.Description">
+                                        @r.Description
+                                    </div>
+                                    <small class="text-muted"><i class="bi bi-person me-1"></i> @(r.User?.FullName ?? "Citizen")</small>
+                                </td>
+                                <td class="font-monospace small">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> @r.Latitude.ToString("F4"), @r.Longitude.ToString("F4")
+                                </td>
+                                <td>
+                                    <span class="badge @(status == "InProgress" ? "bg-primary" : "bg-warning text-dark") px-2 py-1">
+                                        @status
+                                    </span>
+                                </td>
+                                <td class="small text-muted">@r.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy")</td>
+                                <td class="text-end px-3">
+                                    <a asp-controller="Reports" asp-action="Verify" asp-route-id="@r.Id" class="btn btn-sm btn-outline-primary">
+                                        Details <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </div>
-@section Scripts { <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>const map=L.map('fmc-live-map').setView([23.7806,90.407],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);@foreach(var r in Model){<text>L.marker([@r.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture),@r.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)]).addTo(map).bindPopup('<b>@Html.Raw(System.Net.WebUtility.HtmlEncode(r.Category?.Name))</b><br/>@Html.Raw(System.Net.WebUtility.HtmlEncode(r.Description))');</text>}</script> }
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const map = L.map('fmc-active-map').setView([23.7806, 90.4070], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const markers = [];
+
+            @foreach (var r in activeReports)
+            {
+                var catName = r.Category?.Name ?? "Incident";
+                var status = r.Issue?.Status ?? "Reported";
+                var desc = (r.Description ?? "").Replace("\r", "").Replace("\n", " ").Replace("'", "\\'");
+                if (desc.Length > 80) desc = desc.Substring(0, 80) + "...";
+                var photoHtml = !string.IsNullOrEmpty(r.PhotoPath) ? $"<img src='{r.PhotoPath}' style='width:100%;height:80px;object-fit:cover;border-radius:4px;margin-bottom:6px;' />" : "";
+
+                <text>
+                (function() {
+                    const lat = @r.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    const lng = @r.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    const marker = L.marker([lat, lng]).addTo(map);
+                    const popupContent = `
+                        <div style="min-width: 180px; font-family: sans-serif;">
+                            @Html.Raw(photoHtml)
+                            <div style="font-weight: bold; font-size: 13px; color: #1e293b; margin-bottom: 2px;">@Html.Raw(System.Net.WebUtility.HtmlEncode(catName))</div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">Status: <strong style="color: @(status == "InProgress" ? "#3b82f6" : "#f59e0b")">@status</strong></div>
+                            <p style="font-size: 12px; color: #334155; margin-bottom: 8px; line-height: 1.3;">@Html.Raw(desc)</p>
+                            <a href="/Reports/Verify/@r.Id" style="display: inline-block; font-size: 11px; font-weight: bold; text-decoration: none; color: #2563eb;">View Report Details &rarr;</a>
+                        </div>
+                    `;
+                    marker.bindPopup(popupContent);
+                    markers.push([lat, lng]);
+                })();
+                </text>
+            }
+
+            if (markers.length > 0) {
+                const bounds = L.latLngBounds(markers);
+                map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+            }
+        });
+    </script>
+}

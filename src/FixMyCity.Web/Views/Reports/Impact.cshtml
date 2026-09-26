@@ -1,2 +1,109 @@
-@{ ViewData["Title"] = "My Civic Impact"; }
-<div class="container py-4"><div class="fmc-dashboard-hero mb-4"><span class="fmc-dashboard-kicker"><i class="bi bi-stars"></i> YOUR CIVIC IMPACT</span><h2>See the change you helped create</h2><p>Every accurate report helps the city discover problems sooner and respond better.</p></div><div class="row g-4"><div class="col-md-3"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-award-fill"></i><span>IMPACT SCORE</span><strong>@ViewBag.Score</strong></div></div><div class="col-md-3"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-send-fill"></i><span>YOUR REPORTS</span><strong>@ViewBag.Total</strong></div></div><div class="col-md-3"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-check2-circle"></i><span>RESOLVED</span><strong>@ViewBag.Resolved</strong></div></div><div class="col-md-3"><div class="fmc-stat-card fmc-admin-stat"><i class="bi bi-people-fill"></i><span>COMMUNITY REACH</span><strong>@ViewBag.CommunityReach</strong></div></div></div><div class="fmc-app-card p-4 mt-4"><h4>Your contribution matters</h4><p class="mb-0">Your score combines reports submitted, verified improvements, and supporting reports connected to the issues you helped identify.</p></div></div>
+@{
+    ViewData["Title"] = "My Civic Impact";
+    Layout = "_LayoutApp";
+}
+
+<div class="container-fluid py-4" style="max-width: 1100px;">
+
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="MyReports" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to My Reports
+        </a>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <span class="fmc-dashboard-kicker">
+            <i class="bi bi-stars"></i> CITIZEN CONTRIBUTION RECOGNITION
+        </span>
+        <h1 class="fmc-card-title mb-1">YOUR CIVIC <span>IMPACT SCORE</span></h1>
+        <p class="fmc-card-subtitle">
+            See the real difference you've made in keeping roads safer, lights working, and community infrastructure running smoothly.
+        </p>
+    </div>
+
+    <!-- 4 High Impact Metric Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="fmc-stat-card border-start border-4 border-warning">
+                <div>
+                    <div class="fmc-stat-label">Impact Points</div>
+                    <div class="fmc-stat-value text-warning">@ViewBag.Score</div>
+                    <small class="text-muted"><i class="bi bi-award me-1"></i> Total score</small>
+                </div>
+                <div class="fmc-stat-icon text-warning bg-warning-subtle">
+                    <i class="bi bi-trophy-fill"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="fmc-stat-card border-start border-4 border-primary">
+                <div>
+                    <div class="fmc-stat-label">Reports Logged</div>
+                    <div class="fmc-stat-value text-primary">@ViewBag.Total</div>
+                    <small class="text-muted"><i class="bi bi-send me-1"></i> Submitted</small>
+                </div>
+                <div class="fmc-stat-icon text-primary bg-primary-subtle">
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="fmc-stat-card border-start border-4 border-success">
+                <div>
+                    <div class="fmc-stat-label">Issues Resolved</div>
+                    <div class="fmc-stat-value text-success">@ViewBag.Resolved</div>
+                    <small class="text-muted"><i class="bi bi-check-all me-1"></i> Fixed</small>
+                </div>
+                <div class="fmc-stat-icon text-success bg-success-subtle">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="fmc-stat-card border-start border-4 border-info">
+                <div>
+                    <div class="fmc-stat-label">Community Reach</div>
+                    <div class="fmc-stat-value text-info">@ViewBag.CommunityReach</div>
+                    <small class="text-muted"><i class="bi bi-people me-1"></i> Citizens aided</small>
+                </div>
+                <div class="fmc-stat-icon text-info bg-info-subtle">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explanatory Card -->
+    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+        <h4 class="h5 fw-bold mb-2"><i class="bi bi-info-circle text-primary me-2"></i> How Your Score Is Calculated</h4>
+        <p class="text-muted mb-3">
+            FixMyCity values active neighborhood watch and civic stewardship. Your points are earned dynamically based on:
+        </p>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="p-3 rounded-3 bg-body-secondary border h-100">
+                    <div class="fw-bold small mb-1"><i class="bi bi-plus-circle text-primary me-1"></i> Submitting Valid Issues</div>
+                    <p class="small text-muted mb-0">Every verified unique report adds foundational points to your civic profile.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded-3 bg-body-secondary border h-100">
+                    <div class="fw-bold small mb-1"><i class="bi bi-tools text-warning me-1"></i> Verified Resolutions</div>
+                    <p class="small text-muted mb-0">When your reported problems reach verified completion, bonus impact is awarded.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded-3 bg-body-secondary border h-100">
+                    <div class="fw-bold small mb-1"><i class="bi bi-people text-success me-1"></i> Community Confirmations</div>
+                    <p class="small text-muted mb-0">When others confirm or duplicate your report, your community reach multiplies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,138 @@
+@model IEnumerable<FixMyCity.Data.Models.Notification>
+@{
+    ViewData["Title"] = "Notification Center";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+    var unreadCount = ViewBag.UnreadCount as int? ?? 0;
+}
+
+<div class="container py-4" style="max-width: 900px;">
+    <!-- Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fmc-status-dot"></span>
+                    <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                        REAL-TIME CITIZEN DISPATCH
+                    </span>
+                    @if (unreadCount > 0)
+                    {
+                        <span class="badge bg-danger px-2 py-1 font-monospace">
+                            @unreadCount NEW
+                        </span>
+                    }
+                </div>
+                <h1 class="fmc-card-title mb-1">
+                    NOTIFICATION <span>CENTER</span>
+                </h1>
+                <p class="fmc-card-subtitle">
+                    Live updates on your reported civic problems, utility receipts, nearby announcements, and emergency alerts.
+                </p>
+            </div>
+
+            @if (unreadCount > 0)
+            {
+                <form asp-action="MarkAllAsRead" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-check2-all"></i> Mark All as Read
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <!-- Notification Feed -->
+    @if (!Model.Any())
+    {
+        <div class="card border rounded-3 p-5 text-center shadow-sm">
+            <div class="mb-3">
+                <i class="bi bi-bell-slash text-muted" style="font-size: 48px;"></i>
+            </div>
+            <h4 class="fw-bold">No Notifications Yet</h4>
+            <p class="text-muted mx-auto" style="max-width: 440px;">
+                You're all caught up! Updates regarding your issue reports, bill payments, and citywide announcements will appear here.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-3">
+            @foreach (var n in Model)
+            {
+                var icon = n.IconClass ?? (n.Type switch
+                {
+                    "EmergencyAlert" => "bi-exclamation-triangle-fill",
+                    "Announcement" => "bi-megaphone-fill",
+                    "PaymentSuccessful" => "bi-credit-card-2-front-fill",
+                    "PaymentFailed" => "bi-x-circle-fill",
+                    "LostFoundResponse" => "bi-chat-dots-fill",
+                    "LostFoundStatus" => "bi-box-seam-fill",
+                    "IssueResolved" => "bi-check2-circle",
+                    "IssueAssigned" => "bi-person-gear",
+                    _ => "bi-bell-fill"
+                });
+
+                var iconColor = n.Type switch
+                {
+                    "EmergencyAlert" => "text-danger bg-danger-subtle",
+                    "PaymentSuccessful" => "text-success bg-success-subtle",
+                    "PaymentFailed" => "text-danger bg-danger-subtle",
+                    "Announcement" => "text-primary bg-primary-subtle",
+                    "IssueResolved" => "text-success bg-success-subtle",
+                    "LostFoundResponse" => "text-info bg-info-subtle",
+                    _ => "text-warning bg-warning-subtle"
+                };
+
+                <div class="card border rounded-3 shadow-sm p-3 @(!n.IsRead ? "border-start border-4 border-primary bg-light" : "") transition-all">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-3 p-3 @iconColor d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px; font-size: 22px;">
+                            <i class="bi @icon"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h5 class="fw-bold mb-0 text-body" style="font-size: 15px;">
+                                        @n.Title
+                                    </h5>
+                                    @if (!n.IsRead)
+                                    {
+                                        <span class="badge bg-primary" style="font-size: 9px;">NEW</span>
+                                    }
+                                </div>
+                                <small class="text-muted font-monospace" style="font-size: 11px;">
+                                    <i class="bi bi-clock me-1"></i> @n.CreatedAt.ToLocalTime().ToString("MMM dd, hh:mm tt")
+                                </small>
+                            </div>
+
+                            <p class="mb-2 text-body-secondary small" style="line-height: 1.5;">
+                                @n.Message
+                            </p>
+
+                            <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                @if (!string.IsNullOrEmpty(n.LinkUrl))
+                                {
+                                    <a href="@n.LinkUrl" class="btn btn-sm btn-outline-primary py-1 px-3 d-inline-flex align-items-center gap-1" style="font-size: 12px;">
+                                        <span>View Details</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                }
+
+                                @if (!n.IsRead)
+                                {
+                                    <form asp-action="MarkAsRead" asp-route-id="@n.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-link text-decoration-none text-muted py-1 px-2" style="font-size: 12px;">
+                                            <i class="bi bi-check2"></i> Mark as read
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

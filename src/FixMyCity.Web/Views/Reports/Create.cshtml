@@ -4,42 +4,42 @@
     Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
 }
 
-<div class="container py-4" style="max-width: 820px;">
+<div class="container py-4" style="max-width: 860px;">
 
     <!-- Breadcrumb / Back Link -->
     <div class="mb-3">
-        <a asp-action="Index" class="text-decoration-none text-muted" style="font-size: 13px; font-family: 'JetBrains Mono', monospace;">
+        <a asp-action="Index" class="text-decoration-none text-muted" style="font-size: 13px;">
             <i class="bi bi-arrow-left me-1"></i> BACK TO REPORTS
         </a>
     </div>
 
     <!-- Main Card Container -->
-    <div class="fmc-app-card">
+    <div class="card border rounded-3 shadow-sm fmc-app-card">
 
         <!-- Card Header -->
-        <div class="fmc-card-header-styled">
+        <div class="card-header bg-transparent py-4 px-4 border-bottom">
             <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="fmc-status-dot"></span>
-                <span style="color: #6D28D9; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">
-                    CIVIC REPORTING, FIXED
+                <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                    CIVIC REPORTING &bull; REAL-TIME DISPATCH
                 </span>
             </div>
 
-            <h1 class="fmc-card-title">
-                REPORT AN <span>ISSUE</span>
+            <h1 class="h3 fw-bold mb-1">
+                REPORT AN <span>INCIDENT</span>
             </h1>
 
-            <p class="fmc-card-subtitle">
-                Spot a problem in your neighborhood? Provide details below and we will route it to the responsible department.
+            <p class="text-muted small mb-0">
+                Notice an infrastructure problem in your area? Submit details below and we will automatically route it to the responsible municipal department.
             </p>
         </div>
 
         <!-- Card Body -->
-        <div class="fmc-card-body-styled">
+        <div class="card-body p-4 p-md-5">
 
             @if (TempData["ErrorMessage"] != null)
             {
-                <div class="alert alert-danger" role="alert" style="background: rgba(255, 107, 95, 0.12); border: 1px solid #ff6b5f; color: #ff9b93;">
+                <div class="alert alert-danger" role="alert">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
                 </div>
             }
@@ -47,85 +47,99 @@
             <form asp-action="Create" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4" role="alert" style="background: rgba(255, 107, 95, 0.12); border: 1px solid #ff6b5f; color: #ff9b93;"></div>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4" role="alert"></div>
 
                 <!-- 1. Category -->
-                <div class="fmc-form-group">
-                    <label asp-for="CategoryId" class="fmc-form-label">
-                        <i class="bi bi-tag-fill me-1 text-fmc-accent"></i> Issue Category <span class="req">*</span>
+                <div class="mb-4">
+                    <label asp-for="CategoryId" class="form-label fw-semibold">
+                        <i class="bi bi-tag-fill me-1 text-primary"></i> Issue Category <span class="text-danger">*</span>
                     </label>
-                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="fmc-select form-select" required>
-                        <option value="">-- Select Category --</option>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-select form-select-lg" required>
+                        <option value="">-- Select Problem Category (e.g. Pothole, Streetlight, Drainage) --</option>
                     </select>
-                    <span asp-validation-for="CategoryId" class="text-danger mt-1 d-block" style="font-size: 12px;"></span>
+                    <span asp-validation-for="CategoryId" class="text-danger small mt-1 d-block"></span>
                 </div>
 
                 <!-- 2. Description -->
-                <div class="fmc-form-group">
-                    <label asp-for="Description" class="fmc-form-label">
-                        <i class="bi bi-chat-left-text-fill me-1 text-fmc-accent"></i> Problem Description <span class="req">*</span>
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label fw-semibold">
+                        <i class="bi bi-chat-left-text-fill me-1 text-primary"></i> Problem Description <span class="text-danger">*</span>
                     </label>
                     <textarea asp-for="Description"
-                              class="fmc-textarea"
+                              class="form-control"
                               rows="4"
-                              placeholder="Describe the issue in detail (e.g. Deep pothole causing hazard near Main St. & 5th Ave intersection)..."
+                              placeholder="Describe the problem clearly (e.g. Deep pothole causing severe traffic bottleneck near City Hospital intersection)..."
                               required></textarea>
-                    <span asp-validation-for="Description" class="text-danger mt-1 d-block" style="font-size: 12px;"></span>
+                    <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
                 </div>
 
-                <!-- 3. Location -->
-                <div class="fmc-form-group">
-                    <label class="fmc-form-label">
-                        <i class="bi bi-geo-alt-fill me-1 text-fmc-accent"></i> Incident Location <span class="req">*</span>
+                <!-- 3. Incident Location (GPS + Map Selection + Manual Entry) -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-geo-alt-fill me-1 text-danger"></i> Incident Location <span class="text-danger">*</span>
                     </label>
 
-                    <div class="fmc-location-box">
+                    <div class="p-3 bg-light rounded-3 border">
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                            <span style="font-size: 13px; color: #858d95;">
-                                Enter coordinates or auto-detect using GPS:
+                            <span class="small text-muted fw-semibold">
+                                <i class="bi bi-compass me-1"></i> Live GPS auto-detects or select on the map:
                             </span>
-                            <button type="button" id="btnDetectLocation" class="fmc-location-btn">
-                                <i class="bi bi-crosshair me-1"></i> Detect My Location
+                            <button type="button" id="btnDetectLocation" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
+                                <i class="bi bi-crosshair"></i> Use My Current Location
                             </button>
                         </div>
 
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label asp-for="Latitude" class="form-label text-muted" style="font-size: 12px;">Latitude</label>
-                                <input asp-for="Latitude" id="txtLatitude" class="fmc-input" type="number" step="any" placeholder="e.g. 23.8103" required />
-                                <span asp-validation-for="Latitude" class="text-danger mt-1 d-block" style="font-size: 12px;"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <label asp-for="Longitude" class="form-label text-muted" style="font-size: 12px;">Longitude</label>
-                                <input asp-for="Longitude" id="txtLongitude" class="fmc-input" type="number" step="any" placeholder="e.g. 90.4125" required />
-                                <span asp-validation-for="Longitude" class="text-danger mt-1 d-block" style="font-size: 12px;"></span>
-                            </div>
+                        <!-- GPS Status Notice -->
+                        <div id="locationStatus" class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-3" style="display: none;">
+                            <span class="spinner-border spinner-border-sm text-primary" id="locationSpinner" role="status"></span>
+                            <span id="locationStatusText">Detecting your location...</span>
                         </div>
 
-                        <div id="locationStatus" class="mt-2 text-fmc-accent" style="font-size: 12px; display: none;"></div>
+                        <!-- Interactive Leaflet Map Picker -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <small class="text-muted fw-semibold"><i class="bi bi-pin-map-fill text-danger me-1"></i> Drag pin or click map to adjust exact spot:</small>
+                                <small class="text-muted font-monospace" id="mapCoordsDisplay">Dhaka Center (23.7806, 90.4070)</small>
+                            </div>
+                            <div id="reportLocationMap" style="height: 280px; border-radius: 8px;" class="border shadow-sm"></div>
+                        </div>
+
+                        <!-- Manual Coordinates Inputs (Always available and synced) -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="Latitude" class="form-label small text-muted">Latitude (Manual edit supported)</label>
+                                <input asp-for="Latitude" id="txtLatitude" class="form-control font-monospace" type="number" step="any" placeholder="23.8103" required />
+                                <span asp-validation-for="Latitude" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Longitude" class="form-label small text-muted">Longitude (Manual edit supported)</label>
+                                <input asp-for="Longitude" id="txtLongitude" class="form-control font-monospace" type="number" step="any" placeholder="90.4125" required />
+                                <span asp-validation-for="Longitude" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 4. Photo Evidence (Optional) -->
-                <div class="fmc-form-group">
-                    <label class="fmc-form-label">
-                        <i class="bi bi-camera-fill me-1 text-fmc-accent"></i> Upload Photo (Optional)
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-camera-fill me-1 text-primary"></i> Upload Photo Evidence (Optional)
                     </label>
 
-                    <div class="fmc-upload-box" onclick="document.getElementById('photoFileInput').click()">
-                        <i class="bi bi-cloud-arrow-up"></i>
-                        <p class="fmc-upload-text">
-                            <span>Click to browse</span> or take a photo
+                    <div class="border border-2 border-dashed rounded-3 p-4 text-center bg-light" style="cursor: pointer;" onclick="document.getElementById('photoFileInput').click()">
+                        <i class="bi bi-cloud-arrow-up text-primary fs-1 mb-2"></i>
+                        <p class="mb-1 fw-semibold">
+                            <span class="text-primary text-decoration-underline">Click to browse</span> or capture photo
                         </p>
-                        <small class="text-muted" style="font-size: 11px;">Supports JPG, PNG, WEBP</small>
+                        <small class="text-muted">Supports JPG, PNG, WEBP up to 5MB</small>
                         <input type="file" id="photoFileInput" name="photo" accept="image/*" style="display: none;" onchange="previewImage(this)" />
                     </div>
 
                     <div id="imagePreviewContainer" class="mt-3 text-center" style="display: none;">
-                        <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded border" style="max-height: 220px; border-color: rgba(109,40,217,0.4) !important;" />
-                        <div class="mt-1">
-                            <button type="button" class="btn btn-sm text-danger" onclick="clearImagePreview()">
-                                <i class="bi bi-trash"></i> Remove image
+                        <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded-3 border shadow-sm" style="max-height: 220px;" />
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearImagePreview()">
+                                <i class="bi bi-trash"></i> Remove photo
                             </button>
                         </div>
                     </div>
@@ -134,22 +148,22 @@
                 @if (User.Identity?.IsAuthenticated != true && ViewBag.UserId != null)
                 {
                     <!-- Reporter Selection for Admin / Staff / Demo mode -->
-                    <div class="fmc-form-group">
-                        <label asp-for="UserId" class="fmc-form-label">
-                            <i class="bi bi-person-badge-fill me-1 text-fmc-accent"></i> Report On Behalf Of
+                    <div class="mb-4">
+                        <label asp-for="UserId" class="form-label fw-semibold">
+                            <i class="bi bi-person-badge-fill me-1 text-primary"></i> Report On Behalf Of
                         </label>
-                        <select asp-for="UserId" asp-items="ViewBag.UserId" class="fmc-select form-select">
+                        <select asp-for="UserId" asp-items="ViewBag.UserId" class="form-select">
                             <option value="">-- Select User (or leave default) --</option>
                         </select>
                     </div>
                 }
 
                 <!-- Action Buttons -->
-                <div class="d-flex flex-wrap gap-3 pt-3 mt-4 border-top" style="border-top-color: rgba(255, 255, 255, 0.08) !important;">
-                    <button type="submit" class="fmc-btn-submit">
+                <div class="d-flex flex-wrap gap-3 pt-3 mt-4 border-top">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
                         <i class="bi bi-send-fill"></i> SUBMIT REPORT
                     </button>
-                    <a asp-action="Index" class="fmc-btn-outline-cancel">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
                         CANCEL
                     </a>
                 </div>
@@ -164,37 +178,125 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // Geolocation Detector
-        document.getElementById('btnDetectLocation').addEventListener('click', function () {
-            const status = document.getElementById('locationStatus');
+        let reportMap, reportMarker;
+        const defaultLat = 23.7806;
+        const defaultLng = 90.4070;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const latInput = document.getElementById('txtLatitude');
+            const lngInput = document.getElementById('txtLongitude');
+
+            const initLat = parseFloat(latInput.value) || defaultLat;
+            const initLng = parseFloat(lngInput.value) || defaultLng;
+
+            // Initialize Leaflet map
+            reportMap = L.map('reportLocationMap').setView([initLat, initLng], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(reportMap);
+
+            reportMarker = L.marker([initLat, initLng], { draggable: true }).addTo(reportMap);
+
+            function updateFromMarker() {
+                const pos = reportMarker.getLatLng();
+                latInput.value = pos.lat.toFixed(6);
+                lngInput.value = pos.lng.toFixed(6);
+                document.getElementById('mapCoordsDisplay').textContent = pos.lat.toFixed(4) + ', ' + pos.lng.toFixed(4);
+            }
+
+            reportMarker.on('drag', updateFromMarker);
+            reportMarker.on('dragend', updateFromMarker);
+
+            reportMap.on('click', function (e) {
+                reportMarker.setLatLng(e.latlng);
+                updateFromMarker();
+            });
+
+            // Sync manual input changes to map marker
+            function syncInputsToMap() {
+                const lat = parseFloat(latInput.value);
+                const lng = parseFloat(lngInput.value);
+                if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    reportMarker.setLatLng([lat, lng]);
+                    reportMap.panTo([lat, lng]);
+                    document.getElementById('mapCoordsDisplay').textContent = lat.toFixed(4) + ', ' + lng.toFixed(4);
+                }
+            }
+
+            latInput.addEventListener('input', syncInputsToMap);
+            lngInput.addEventListener('input', syncInputsToMap);
+
+            // =======================================================
+            // AUTOMATIC LIVE GPS DETECTION ON PAGE LOAD (FEATURE 6)
+            // =======================================================
+            triggerGeolocation(true);
+
+            // Manual button click to re-trigger
+            document.getElementById('btnDetectLocation').addEventListener('click', function () {
+                triggerGeolocation(false);
+            });
+        });
+
+        function triggerGeolocation(isAuto) {
+            const statusBox = document.getElementById('locationStatus');
+            const statusText = document.getElementById('locationStatusText');
+            const spinner = document.getElementById('locationSpinner');
             const latInput = document.getElementById('txtLatitude');
             const lngInput = document.getElementById('txtLongitude');
 
             if (!navigator.geolocation) {
-                status.style.display = 'block';
-                status.textContent = 'Geolocation is not supported by your browser.';
+                statusBox.style.display = 'flex';
+                statusBox.className = 'alert alert-warning py-2 px-3 small d-flex align-items-center gap-2 mb-3';
+                spinner.style.display = 'none';
+                statusText.textContent = 'Geolocation is not supported by your browser. Please enter coordinates manually or pick on the map.';
                 return;
             }
 
-            status.style.display = 'block';
-            status.textContent = 'Acquiring GPS location...';
+            statusBox.style.display = 'flex';
+            statusBox.className = 'alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-3';
+            spinner.style.display = 'inline-block';
+            statusText.textContent = isAuto ? 'Auto-detecting your location via GPS...' : 'Detecting your location...';
 
             navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    latInput.value = position.coords.latitude.toFixed(6);
-                    lngInput.value = position.coords.longitude.toFixed(6);
-                    status.textContent = 'Location acquired: ' + position.coords.latitude.toFixed(4) + ', ' + position.coords.longitude.toFixed(4);
-                    status.className = 'mt-2 text-success';
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+
+                    latInput.value = lat.toFixed(6);
+                    lngInput.value = lng.toFixed(6);
+
+                    if (reportMarker && reportMap) {
+                        reportMarker.setLatLng([lat, lng]);
+                        reportMap.setView([lat, lng], 15);
+                        document.getElementById('mapCoordsDisplay').textContent = lat.toFixed(4) + ', ' + lng.toFixed(4);
+                    }
+
+                    spinner.style.display = 'none';
+                    statusBox.className = 'alert alert-success py-2 px-3 small d-flex align-items-center gap-2 mb-3';
+                    statusText.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i> Location detected: ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
                 },
                 function (error) {
-                    status.textContent = 'Could not retrieve location. Please type manually.';
-                    status.className = 'mt-2 text-fmc-accent';
+                    spinner.style.display = 'none';
+                    statusBox.className = 'alert alert-warning py-2 px-3 small d-flex align-items-center gap-2 mb-3';
+                    if (error.code === error.PERMISSION_DENIED) {
+                        statusText.innerHTML = '<i class="bi bi-exclamation-circle-fill text-warning me-1"></i> Unable to access your current location (permission denied). Please enter your location manually or select it on the map.';
+                    } else if (error.code === error.TIMEOUT) {
+                        statusText.innerHTML = '<i class="bi bi-hourglass-bottom text-warning me-1"></i> Location request timed out. Please enter your location manually or pick on the map.';
+                    } else {
+                        statusText.innerHTML = '<i class="bi bi-info-circle-fill text-warning me-1"></i> Could not acquire GPS location. Please enter manually or select on the map.';
+                    }
+
+                    // Default to Dhaka coordinates if empty
+                    if (!latInput.value) latInput.value = defaultLat.toFixed(6);
+                    if (!lngInput.value) lngInput.value = defaultLng.toFixed(6);
                 },
-                { enableHighAccuracy: true, timeout: 10000 }
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
             );
-        });
+        }
 
         // Photo Preview
         function previewImage(input) {

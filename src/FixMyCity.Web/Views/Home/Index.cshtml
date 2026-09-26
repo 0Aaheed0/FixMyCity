@@ -1,210 +1,267 @@
 @{
-    ViewData["Title"] = "Welcome";
+    ViewData["Title"] = "Civic Reporting, Fixed";
     Layout = "_LayoutHero";
     bool isAuthenticated = User.Identity?.IsAuthenticated == true;
 }
 
 <div class="fmc-landing">
 
-    <!-- Navigation -->
-    <nav class="fmc-navbar">
-        <div class="fmc-logo">
-            <span class="fmc-logo-mark">+</span>
-            FIX<span>MY</span>CITY
-        </div>
-
-        <div>
-            @if (isAuthenticated)
-            {
-                <a class="fmc-nav-button text-decoration-none" asp-controller="Home" asp-action="Dashboard">
-                    Dashboard
-                </a>
-            }
-            else
-            {
-                <button type="button"
-                        class="fmc-nav-button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#getStartedModal">
-                    Get Started
-                </button>
-            }
-        </div>
-    </nav>
-
-
-    <!-- Main Hero -->
-    <main class="fmc-main">
-
-        <div class="fmc-hero-content">
-
+    <!-- HERO SECTION -->
+    <section class="fmc-hero-section text-center">
+        <div class="container py-5" style="max-width: 900px;">
             <div class="fmc-eyebrow">
                 <span class="fmc-status-dot"></span>
-                CIVIC REPORTING, FIXED
+                CIVIC REPORTING &bull; FIXED
             </div>
 
             <h1 class="fmc-headline">
-                MAKE YOUR CITY
-                <br />
+                MAKE YOUR CITY<br />
                 <span>BETTER.</span>
             </h1>
 
             <p class="fmc-subtext">
-                Report problems in your community, track their progress,
-                and help make your city cleaner, safer, and better.
+                Report infrastructure problems in your community, track repair progress in real time, and help build a cleaner, safer, and more resilient city.
             </p>
 
-            <div class="fmc-actions">
+            <div class="d-flex flex-wrap justify-content-center gap-3">
                 @if (isAuthenticated)
                 {
-                    <a class="fmc-cta text-decoration-none d-inline-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Dashboard">
-                        GET STARTED
-                        <span>→</span>
+                    <a class="btn btn-primary btn-lg px-4 py-3 d-inline-flex align-items-center gap-2 shadow" asp-controller="Home" asp-action="Dashboard">
+                        GO TO DASHBOARD <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a class="btn btn-outline-secondary btn-lg px-4 py-3 d-inline-flex align-items-center gap-2" asp-controller="Reports" asp-action="Create">
+                        <i class="bi bi-plus-circle"></i> REPORT AN ISSUE
                     </a>
                 }
                 else
                 {
-                    <button type="button"
-                            class="fmc-cta"
-                            data-bs-toggle="modal"
-                            data-bs-target="#getStartedModal">
-                        GET STARTED
-                        <span>→</span>
+                    <button type="button" class="btn btn-primary btn-lg px-4 py-3 d-inline-flex align-items-center gap-2 shadow" data-bs-toggle="modal" data-bs-target="#getStartedModal">
+                        GET STARTED <i class="bi bi-arrow-right"></i>
                     </button>
+                    <a class="btn btn-outline-secondary btn-lg px-4 py-3 d-inline-flex align-items-center gap-2" asp-controller="Map" asp-action="Index">
+                        <i class="bi bi-map"></i> EXPLORE PROBLEM MAP
+                    </a>
                 }
             </div>
 
-        </div>
-
-
-        <!-- Feature Cards -->
-        <section class="fmc-features">
-
-            <div class="fmc-feature-card">
-                <div class="fmc-feature-number">01</div>
-
-                <div>
-                    <h3>REPORT</h3>
-                    <p>
-                        Spot a problem? Submit a report with location and category to notify the responsible department.
-                    </p>
+            <!-- Trust / Municipal Metrics Pill Row -->
+            <div class="row g-3 justify-content-center mt-5 pt-3">
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-body border shadow-xs small">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span><strong>Direct</strong> Department Routing</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-body border shadow-xs small">
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        <span><strong>2km</strong> Proximity Alerts</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-body border shadow-xs small">
+                        <i class="bi bi-shield-fill-check text-primary"></i>
+                        <span><strong>Photo</strong> Resolution Proof</span>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+    <!-- 3-STEP CIVIC WORKFLOW -->
+    <section class="container py-5">
+        <div class="text-center mb-5" style="max-width: 600px; margin: 0 auto;">
+            <span class="fmc-dashboard-kicker">TRANSPARENT GOVERNANCE</span>
+            <h2 class="h2 fw-bold">How FixMyCity Works</h2>
+            <p class="text-muted">A streamlined, transparent three-step cycle connecting citizens directly to field response teams.</p>
+        </div>
+
+        <div class="fmc-features">
+            <div class="fmc-feature-card">
+                <div class="fmc-feature-number">01</div>
+                <h3>REPORT</h3>
+                <p>
+                    Spot a pothole, broken streetlight, or water leakage? Submit an incident report with GPS coordinates, category, and photo evidence.
+                </p>
+                <div class="mt-4 pt-3 border-top small text-primary fw-semibold d-flex align-items-center gap-1">
+                    <i class="bi bi-pin-map"></i> Auto-detects GPS & address
+                </div>
+            </div>
 
             <div class="fmc-feature-card">
                 <div class="fmc-feature-number">02</div>
-
-                <div>
-                    <h3>TRACK</h3>
-                    <p>
-                        Follow your report status in real time as staff investigate and take action.
-                    </p>
+                <h3>TRACK</h3>
+                <p>
+                    Follow progress live. The issue is scored for priority, deduplicated, and assigned to municipal staff for field investigation.
+                </p>
+                <div class="mt-4 pt-3 border-top small text-warning fw-semibold d-flex align-items-center gap-1">
+                    <i class="bi bi-activity"></i> Real-time status timeline
                 </div>
             </div>
-
 
             <div class="fmc-feature-card">
                 <div class="fmc-feature-number">03</div>
-
-                <div>
-                    <h3>FIX</h3>
-                    <p>
-                        Review completion evidence and watch reported issues turn into real community improvements.
-                    </p>
+                <h3>FIX</h3>
+                <p>
+                    Once repairs conclude, field personnel upload photographic evidence for citizen verification and community impact scoring.
+                </p>
+                <div class="mt-4 pt-3 border-top small text-success fw-semibold d-flex align-items-center gap-1">
+                    <i class="bi bi-check2-circle"></i> Verified resolution proof
                 </div>
             </div>
+        </div>
+    </section>
 
-        </section>
+    <!-- CIVIC ECOSYSTEM HIGHLIGHTS -->
+    <section class="container py-4">
+        <div class="fmc-about-section">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <div class="fmc-about-kicker">A CLEARER WAY TO CARE FOR YOUR CITY</div>
+                    <h2 class="h2 fw-bold mb-3">Small reports. <span class="text-primary">Visible change.</span></h2>
+                    <p class="lead text-muted fs-6 mb-4">
+                        FixMyCity connects residents with the dedicated municipal teams who keep our neighborhoods moving. Every civic report has an exact place, assigned department, and audit trail — so communities see real progress instead of bureaucratic black boxes.
+                    </p>
 
-        <section class="fmc-about-section fmc-reveal fmc-reveal-right" id="about" aria-labelledby="about-title">
-            <div class="fmc-about-kicker">A CLEARER WAY TO CARE FOR YOUR CITY</div>
-            <h2 id="about-title">Small reports. <span>Visible change.</span></h2>
-            <p>FixMyCity connects residents with the teams who keep neighborhoods moving. Every report has a place, a status, and a next step - so people can see progress instead of wondering what happened.</p>
-            <div class="fmc-about-points">
-                <div><i class="bi bi-pin-map"></i><span>Pin the exact place</span></div>
-                <div><i class="bi bi-activity"></i><span>Follow every update</span></div>
-                <div><i class="bi bi-check2-circle"></i><span>Verify the result</span></div>
+                    <div class="fmc-about-points">
+                        <div>
+                            <i class="bi bi-pin-map-fill"></i>
+                            <span>Exact GPS Geo-Tagging</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-bell-fill"></i>
+                            <span>2km Emergency Alerts</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-wallet2"></i>
+                            <span>Municipal Online Bills</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="p-4 rounded-4 bg-body border shadow-sm">
+                        <h4 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+                            <i class="bi bi-grid-fill text-primary"></i> Municipal Services Hub
+                        </h4>
+                        <div class="d-flex flex-column gap-3">
+                            <a asp-controller="Gateway" asp-action="Index" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-body-secondary text-decoration-none text-body hover-shadow">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-primary-subtle text-primary p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-credit-card-fill"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold small">Online Utility Gateway</div>
+                                        <div class="text-muted" style="font-size: 12px;">Pay DPDC, DESCO, WASA & Titas bills</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+
+                            <a asp-controller="Community" asp-action="Announcements" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-body-secondary text-decoration-none text-body hover-shadow">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-info-subtle text-info p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-megaphone-fill"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold small">Public Bulletins & Notices</div>
+                                        <div class="text-muted" style="font-size: 12px;">Road maintenance & water disruptions</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+
+                            <a asp-controller="Community" asp-action="LostFound" class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-body-secondary text-decoration-none text-body hover-shadow">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-warning-subtle text-warning p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-box-seam-fill"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold small">Lost & Found Portal</div>
+                                        <div class="text-muted" style="font-size: 12px;">Community lost property network</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
+    <!-- FINAL CALL TO ACTION -->
+    <section class="container py-5 text-center">
+        <div class="p-5 rounded-4 bg-primary text-white shadow-lg position-relative overflow-hidden">
+            <div class="position-relative" style="z-index: 2; max-width: 680px; margin: 0 auto;">
+                <h2 class="h1 fw-bold text-white mb-3">Ready to Improve Your Neighborhood?</h2>
+                <p class="text-white-50 lead fs-6 mb-4">
+                    Join thousands of active citizens making our city cleaner, safer, and better one report at a time.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    @if (isAuthenticated)
+                    {
+                        <a asp-controller="Reports" asp-action="Create" class="btn btn-light btn-lg px-4 py-2 text-primary fw-bold shadow-sm">
+                            <i class="bi bi-plus-lg me-1"></i> Report an Issue Now
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-light btn-lg px-4 py-2 text-primary fw-bold shadow-sm">
+                            Create Free Account
+                        </a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold">
+                            Sign In
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-    <!-- Bottom Stripe -->
+    <!-- Bottom Municipal Accent Stripe -->
     <div class="fmc-hazard-stripe"></div>
 
 </div>
 
-<!-- Get Started Modal (placed outside .fmc-landing to prevent overflow/backdrop clipping) -->
-<div class="modal fade fmc-modal"
-     id="getStartedModal"
-     tabindex="-1"
-     aria-labelledby="getStartedModalLabel"
-     aria-hidden="true">
-
+<!-- Get Started Modal -->
+<div class="modal fade" id="getStartedModal" tabindex="-1" aria-labelledby="getStartedModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
-
-            <div class="modal-header">
-
+            <div class="modal-header border-bottom">
                 <div>
-                    <div class="fmc-modal-label">
-                        FIXMYCITY
-                    </div>
-
-                    <h5 class="modal-title" id="getStartedModalLabel">
-                        Get Started
-                    </h5>
+                    <div class="small text-primary fw-bold text-uppercase" style="letter-spacing: 1px;">FIXMYCITY MUNICIPAL PORTAL</div>
+                    <h5 class="modal-title fw-bold mb-0" id="getStartedModalLabel">Get Started</h5>
                 </div>
-
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-
-            <div class="modal-body">
-
-                <a class="fmc-choice"
-                   asp-area="Identity"
-                   asp-page="/Account/Login">
-
-                    <span>
-                        <i class="bi bi-box-arrow-in-right me-2 text-fmc-accent"></i> LOG IN
-                        <small>
-                            Already have an account — access your dashboard
-                        </small>
-                    </span>
-
-                    <strong>→</strong>
-
+            <div class="modal-body p-4 d-flex flex-column gap-3">
+                <a class="d-flex align-items-center justify-content-between p-3 rounded-3 border bg-body text-decoration-none text-body hover-shadow" asp-area="Identity" asp-page="/Account/Login">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-primary-subtle text-primary p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; font-size: 20px;">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block fs-6">LOG IN</strong>
+                            <small class="text-muted">Already have an account — access your citizen dashboard</small>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-5 text-primary"></i>
                 </a>
 
-
-                <a class="fmc-choice"
-                   asp-area="Identity"
-                   asp-page="/Account/Register">
-
-                    <span>
-                        <i class="bi bi-person-plus me-2 text-fmc-accent"></i> SIGN UP
-                        <small>
-                            New here — create an account to start reporting
-                        </small>
-                    </span>
-
-                    <strong>→</strong>
-
+                <a class="d-flex align-items-center justify-content-between p-3 rounded-3 border bg-body text-decoration-none text-body hover-shadow" asp-area="Identity" asp-page="/Account/Register">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-success-subtle text-success p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; font-size: 20px;">
+                            <i class="bi bi-person-plus"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block fs-6">SIGN UP</strong>
+                            <small class="text-muted">New here — create an account to start reporting issues</small>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-5 text-success"></i>
                 </a>
-
             </div>
-
         </div>
-
     </div>
-
 </div>

@@ -1,6 +1,108 @@
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy & Data Protection Policy";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-4" style="max-width: 900px;">
+    <!-- Hero / Eyebrow -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="fmc-status-dot"></span>
+            <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                LEGAL & COMPLIANCE FRAMEWORK
+            </span>
+        </div>
+        <h1 class="fmc-card-title mb-2">
+            PRIVACY & <span>DATA GOVERNANCE</span>
+        </h1>
+        <p class="fmc-card-subtitle">
+            How FixMyCity safeguards citizen identities, anonymizes location telemetry, encrypts financial transactions, and adheres to municipal data standards.
+        </p>
+    </div>
+
+    <!-- Overview Card -->
+    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-success-subtle text-success p-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 52px; height: 52px; font-size: 24px;">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+            <div>
+                <h5 class="fw-bold mb-1">Our Privacy Commitment</h5>
+                <p class="text-muted small mb-0">
+                    FixMyCity operates on a strict <strong>Civic Privacy by Design</strong> architecture. We collect only the data necessary to verify and remediate infrastructure defects and process approved utility payments. We do not monetize, sell, or advertise against citizen submissions.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Policy Sections -->
+    <div class="card border rounded-3 shadow-sm p-4 p-md-5 mb-4">
+        <div class="d-flex flex-column gap-4">
+            <div>
+                <h5 class="fw-bold d-flex align-items-center gap-2 text-primary">
+                    <i class="bi bi-geo-alt"></i> 1. Location Telemetry & Geolocation
+                </h5>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    When you report a civic hazard, our application accesses your device's GPS coordinates solely to pinpoint the defect on OpenStreetMap for municipal dispatch. Public maps and bulletins display the incident coordinates, but personal information (such as exact home addresses or unit numbers) is never publicly linked to your submission without your explicit consent.
+                </p>
+            </div>
+
+            <hr class="opacity-25 my-1" />
+
+            <div>
+                <h5 class="fw-bold d-flex align-items-center gap-2 text-primary">
+                    <i class="bi bi-camera"></i> 2. Photographic Evidence & User Media
+                </h5>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    Incident photos and resolution proofs uploaded through FixMyCity are stored securely on encrypted municipal cloud storage. Photos submitted for infrastructure issues become part of the public work-order audit trail. Photos uploaded for the Lost & Found network are publicly accessible to aid neighbor identification. Users must not upload images containing private sensitive documents without obscuring personal identifiable information.
+                </p>
+            </div>
+
+            <hr class="opacity-25 my-1" />
+
+            <div>
+                <h5 class="fw-bold d-flex align-items-center gap-2 text-primary">
+                    <i class="bi bi-credit-card-2-front"></i> 3. Municipal Utility & Gateway Transactions
+                </h5>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    Payments initiated through our Municipal Gateway (bKash, Nagad, Rocket, Cards) are processed using end-to-end TLS 1.3 / 256-bit AES encryption. FixMyCity adheres to PCI-DSS payment compliance standards. Your payment PINs, OTPs, CVV codes, and full bank credentials are never logged or stored in plain text on our servers.
+                </p>
+            </div>
+
+            <hr class="opacity-25 my-1" />
+
+            <div>
+                <h5 class="fw-bold d-flex align-items-center gap-2 text-primary">
+                    <i class="bi bi-bell"></i> 4. Hyperlocal Notifications & Emergency Alerts
+                </h5>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    We use your designated zone or recent incident proximity to deliver relevant neighborhood alerts (e.g. road closures, power outages, water cuts). Citywide emergency directives are broadcasted without retaining historical movement tracks. You can manage notification preferences in your User Profile.
+                </p>
+            </div>
+
+            <hr class="opacity-25 my-1" />
+
+            <div>
+                <h5 class="fw-bold d-flex align-items-center gap-2 text-primary">
+                    <i class="bi bi-person-check"></i> 5. Data Access, Rectification & Account Deletion
+                </h5>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    Under municipal data transparency rules, you hold the right to view all reports, receipts, and personal data linked to your account. You can request updates to your profile or request account deactivation by contacting the Municipal Portal Administration team at <code>privacy@fixmycity.gov.bd</code>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Compliance Box -->
+    <div class="card border rounded-3 p-4 shadow-sm bg-light">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <h6 class="fw-bold mb-1">Questions Regarding Civic Data Protection?</h6>
+                <p class="text-muted small mb-0">Our Data Protection Officer reviews all inquiries in compliance with Bangladesh Cyber Security and Municipal Acts.</p>
+            </div>
+            <a href="mailto:privacy@fixmycity.gov.bd" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-envelope me-1"></i> Contact DPO
+            </a>
+        </div>
+    </div>
+</div>

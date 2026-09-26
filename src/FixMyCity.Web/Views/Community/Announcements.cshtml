@@ -1,0 +1,154 @@
+@model FixMyCity.Web.Models.AnnouncementsFeedViewModel
+@{
+    ViewData["Title"] = "Public Announcements";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 1100px;">
+    <!-- Top Emergency Banner if active -->
+    @if (Model.ActiveEmergencyAlerts.Any())
+    {
+        <div class="mb-4">
+            @foreach (var alert in Model.ActiveEmergencyAlerts)
+            {
+                <div class="alert alert-danger border-danger-subtle rounded-3 shadow-sm p-4 d-flex flex-wrap align-items-center justify-content-between gap-3 animate__animated animate__pulse">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-circle bg-danger text-white p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; font-size: 22px;">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-danger">EMERGENCY ALERT &bull; @alert.Severity.ToUpper()</span>
+                                <small class="text-danger-emphasis">Expires: @alert.ExpireAt.ToLocalTime().ToString("MMM dd, hh:mm tt")</small>
+                            </div>
+                            <h4 class="alert-heading fw-bold mb-1 mt-1 text-danger-emphasis">@alert.Title</h4>
+                            <p class="mb-0 text-dark small" style="max-width: 720px;">@alert.Description</p>
+                        </div>
+                    </div>
+                    <a asp-action="Alerts" class="btn btn-danger btn-sm px-3 shadow-sm">
+                        View All Emergency Alerts <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Page Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fmc-status-dot"></span>
+                    <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                        MUNICIPAL DISPATCH
+                    </span>
+                </div>
+                <h1 class="fmc-card-title mb-1">
+                    PUBLIC <span>ANNOUNCEMENTS</span>
+                </h1>
+                <p class="fmc-card-subtitle">
+                    Official civic updates, road maintenance notices, utility advisories, and neighborhood bulletins.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Alerts" class="btn btn-outline-danger d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-shield-exclamation"></i> Emergency Alerts
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <a asp-action="Announcements" asp-route-category="All" class="btn btn-sm @(string.IsNullOrEmpty(Model.SelectedCategory) || Model.SelectedCategory == "All" ? "btn-primary" : "btn-outline-secondary")">
+            All Categories
+        </a>
+        @foreach (var cat in new[] { "Road Closure", "Water Supply", "Electricity", "Traffic", "Waste Collection", "Public Service", "Weather", "Event" })
+        {
+            <a asp-action="Announcements" asp-route-category="@cat" class="btn btn-sm @(Model.SelectedCategory == cat ? "btn-primary" : "btn-outline-secondary")">
+                @cat
+            </a>
+        }
+    </div>
+
+    <!-- Announcement List -->
+    @if (!Model.Announcements.Any())
+    {
+        <div class="card border rounded-3 p-5 text-center shadow-sm">
+            <div class="mb-3">
+                <i class="bi bi-megaphone text-muted" style="font-size: 48px;"></i>
+            </div>
+            <h4 class="fw-bold">No Active Announcements Found</h4>
+            <p class="text-muted mx-auto" style="max-width: 480px;">
+                There are currently no active public announcements published for this category. Check back soon for city municipal advisories.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-3">
+            @foreach (var a in Model.Announcements)
+            {
+                var isUrgent = a.Priority == "Urgent";
+                var categoryIcon = a.Category switch
+                {
+                    "Road Closure" => "bi-sign-stop-fill text-danger",
+                    "Water Supply" => "bi-droplet-fill text-info",
+                    "Electricity" => "bi-lightning-charge-fill text-warning",
+                    "Traffic" => "bi-cone-striped text-warning",
+                    "Waste Collection" => "bi-trash3-fill text-secondary",
+                    "Weather" => "bi-cloud-lightning-rain-fill text-primary",
+                    _ => "bi-info-circle-fill text-primary"
+                };
+
+                <div class="card border @(isUrgent ? "border-danger border-2" : "") rounded-3 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+                            <div class="d-flex align-items-start gap-3 flex-grow-1">
+                                <div class="rounded-3 p-3 bg-light border d-flex align-items-center justify-content-center flex-shrink-0" style="width: 52px; height: 52px; font-size: 24px;">
+                                    <i class="bi @categoryIcon"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                            @a.Category
+                                        </span>
+                                        @if (isUrgent)
+                                        {
+                                            <span class="badge bg-danger">URGENT PRIORITY</span>
+                                        }
+                                        <span class="text-muted small">
+                                            <i class="bi bi-calendar3 me-1"></i> @a.StartDate.ToLocalTime().ToString("MMM dd, yyyy")
+                                        </span>
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-geo-alt me-1"></i> Coverage: ~@a.RadiusKm.ToString("0.#") km
+                                        </span>
+                                    </div>
+
+                                    <h4 class="fw-bold mb-1">@a.Title</h4>
+
+                                    <p class="text-muted mb-2" style="font-size: 14px; max-width: 800px;">
+                                        @a.Description
+                                    </p>
+
+                                    <div class="d-flex flex-wrap align-items-center gap-3 text-muted small">
+                                        <span><i class="bi bi-geo-fill me-1 text-primary"></i> Area: @a.Latitude.ToString("F3"), @a.Longitude.ToString("F3")</span>
+                                        <span><i class="bi bi-clock-history me-1"></i> Valid until: @a.ExpiryDate.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</span>
+                                        <span><i class="bi bi-person me-1"></i> By: @(a.CreatedByUser?.FullName ?? "Municipal Authority")</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-shrink-0 align-self-center">
+                                <a asp-action="AnnouncementDetails" asp-route-id="@a.Id" class="btn btn-outline-primary btn-sm px-3 d-inline-flex align-items-center gap-1">
+                                    <span>Coverage Map</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

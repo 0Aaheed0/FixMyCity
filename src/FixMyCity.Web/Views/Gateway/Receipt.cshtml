@@ -1,0 +1,102 @@
+@model FixMyCity.Data.Models.PaymentTransaction
+@{
+    ViewData["Title"] = "Payment Receipt - " + Model.TransactionReference;
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 780px;">
+    <!-- Non-print action buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-4 d-print-none">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to Gateway
+        </a>
+        <div class="d-flex gap-2">
+            <a asp-action="History" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-clock-history me-1"></i> All Transactions
+            </a>
+            <button onclick="window.print()" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-1 shadow-sm">
+                <i class="bi bi-printer-fill"></i> Print Official Receipt
+            </button>
+        </div>
+    </div>
+
+    <!-- Printable Receipt Card -->
+    <div class="card border rounded-4 shadow-sm p-4 p-md-5 fmc-receipt-card position-relative overflow-hidden">
+        <!-- Top Watermark / Status Badge -->
+        <div class="text-center pb-4 border-bottom">
+            <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-success-subtle text-success mb-2" style="width: 64px; height: 64px; font-size: 32px;">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <h2 class="h3 fw-bold text-success mb-1">PAYMENT SUCCESSFUL</h2>
+            <p class="text-muted small mb-0">Official Digital Municipal Treasury Receipt</p>
+            <div class="badge bg-light text-secondary border mt-2 px-3 py-1 font-monospace" style="font-size: 13px;">
+                TXN ID: @Model.TransactionReference
+            </div>
+        </div>
+
+        <!-- Receipt Body Details -->
+        <div class="py-4 border-bottom">
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <small class="text-uppercase text-muted fw-semibold">Service Provider</small>
+                    <div class="fs-5 fw-bold text-body">@Model.Bill?.Provider?.Name</div>
+                    <div class="text-muted small">@Model.Bill?.Provider?.Service?.Name</div>
+                </div>
+                <div class="col-sm-6 text-sm-end">
+                    <small class="text-uppercase text-muted fw-semibold">Date & Time</small>
+                    <div class="fw-semibold">@((Model.PaidAt ?? Model.CreatedAt).ToLocalTime().ToString("dd MMMM yyyy, hh:mm tt"))</div>
+                    <div class="text-muted small">Channel: <strong>@Model.PaymentMethod</strong></div>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-3 pt-3 border-top">
+                <div class="col-sm-6">
+                    <div class="small text-muted">Consumer / Account No:</div>
+                    <div class="fw-bold font-monospace fs-6">@Model.Bill?.ConsumerNumber</div>
+                </div>
+                <div class="col-sm-6 text-sm-end">
+                    <div class="small text-muted">Bill / Reference No:</div>
+                    <div class="fw-bold font-monospace fs-6">@Model.Bill?.BillNumber</div>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-1">
+                <div class="col-sm-6">
+                    <div class="small text-muted">Billing Cycle / Period:</div>
+                    <div class="fw-semibold">@Model.Bill?.BillingPeriod</div>
+                </div>
+                <div class="col-sm-6 text-sm-end">
+                    <div class="small text-muted">Citizen Payer:</div>
+                    <div class="fw-semibold">@(Model.User?.FullName ?? Model.User?.Email ?? "Citizen")</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amount Table -->
+        <div class="py-4 border-bottom">
+            <div class="d-flex justify-content-between py-2">
+                <span class="text-muted">Municipal Utility Assessment Base:</span>
+                <span>BDT @Model.Amount.ToString("N2")</span>
+            </div>
+            <div class="d-flex justify-content-between py-2">
+                <span class="text-muted">Digital Processing Convenience Fee:</span>
+                <span class="text-success">BDT 0.00</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-top mt-2 pt-2">
+                <span class="fs-5 fw-bold">Total Amount Paid:</span>
+                <span class="fs-4 fw-bold text-success font-monospace">BDT @Model.Amount.ToString("N2")</span>
+            </div>
+        </div>
+
+        <!-- Footer Verification & QR simulation -->
+        <div class="pt-4 text-center">
+            <div class="small text-muted mb-2">
+                <i class="bi bi-shield-fill-check text-success me-1"></i>
+                Digitally authenticated by <strong>FixMyCity Smart Municipal Gateway</strong>.
+            </div>
+            <small class="text-muted" style="font-size: 11px;">
+                This computer-generated receipt serves as official proof of payment. For inquiries or discrepancies, reference Transaction ID: <code>@Model.TransactionReference</code> with the corresponding municipal service department.
+            </small>
+        </div>
+    </div>
+</div>

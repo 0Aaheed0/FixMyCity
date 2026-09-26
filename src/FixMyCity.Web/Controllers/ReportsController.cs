@@ -6,17 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
+using FixMyCity.Services.Notifications;
+
 namespace FixMyCity.Web.Controllers
 {
     public class ReportsController : Controller
     {
         private readonly FixMyCityDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly INotificationService _notificationService;
 
-        public ReportsController(FixMyCityDbContext context, UserManager<ApplicationUser> userManager)
+        public ReportsController(
+            FixMyCityDbContext context, 
+            UserManager<ApplicationUser> userManager,
+            INotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> Index(string? status = null, int? categoryId = null)
@@ -131,6 +138,33 @@ namespace FixMyCity.Web.Controllers
                 }
                 _context.Add(report);
                 await _context.SaveChangesAsync();
+
+                // Remember user coordinates for targeted 2km announcements
+                if (!string.IsNullOrEmpty(report.UserId))
+                {
+                    var user = await _context.Users.FindAsync(report.UserId);
+                    if (user != null)
+                    {
+                        user.LastLatitude = report.Latitude;
+                        user.LastLongitude = report.Longitude;
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Dispatch notification to user
+                    var category = await _context.Categories.FindAsync(report.CategoryId);
+                    await _notificationService.CreateNotificationAsync(
+                        userId: report.UserId,
+                        type: "IssueStatusChanged",
+                        title: "Issue Report Submitted",
+                        titleBn: "Issue Report Submitted",
+                        message: $"Your report for '{category?.Name ?? "Civic Issue"}' (#{report.Id}) has been registered and is under triage.",
+                        messageBn: $"Your report for '{category?.Name ?? "Civic Issue"}' (#{report.Id}) has been registered and is under triage.",
+                        linkUrl: $"/Reports/Verify/{report.Id}",
+                        relatedEntityId: report.Id.ToString(),
+                        iconClass: "bi-flag-fill"
+                    );
+                }
+
                 TempData["SuccessMessage"] = "Issue report submitted successfully! Thank you for helping fix your city.";
                 return RedirectToAction(nameof(Index));
             }

@@ -1,16 +1,93 @@
 @model IEnumerable<FixMyCity.Data.Models.ApplicationUser>
 @{
     ViewData["Title"] = "Manage Users";
+    Layout = "_LayoutApp";
 }
-<div class="fmc-dashboard-hero">
-    <h2>Manage Users</h2>
-    <table class="table mt-3">
-        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Access control</th></tr></thead>
-        <tbody>
-            @foreach (var u in Model)
-            {
-                <tr><td>@u.FullName</td><td>@u.Email</td><td><span class="badge bg-light text-purple">@u.Role</span></td><td><form asp-action="UpdateUserRole" method="post" class="d-flex gap-2"><input type="hidden" name="id" value="@u.Id" /><select name="role" class="form-select form-select-sm"><option value="Citizen" selected="@(u.Role == "Citizen")">Citizen</option><option value="DepartmentStaff" selected="@(u.Role == "DepartmentStaff")">Staff</option><option value="DepartmentManager" selected="@(u.Role == "DepartmentManager")">Manager</option></select><button class="btn btn-sm btn-primary" type="submit">Save role</button></form></td></tr>
-            }
-        </tbody>
-    </table>
+
+<div class="container-fluid py-4" style="max-width: 1240px;">
+
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to Admin Dashboard
+        </a>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <span class="fmc-dashboard-kicker">
+            <i class="bi bi-people-fill"></i> IDENTITY & ACCESS MANAGEMENT
+        </span>
+        <h1 class="fmc-card-title mb-1">USER & ROLE <span>GOVERNANCE</span></h1>
+        <p class="fmc-card-subtitle">
+            Configure system roles, department permissions, and access privileges for citizens and municipal staff.
+        </p>
+    </div>
+
+    <!-- Users Table Card -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Registered Accounts</h5>
+            <span class="badge bg-body-secondary text-body border">@Model.Count() Total Users</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Full Name</th>
+                        <th>Email Address</th>
+                        <th>Current Role</th>
+                        <th class="pe-4 text-end">Update Access Privilege</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-bold text-body">@(string.IsNullOrEmpty(u.FullName) ? "Unspecified Name" : u.FullName)</div>
+                                <small class="text-muted font-monospace" style="font-size: 11px;">ID: @u.Id.Substring(0, Math.Min(8, u.Id.Length))...</small>
+                            </td>
+                            <td>
+                                <span class="text-body-secondary">@u.Email</span>
+                            </td>
+                            <td>
+                                @if (u.Role == "Administrator")
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle"><i class="bi bi-shield-lock-fill me-1"></i> Admin</span>
+                                }
+                                else if (u.Role == "DepartmentManager")
+                                {
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle"><i class="bi bi-person-badge me-1"></i> Manager</span>
+                                }
+                                else if (u.Role == "DepartmentStaff")
+                                {
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle"><i class="bi bi-tools me-1"></i> Staff</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-person me-1"></i> Citizen</span>
+                                }
+                            </td>
+                            <td class="pe-4 text-end">
+                                <form asp-action="UpdateUserRole" method="post" class="d-inline-flex align-items-center justify-content-end gap-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@u.Id" />
+                                    <select name="role" class="form-select form-select-sm" style="width: auto;">
+                                        <option value="Citizen" selected="@(u.Role == "Citizen")">Citizen</option>
+                                        <option value="DepartmentStaff" selected="@(u.Role == "DepartmentStaff")">Department Staff</option>
+                                        <option value="DepartmentManager" selected="@(u.Role == "DepartmentManager")">Department Manager</option>
+                                        <option value="Administrator" selected="@(u.Role == "Administrator")">Administrator</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>

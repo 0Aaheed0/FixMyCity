@@ -30,7 +30,9 @@ namespace FixMyCity.Web.Areas.Identity.Pages.Account
             "yousha.cse.20230104097@aust.edu",
             "noman.cse.20230104088@aust.edu",
             "miraz.cse.20230104092@aust.edu",
-            "aaheed.cse.20230104094@aust.edu"
+            "aaheed.cse.20230104094@aust.edu",
+            "nabdullahal83@gmail.com",
+            "admin@fixmycity.com"
         };
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
@@ -93,7 +95,7 @@ namespace FixMyCity.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     var signedInUser = await _userManager.FindByEmailAsync(Input.Email.Trim());
-                    if (AdministratorEmails.Contains(Input.Email.Trim()))
+                    if (AdministratorEmails.Contains(Input.Email.Trim()) || signedInUser?.Role == "Administrator")
                     {
                         var administrator = signedInUser;
                         if (administrator != null && administrator.Role != "Administrator")

@@ -1,0 +1,204 @@
+@model FixMyCity.Web.Models.LostFoundCreateViewModel
+@{
+    ViewData["Title"] = "Report " + Model.PostType + " Item - Community";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 860px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="LostFound" class="text-decoration-none text-muted" style="font-size: 13px;">
+            <i class="bi bi-arrow-left me-1"></i> BACK TO LOST & FOUND
+        </a>
+    </div>
+
+    <div class="card border rounded-3 shadow-sm">
+        <div class="card-header bg-transparent py-3 border-bottom">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="fmc-status-dot"></span>
+                <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                    COMMUNITY ASSISTANCE
+                </span>
+            </div>
+            <h2 class="h4 mb-0 fw-bold">POST <span>@(Model.PostType == "Lost" ? "LOST BELONGING" : "FOUND ITEM")</span></h2>
+            <p class="text-muted small mb-0">Help reconnect items with their rightful owners by submitting complete details.</p>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="LostFoundCreate" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
+                <!-- Post Type selection -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Report Type <span class="text-danger">*</span></label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="PostType" id="typeLost" value="Lost" checked="@(Model.PostType == "Lost")">
+                            <label class="btn btn-outline-danger w-100 py-3 fw-bold rounded-3" for="typeLost">
+                                <i class="bi bi-search me-1"></i> I LOST AN ITEM
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="PostType" id="typeFound" value="Found" checked="@(Model.PostType == "Found")">
+                            <label class="btn btn-outline-success w-100 py-3 fw-bold rounded-3" for="typeFound">
+                                <i class="bi bi-box-seam me-1"></i> I FOUND AN ITEM
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Title & Category -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <label asp-for="Title" class="form-label fw-semibold">Item Title / Headline <span class="text-danger">*</span></label>
+                        <input asp-for="Title" class="form-control" placeholder="e.g. Black Leather Wallet with NID card" required />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                        <select asp-for="Category" class="form-select" required>
+                            <option value="">-- Select Category --</option>
+                            @foreach (var c in new[] { "Mobile Phone", "Wallet", "Documents", "ID Card", "Keys", "Bag", "Electronics", "Pet", "Bicycle", "Jewelry", "Other" })
+                            {
+                                <option value="@c">@c</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger small"></span>
+                    </div>
+                </div>
+
+
+                <!-- Date & Approximate Location -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="EventDate" class="form-label fw-semibold">Date Lost / Found <span class="text-danger">*</span></label>
+                        <input asp-for="EventDate" type="date" class="form-control" required />
+                        <span asp-validation-for="EventDate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LocationName" class="form-label fw-semibold">Approximate Area / Landmark <span class="text-danger">*</span></label>
+                        <input asp-for="LocationName" class="form-control" placeholder="e.g. Near Farmgate Metro Station, Dhanmondi 27" required />
+                        <span asp-validation-for="LocationName" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Interactive Map & Coordinates -->
+                <div class="mb-3 p-3 bg-light rounded-3 border">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label fw-semibold mb-0">
+                            <i class="bi bi-geo-alt-fill text-danger me-1"></i> Exact Map Coordinates
+                        </label>
+                        <button type="button" id="btnDetectGps" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-crosshair me-1"></i> Use My Current Location
+                        </button>
+                    </div>
+                    <small class="text-muted d-block mb-2">Drag the pin on the map or click anywhere to pinpoint where the item was lost/found.</small>
+
+                    <div id="lostFoundMap" style="height: 250px; border-radius: 8px;" class="border mb-3"></div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label asp-for="Latitude" class="form-label small text-muted">Latitude</label>
+                            <input asp-for="Latitude" id="lfLat" type="number" step="any" class="form-control form-control-sm font-monospace" required />
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="Longitude" class="form-label small text-muted">Longitude</label>
+                            <input asp-for="Longitude" id="lfLng" type="number" step="any" class="form-control form-control-sm font-monospace" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold">Detailed Description <span class="text-danger">*</span></label>
+                    <textarea asp-for="Description" rows="4" class="form-control" placeholder="Provide distinct physical characteristics (color, brand, serial fragments, stickers, inside contents)..." required></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="mb-3">
+                    <label asp-for="Photo" class="form-label fw-semibold">Upload Photo (Optional)</label>
+                    <input asp-for="Photo" type="file" class="form-control" accept="image/*" onchange="previewPhoto(this)" />
+                    <small class="text-muted">JPG, PNG or WEBP up to 5MB.</small>
+                    <div id="photoPreviewBox" class="mt-2" style="display: none;">
+                        <img id="photoPreviewImg" src="#" alt="Preview" class="img-fluid rounded border" style="max-height: 180px;" />
+                    </div>
+                </div>
+
+                <!-- Contact Info (Internal note) -->
+                <div class="mb-4">
+                    <label asp-for="ContactInfo" class="form-label fw-semibold">Contact Information / Preferred Reach-out</label>
+                    <input asp-for="ContactInfo" class="form-control" placeholder="e.g. Phone number, email, or 'Message me via FixMyCity'" />
+                    <small class="text-muted">
+                        <i class="bi bi-shield-check text-success me-1"></i> Citizens can respond directly through FixMyCity internal messaging to safeguard privacy.
+                    </small>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 fw-bold">
+                        <i class="bi bi-send-fill me-1"></i> Publish Post
+                    </button>
+                    <a asp-action="LostFound" class="btn btn-outline-secondary btn-lg px-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let map, marker;
+        const initialLat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        const initialLng = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            map = L.map('lostFoundMap').setView([initialLat, initialLng], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            marker = L.marker([initialLat, initialLng], { draggable: true }).addTo(map);
+
+            marker.on('dragend', function (e) {
+                const pos = marker.getLatLng();
+                document.getElementById('lfLat').value = pos.lat.toFixed(6);
+                document.getElementById('lfLng').value = pos.lng.toFixed(6);
+            });
+
+            map.on('click', function (e) {
+                marker.setLatLng(e.latlng);
+                document.getElementById('lfLat').value = e.latlng.lat.toFixed(6);
+                document.getElementById('lfLng').value = e.latlng.lng.toFixed(6);
+            });
+
+            // Geolocation auto-detect button
+            document.getElementById('btnDetectGps').addEventListener('click', function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (pos) {
+                        const lat = pos.coords.latitude;
+                        const lng = pos.coords.longitude;
+                        document.getElementById('lfLat').value = lat.toFixed(6);
+                        document.getElementById('lfLng').value = lng.toFixed(6);
+                        marker.setLatLng([lat, lng]);
+                        map.setView([lat, lng], 15);
+                    });
+                }
+            });
+        });
+
+        function previewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('photoPreviewImg').src = e.target.result;
+                    document.getElementById('photoPreviewBox').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

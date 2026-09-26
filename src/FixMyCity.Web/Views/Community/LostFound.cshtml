@@ -1,0 +1,179 @@
+@model FixMyCity.Web.Models.LostFoundFeedViewModel
+@{
+    ViewData["Title"] = "Lost & Found Community";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+}
+
+<div class="container py-4" style="max-width: 1200px;">
+    <!-- Hero / Title -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fmc-status-dot"></span>
+                    <span style="color: var(--color-primary); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">
+                        CIVIC LOST & FOUND NETWORK
+                    </span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                        COMMUNITY POWERED
+                    </span>
+                </div>
+                <h1 class="fmc-card-title mb-1">
+                    LOST & FOUND <span>COMMUNITY</span>
+                </h1>
+                <p class="fmc-card-subtitle">
+                    Report lost belongings or register recovered items across your city. Connect securely with fellow citizens.
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="LostFoundCreate" asp-route-type="Lost" class="btn btn-danger d-inline-flex align-items-center gap-1 shadow-sm">
+                    <i class="bi bi-search-heart"></i> Report Lost Item
+                </a>
+                <a asp-action="LostFoundCreate" asp-route-type="Found" class="btn btn-success d-inline-flex align-items-center gap-1 shadow-sm">
+                    <i class="bi bi-box-seam"></i> Report Found Item
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="card border rounded-3 shadow-sm p-3 mb-4">
+        <form method="get" asp-action="LostFound" class="row g-3 align-items-center">
+            <!-- Type Pill Buttons -->
+            <div class="col-md-4">
+                <div class="btn-group w-100" role="group">
+                    <a asp-action="LostFound" asp-route-type="All" asp-route-category="@Model.SelectedCategory" asp-route-search="@Model.SearchQuery"
+                       class="btn btn-sm @(Model.SelectedType == "All" ? "btn-primary" : "btn-outline-secondary")">
+                        All Items
+                    </a>
+                    <a asp-action="LostFound" asp-route-type="Lost" asp-route-category="@Model.SelectedCategory" asp-route-search="@Model.SearchQuery"
+                       class="btn btn-sm @(Model.SelectedType == "Lost" ? "btn-danger" : "btn-outline-danger")">
+                        🔴 Lost
+                    </a>
+                    <a asp-action="LostFound" asp-route-type="Found" asp-route-category="@Model.SelectedCategory" asp-route-search="@Model.SearchQuery"
+                       class="btn btn-sm @(Model.SelectedType == "Found" ? "btn-success" : "btn-outline-success")">
+                        🟢 Found
+                    </a>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="col-md-3">
+                <select name="category" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="All" selected="@(Model.SelectedCategory == "All")">-- All Categories --</option>
+                    @foreach (var c in new[] { "Mobile Phone", "Wallet", "Documents", "ID Card", "Keys", "Bag", "Electronics", "Pet", "Bicycle", "Jewelry", "Other" })
+                    {
+                        <option value="@c" selected="@(Model.SelectedCategory == c)">@c</option>
+                    }
+                </select>
+                <input type="hidden" name="type" value="@Model.SelectedType" />
+            </div>
+
+            <!-- Search Input -->
+            <div class="col-md-5">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="search" value="@Model.SearchQuery" class="form-control" placeholder="Search item title, location, or details..." />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                    @if (!string.IsNullOrEmpty(Model.SearchQuery) || Model.SelectedCategory != "All" || Model.SelectedType != "All")
+                    {
+                        <a asp-action="LostFound" class="btn btn-outline-secondary" title="Reset Filters">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Posts Feed Grid -->
+    @if (!Model.Posts.Any())
+    {
+        <div class="card border rounded-3 p-5 text-center shadow-sm">
+            <div class="mb-3">
+                <i class="bi bi-box2-heart text-muted" style="font-size: 48px;"></i>
+            </div>
+            <h4 class="fw-bold">No Items Found</h4>
+            <p class="text-muted mx-auto" style="max-width: 480px;">
+                No lost or found items matched your search criteria. Help a neighbor by posting items you've recovered or reporting your lost belongings.
+            </p>
+            <div class="d-flex justify-content-center gap-2 mt-2">
+                <a asp-action="LostFoundCreate" asp-route-type="Lost" class="btn btn-outline-danger btn-sm">Report Lost Item</a>
+                <a asp-action="LostFoundCreate" asp-route-type="Found" class="btn btn-outline-success btn-sm">Report Found Item</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model.Posts)
+            {
+                var isLost = item.PostType == "Lost";
+                var isResolved = item.Status == "Resolved" || item.Status == "Closed";
+                var badgeClass = isLost ? "bg-danger text-white" : "bg-success text-white";
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="card h-100 border rounded-3 shadow-sm hover-shadow transition-all overflow-hidden d-flex flex-column @(isResolved ? "opacity-75" : "")">
+                        <!-- Photo or Category Icon Header -->
+                        <div class="position-relative bg-light text-center border-bottom" style="height: 190px; overflow: hidden;">
+                            @if (!string.IsNullOrEmpty(item.PhotoPath))
+                            {
+                                <img src="@item.PhotoPath" alt="@item.Title" class="w-100 h-100" style="object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+                                    <i class="bi @(isLost ? "bi-search" : "bi-box-seam")" style="font-size: 48px; opacity: 0.4;"></i>
+                                    <small class="mt-1">No Image Uploaded</small>
+                                </div>
+                            }
+
+                            <!-- Badges Overlay -->
+                            <div class="position-absolute top-0 start-0 m-2 d-flex gap-1">
+                                <span class="badge @badgeClass shadow-sm px-2 py-1">
+                                    @(isLost ? "🔴 LOST" : "🟢 FOUND")
+                                </span>
+                                <span class="badge bg-dark bg-opacity-75 text-white shadow-sm">
+                                    @item.Category
+                                </span>
+                            </div>
+
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge @(isResolved ? "bg-secondary" : item.Status == "PotentialMatch" ? "bg-warning text-dark" : "bg-primary") shadow-sm">
+                                    @item.Status
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                            <h5 class="fw-bold mb-1 text-truncate" title="@item.Title">
+                                @item.Title
+                            </h5>
+
+                            <p class="text-muted small mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5;">
+                                @item.Description
+                            </p>
+
+                            <div class="p-2 bg-light rounded-2 small text-muted mb-3">
+                                <div><i class="bi bi-geo-alt-fill text-danger me-1"></i> <strong>Location:</strong> @item.LocationName</div>
+                                <div><i class="bi bi-calendar-event me-1 text-primary"></i> <strong>Date:</strong> @item.EventDate.ToString("MMM dd, yyyy")</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                                <div class="small text-muted">
+                                    <i class="bi bi-chat-left-dots me-1"></i> @item.Responses.Count responses
+                                </div>
+                                <a asp-action="LostFoundDetails" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm px-3 d-inline-flex align-items-center gap-1">
+                                    <span>View Details</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

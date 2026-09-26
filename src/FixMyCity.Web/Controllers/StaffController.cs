@@ -1,9 +1,15 @@
-using FixMyCity.Data;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using FixMyCity.Data;
 using FixMyCity.Data.Models;
+using FixMyCity.Services.Notifications;
 
 namespace FixMyCity.Web.Controllers
 {
@@ -12,11 +18,16 @@ namespace FixMyCity.Web.Controllers
     {
         private readonly FixMyCityDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly INotificationService _notificationService;
 
-        public StaffController(FixMyCityDbContext context, UserManager<ApplicationUser> userManager)
+        public StaffController(
+            FixMyCityDbContext context, 
+            UserManager<ApplicationUser> userManager,
+            INotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> Index()
@@ -35,12 +46,51 @@ namespace FixMyCity.Web.Controllers
         public async Task<IActionResult> UpdateStatus(int id, string status)
         {
             if (!await IsStaff()) return Forbid();
-            var issue = await _context.Issues.FindAsync(id);
+            var issue = await _context.Issues
+                .Include(i => i.Category)
+                .Include(i => i.Reports)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
             if (issue == null) return NotFound();
             var previousStatus = issue.Status;
             issue.Status = status;
-            _context.StatusHistories.Add(new FixMyCity.Data.Models.StatusHistory { IssueId = issue.Id, PreviousStatus = previousStatus, NewStatus = status, Note = "Updated by field staff" });
+
+            _context.StatusHistories.Add(new StatusHistory
+            {
+                IssueId = issue.Id,
+                PreviousStatus = previousStatus,
+                NewStatus = status,
+                Note = "Status updated by field response crew",
+                ChangedAt = DateTime.UtcNow
+            });
             await _context.SaveChangesAsync();
+
+            // Notify reporting citizens
+            foreach (var report in issue.Reports)
+            {
+                if (!string.IsNullOrEmpty(report.UserId))
+                {
+                    var notifType = status switch
+                    {
+                        "Resolved" => "IssueResolved",
+                        "Verified" => "IssueVerified",
+                        _ => "IssueStatusChanged"
+                    };
+
+                    await _notificationService.CreateNotificationAsync(
+                        userId: report.UserId,
+                        type: notifType,
+                        title: $"Issue Status: {status}",
+                        titleBn: $"Issue Status: {status}",
+                        message: $"Field crew moved '{issue.Category?.Name}' (#{issue.Id}) to {status}.",
+                        messageBn: $"Field crew moved '{issue.Category?.Name}' (#{issue.Id}) to {status}.",
+                        linkUrl: $"/Reports/Verify/{report.Id}",
+                        relatedEntityId: issue.Id.ToString(),
+                        iconClass: status == "Resolved" ? "bi-check2-circle" : "bi-arrow-repeat"
+                    );
+                }
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -62,8 +112,11 @@ namespace FixMyCity.Web.Controllers
             var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(photo.FileName)}";
             await using (var stream = System.IO.File.Create(Path.Combine(folder, fileName))) await photo.CopyToAsync(stream);
             var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.IssueId == id);
-            if (assignment != null) _context.EvidenceItems.Add(new FixMyCity.Data.Models.Evidence { AssignmentId = assignment.Id, PhotoPath = "/uploads/evidence/" + fileName, Note = note });
-            await _context.SaveChangesAsync();
+            if (assignment != null)
+            {
+                _context.EvidenceItems.Add(new Evidence { AssignmentId = assignment.Id, PhotoPath = "/uploads/evidence/" + fileName, Note = note, UploadedAt = DateTime.UtcNow });
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

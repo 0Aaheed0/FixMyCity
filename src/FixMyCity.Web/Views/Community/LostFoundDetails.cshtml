@@ -1,0 +1,226 @@
+@model FixMyCity.Web.Models.LostFoundDetailsViewModel
+@{
+    var post = Model.Post;
+    var isLost = post.PostType == "Lost";
+    ViewData["Title"] = post.Title + " - Lost & Found";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+    var isResolved = post.Status == "Resolved" || post.Status == "Closed";
+}
+
+<div class="container py-4" style="max-width: 1000px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="LostFound" class="text-decoration-none text-muted" style="font-size: 13px;">
+            <i class="bi bi-arrow-left me-1"></i> BACK TO LOST & FOUND FEED
+        </a>
+    </div>
+
+    <!-- Main Card -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden mb-4">
+        <!-- Top Status Banner -->
+        <div class="p-3 d-flex flex-wrap justify-content-between align-items-center gap-2 @(isLost ? "bg-danger text-white" : "bg-success text-white")">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold fs-5">@(isLost ? "🔴 LOST ITEM REPORT" : "🟢 FOUND ITEM NOTICE")</span>
+                <span class="badge bg-light text-dark">@post.Category</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-white text-dark px-3 py-1 fs-6">Status: @post.Status</span>
+            </div>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4">
+                <!-- Left: Info & Description -->
+                <div class="col-lg-7">
+                    <h1 class="h3 fw-bold mb-3">@post.Title</h1>
+
+                    <div class="d-flex flex-wrap align-items-center gap-3 text-muted small mb-4">
+                        <span><i class="bi bi-calendar-event me-1 text-primary"></i> Date: <strong>@post.EventDate.ToString("MMMM dd, yyyy")</strong></span>
+                        <span><i class="bi bi-person-circle me-1"></i> Posted by: <strong>@(post.User?.FullName ?? "Citizen")</strong></span>
+                        <span><i class="bi bi-clock me-1"></i> @post.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy")</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-uppercase text-muted small">Item Description</h6>
+                        <p class="fs-6" style="line-height: 1.7; white-space: pre-line;">
+                            @post.Description
+                        </p>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 border mb-4">
+                        <div class="row g-2">
+                            <div class="col-sm-6">
+                                <div class="small text-muted">Incident Location:</div>
+                                <div class="fw-bold"><i class="bi bi-geo-alt-fill text-danger me-1"></i> @post.LocationName</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="small text-muted">Contact Info / Instructions:</div>
+                                <div class="fw-bold text-truncate">@(string.IsNullOrEmpty(post.ContactInfo) ? "Respond via FixMyCity below" : post.ContactInfo)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Owner Status Controls -->
+                    @if (Model.IsOwner || Model.IsAdmin)
+                    {
+                        <div class="card border-primary border-dashed rounded-3 p-3 bg-primary-subtle bg-opacity-10 mb-4">
+                            <h6 class="fw-bold text-primary mb-2"><i class="bi bi-gear-fill me-1"></i> Manage Post Lifecycle</h6>
+                            <form asp-action="LostFoundStatus" method="post" class="d-flex flex-wrap gap-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@post.Id" />
+
+                                @if (post.Status != "Resolved")
+                                {
+                                    <button type="submit" name="status" value="Resolved" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check2-circle me-1"></i> Mark as Resolved / Reunited
+                                    </button>
+                                }
+                                @if (post.Status != "PotentialMatch")
+                                {
+                                    <button type="submit" name="status" value="PotentialMatch" class="btn btn-warning btn-sm text-dark">
+                                        <i class="bi bi-question-circle me-1"></i> Potential Match Found
+                                    </button>
+                                }
+                                @if (post.Status != "Active")
+                                {
+                                    <button type="submit" name="status" value="Active" class="btn btn-outline-primary btn-sm">
+                                        Reactivate Post
+                                    </button>
+                                }
+                                <button type="submit" name="status" value="Closed" class="btn btn-outline-secondary btn-sm">
+                                    Close Post
+                                </button>
+                            </form>
+                        </div>
+                    }
+
+                    <!-- Citizen Report Inappropriate Button -->
+                    @if (!Model.IsOwner)
+                    {
+                        <div class="pt-2">
+                            <form asp-action="LostFoundReport" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Report this post to municipal moderators as suspicious or inappropriate?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-link text-danger text-decoration-none btn-sm p-0">
+                                    <i class="bi bi-flag me-1"></i> Report this post for moderation
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+
+                <!-- Right: Photo & Map -->
+                <div class="col-lg-5">
+                    @if (!string.IsNullOrEmpty(post.PhotoPath))
+                    {
+                        <div class="mb-3">
+                            <img src="@post.PhotoPath" alt="@post.Title" class="img-fluid rounded-3 border shadow-sm w-100" style="max-height: 280px; object-fit: cover;" />
+                        </div>
+                    }
+
+                    <!-- Map Pin -->
+                    <div class="card border rounded-3 overflow-hidden shadow-sm">
+                        <div class="card-header bg-transparent py-2 small fw-bold text-muted">
+                            <i class="bi bi-map me-1 text-primary"></i> Incident Coordinates
+                        </div>
+                        <div id="itemLocationMap" style="height: 220px;"></div>
+                        <div class="p-2 bg-light small text-center text-muted font-monospace" style="font-size: 11px;">
+                            Lat: @post.Latitude.ToString("F4"), Lng: @post.Longitude.ToString("F4")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Response Thread Section -->
+    <div class="card border rounded-3 shadow-sm p-4">
+        <h4 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+            <i class="bi bi-chat-left-text-fill text-primary"></i> Community Responses & Leads (@post.Responses.Count)
+        </h4>
+
+        <!-- Response Form (if logged in and not closed) -->
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="card bg-light border-0 rounded-3 p-3 mb-4">
+                <h6 class="fw-bold mb-2">Have information about this item? Leave a response:</h6>
+                <form asp-action="LostFoundRespond" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="postId" value="@post.Id" />
+
+                    <div class="mb-2">
+                        <textarea name="responseMessage" rows="3" class="form-control" placeholder="Write your message (e.g. 'I saw this item with the security guard at Metro station', or 'I think this matches my lost wallet')..." required></textarea>
+                    </div>
+
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-8">
+                            <input type="text" name="responseContactInfo" class="form-control form-control-sm" placeholder="Optional phone/email for direct contact (shared only with post owner)" />
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <button type="submit" class="btn btn-primary btn-sm px-4 w-100 w-md-auto">
+                                <i class="bi bi-send-fill me-1"></i> Send Response
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info py-2 small">
+                Please <a asp-area="Identity" asp-page="/Account/Login" class="fw-bold">Log in</a> to respond or coordinate regarding this item.
+            </div>
+        }
+
+        <!-- Existing Responses List -->
+        @if (!post.Responses.Any())
+        {
+            <div class="text-center py-4 text-muted small">
+                <i class="bi bi-chat-square-dots" style="font-size: 32px;"></i>
+                <div class="mt-2">No responses received yet. Be the first to share a lead or assistance.</div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-column gap-3">
+                @foreach (var resp in post.Responses.OrderByDescending(r => r.CreatedAt))
+                {
+                    <div class="p-3 bg-white rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold text-primary">
+                                <i class="bi bi-person-fill me-1"></i> @(resp.ResponderUser?.FullName ?? "Citizen Responder")
+                            </span>
+                            <small class="text-muted">@resp.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</small>
+                        </div>
+                        <p class="mb-1 text-dark small" style="line-height: 1.6;">@resp.Message</p>
+                        @if (!string.IsNullOrEmpty(resp.ContactInfo) && (Model.IsOwner || Model.IsAdmin))
+                        {
+                            <div class="mt-2 pt-2 border-top small text-success">
+                                <i class="bi bi-telephone-fill me-1"></i> <strong>Contact Details:</strong> @resp.ContactInfo
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lat = @post.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            const lng = @post.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            const map = L.map('itemLocationMap').setView([lat, lng], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup("<b>@Html.Raw(System.Net.WebUtility.HtmlEncode(post.Title))</b><br/>@Html.Raw(System.Net.WebUtility.HtmlEncode(post.LocationName))")
+                .openPopup();
+        });
+    </script>
+}

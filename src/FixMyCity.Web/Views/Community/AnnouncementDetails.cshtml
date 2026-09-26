@@ -1,0 +1,121 @@
+@model FixMyCity.Data.Models.Announcement
+@{
+    ViewData["Title"] = Model.Title + " - Public Announcement";
+    Layout = User.Identity?.IsAuthenticated == true ? "_LayoutApp" : "_Layout";
+    var radiusMeters = (int)(Model.RadiusKm * 1000);
+}
+
+<div class="container py-4" style="max-width: 960px;">
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Announcements" class="text-decoration-none text-muted" style="font-size: 13px;">
+            <i class="bi bi-arrow-left me-1"></i> BACK TO ANNOUNCEMENTS
+        </a>
+    </div>
+
+    <div class="card border rounded-3 shadow-sm overflow-hidden mb-4">
+        <!-- Banner Image if present -->
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="Announcement Banner" class="img-fluid w-100" style="max-height: 280px; object-fit: cover;" />
+        }
+
+        <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 fs-6">
+                    @Model.Category
+                </span>
+                @if (Model.Priority == "Urgent")
+                {
+                    <span class="badge bg-danger px-3 py-1 fs-6">URGENT ADVISORY</span>
+                }
+                <span class="text-muted small">
+                    <i class="bi bi-calendar-event me-1"></i> Posted: @Model.StartDate.ToLocalTime().ToString("MMMM dd, yyyy")
+                </span>
+            </div>
+
+            <h1 class="h2 fw-bold mb-2">@Model.Title</h1>
+
+            <hr class="my-4 opacity-25" />
+
+            <div class="mb-4">
+                <h5 class="fw-bold mb-2">Detailed Announcement:</h5>
+                <p class="fs-6 text-body-secondary" style="line-height: 1.7; white-space: pre-line;">
+                    @Model.Description
+                </p>
+            </div>
+
+            <!-- Target Location & Distance info -->
+            <div class="row g-3 p-3 bg-light rounded-3 border mb-4">
+                <div class="col-sm-4">
+                    <div class="small text-muted">Target Center Area</div>
+                    <div class="fw-bold">@Model.Latitude.ToString("F3"), @Model.Longitude.ToString("F3")</div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="small text-muted">Notification Coverage Radius</div>
+                    <div class="fw-bold"><i class="bi bi-broadcast me-1 text-primary"></i> @Model.RadiusKm.ToString("0.#") Kilometers</div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="small text-muted">Active Validity Period</div>
+                    <div class="fw-bold text-danger">Until @Model.ExpiryDate.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</div>
+                </div>
+            </div>
+
+            <!-- Leaflet Geo-Radius Map -->
+            <div class="mb-3">
+                <h5 class="fw-bold d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-geo-alt-fill text-primary"></i> Geographic Coverage Area
+                </h5>
+                <p class="text-muted small mb-2">
+                    Residents residing within the shaded @Model.RadiusKm.ToString("0.#") km zone receive automated alert notifications.
+                </p>
+                <div id="announcementMap" style="height: 380px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.12);" class="shadow-sm"></div>
+            </div>
+
+            @if (ViewBag.DistanceKm != null)
+            {
+                var dist = (double)ViewBag.DistanceKm;
+                var inside = dist <= Model.RadiusKm;
+                <div class="alert @(inside ? "alert-success" : "alert-secondary") mt-3 d-flex align-items-center gap-2 py-2" role="alert">
+                    <i class="bi @(inside ? "bi-check-circle-fill text-success" : "bi-info-circle") fs-5"></i>
+                    <div>
+                        Your recorded location is approximately <strong>@dist.ToString("0.00") km</strong> away from this notice center.
+                        @(inside ? "You are within the targeted notification zone." : "You are outside the primary 2km zone, but can freely view municipal bulletins.")
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            const lng = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            const radius = @radiusMeters;
+
+            const map = L.map('announcementMap').setView([lat, lng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add center marker
+            const marker = L.marker([lat, lng]).addTo(map);
+            marker.bindPopup("<b>@Html.Raw(System.Net.WebUtility.HtmlEncode(Model.Title))</b><br/>Coverage: ~@Model.RadiusKm km").openPopup();
+
+            // Add radius circle overlay
+            const circle = L.circle([lat, lng], {
+                color: '#6366f1',
+                fillColor: '#818cf8',
+                fillOpacity: 0.25,
+                weight: 2,
+                radius: radius
+            }).addTo(map);
+
+            map.fitBounds(circle.getBounds(), { padding: [30, 30] });
+        });
+    </script>
+}

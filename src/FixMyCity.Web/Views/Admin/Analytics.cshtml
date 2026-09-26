@@ -1,16 +1,85 @@
 @{
     ViewData["Title"] = "Hotspot Analytics";
-    var byCategory = ViewBag.ByCategory as IEnumerable<dynamic>;
+    Layout = "_LayoutApp";
+    var byCategory = (ViewBag.ByCategory as IEnumerable<dynamic>) ?? Enumerable.Empty<dynamic>();
+    var totalCount = byCategory.Sum(x => (int)x.Count);
 }
-<div class="fmc-dashboard-hero">
-    <h2>Hotspot Analytics</h2>
-    <table class="table mt-3">
-        <thead><tr><th>Category</th><th>Report Count</th></tr></thead>
-        <tbody>
-            @foreach (var row in byCategory!)
-            {
-                <tr><td>@row.Category</td><td>@row.Count</td></tr>
-            }
-        </tbody>
-    </table>
+
+<div class="container-fluid py-4" style="max-width: 1200px;">
+
+    <!-- Breadcrumb -->
+    <div class="mb-3">
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Back to Admin Dashboard
+        </a>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="fmc-dashboard-hero mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <span class="fmc-dashboard-kicker">
+                    <i class="bi bi-graph-up-arrow"></i> MUNICIPAL DATA INTELLIGENCE
+                </span>
+                <h1 class="fmc-card-title mb-1">INCIDENT <span>HOTSPOT ANALYTICS</span></h1>
+                <p class="fmc-card-subtitle">
+                    Analyze recurring infrastructure problem patterns across municipal categories and geographical sectors.
+                </p>
+            </div>
+            <div>
+                <a asp-controller="Map" asp-action="Index" class="btn btn-primary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-map"></i> View Map Clustering
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Table Card -->
+    <div class="card border rounded-3 shadow-sm overflow-hidden mb-4">
+        <div class="card-header bg-transparent py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Category Breakdown & Incident Density</h5>
+            <span class="badge bg-body-secondary text-body border">@totalCount Total Reports Recorded</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Civic Category</th>
+                        <th>Incident Volume</th>
+                        <th>Distribution Ratio</th>
+                        <th class="pe-4 text-end">Share</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in byCategory)
+                    {
+                        var count = (int)row.Count;
+                        var pct = totalCount > 0 ? (int)((double)count / totalCount * 100) : 0;
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-bold text-body">
+                                    <i class="bi bi-tag-fill me-1 text-primary"></i> @row.Category
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                                    @count Reports
+                                </span>
+                            </td>
+                            <td style="min-width: 180px;">
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: @pct%;" aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td class="pe-4 text-end font-monospace text-muted small">
+                                @pct%
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
